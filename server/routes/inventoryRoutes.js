@@ -13,5 +13,6 @@ router.delete('/:id', verifyToken, inventoryController.deleteProduct);
 // Stock Operations
 router.post('/:id/adjust', verifyToken, inventoryController.adjustStock);
 router.get('/:id/history', verifyToken, inventoryController.getHistory);
+router.get('/:id/versions', verifyToken, inventoryController.getProductHistory); // NEW: Version history
 
 module.exports = router;

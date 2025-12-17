@@ -1,0 +1,2068 @@
+2025-12-17 13:04:27 [INFO]: Server running on http://localhost:5000
+2025-12-17 13:04:49 [INFO]: Server running on http://localhost:5000
+2025-12-17 13:08:54 [INFO]: POST /api/auth/login
+2025-12-17 13:08:54 [WARN]: Validation failed
+2025-12-17 13:09:03 [INFO]: POST /api/auth/login
+2025-12-17 13:09:12 [INFO]: POST /api/auth/login
+2025-12-17 13:09:48 [INFO]: GET /api/admin/users
+2025-12-17 13:09:48 [INFO]: GET /api/admin/users
+2025-12-17 13:10:07 [INFO]: POST /api/auth/login
+2025-12-17 13:10:13 [INFO]: GET /api/admin/users
+2025-12-17 13:10:13 [INFO]: GET /api/admin/users
+2025-12-17 13:10:28 [INFO]: GET /api/admin/users
+2025-12-17 13:10:28 [INFO]: GET /api/admin/users
+2025-12-17 13:10:43 [INFO]: GET /api/admin/permissions
+2025-12-17 13:10:43 [INFO]: GET /api/admin/permissions
+2025-12-17 13:11:00 [INFO]: POST /api/admin/users
+2025-12-17 13:11:00 [WARN]: Validation failed
+2025-12-17 13:17:10 [INFO]: Server running on http://localhost:5000
+2025-12-17 13:17:20 [INFO]: Server running on http://localhost:5000
+2025-12-17 13:17:22 [INFO]: Server running on http://localhost:5000
+2025-12-17 13:17:30 [INFO]: GET /api/companies
+2025-12-17 13:17:30 [INFO]: GET /api/categories
+2025-12-17 13:17:30 [INFO]: GET /api/companies
+2025-12-17 13:17:30 [INFO]: GET /api/categories
+2025-12-17 13:17:38 [INFO]: GET /api/inventory
+2025-12-17 13:17:38 [INFO]: GET /api/companies
+2025-12-17 13:17:38 [INFO]: GET /api/inventory
+2025-12-17 13:17:38 [INFO]: GET /api/companies
+2025-12-17 13:17:41 [INFO]: GET /api/projects
+2025-12-17 13:17:41 [INFO]: GET /api/contacts
+2025-12-17 13:17:41 [INFO]: GET /api/projects
+2025-12-17 13:17:41 [INFO]: GET /api/contacts
+2025-12-17 13:17:42 [INFO]: GET /api/offers
+2025-12-17 13:17:42 [INFO]: GET /api/offers
+2025-12-17 13:17:44 [INFO]: GET /api/invoices
+2025-12-17 13:17:44 [INFO]: GET /api/invoices
+2025-12-17 13:17:46 [INFO]: GET /api/admin/users
+2025-12-17 13:17:46 [INFO]: Retrieved all users
+2025-12-17 13:17:46 [INFO]: GET /api/admin/users
+2025-12-17 13:17:46 [INFO]: Retrieved all users
+2025-12-17 13:17:46 [INFO]: GET /api/admin/permissions
+2025-12-17 13:17:46 [INFO]: GET /api/admin/permissions
+2025-12-17 13:17:50 [INFO]: GET /api/admin/users
+2025-12-17 13:17:50 [INFO]: Retrieved all users
+2025-12-17 13:17:50 [INFO]: GET /api/admin/users
+2025-12-17 13:17:50 [INFO]: Retrieved all users
+2025-12-17 13:17:55 [INFO]: GET /api/admin/users/1
+2025-12-17 13:17:55 [INFO]: GET /api/admin/users/1
+2025-12-17 13:17:55 [INFO]: GET /api/admin/permissions
+2025-12-17 13:17:55 [INFO]: GET /api/admin/permissions
+2025-12-17 13:17:58 [INFO]: GET /api/admin/users
+2025-12-17 13:17:58 [INFO]: Retrieved all users
+2025-12-17 13:17:58 [INFO]: GET /api/admin/users
+2025-12-17 13:17:58 [INFO]: Retrieved all users
+2025-12-17 13:17:58 [INFO]: Server running on http://localhost:5000
+2025-12-17 13:18:06 [INFO]: GET /api/companies
+2025-12-17 13:18:06 [INFO]: GET /api/categories
+2025-12-17 13:18:06 [INFO]: GET /api/companies
+2025-12-17 13:18:06 [INFO]: GET /api/categories
+2025-12-17 13:18:10 [INFO]: GET /api/companies
+2025-12-17 13:18:10 [INFO]: GET /api/inventory
+2025-12-17 13:18:10 [INFO]: GET /api/companies
+2025-12-17 13:18:10 [INFO]: GET /api/inventory
+2025-12-17 13:18:16 [INFO]: GET /api/projects
+2025-12-17 13:18:16 [INFO]: GET /api/contacts
+2025-12-17 13:18:16 [INFO]: GET /api/projects
+2025-12-17 13:18:16 [INFO]: GET /api/contacts
+2025-12-17 13:18:23 [INFO]: GET /api/inventory
+2025-12-17 13:18:23 [INFO]: GET /api/companies
+2025-12-17 13:18:23 [INFO]: GET /api/inventory
+2025-12-17 13:18:23 [INFO]: GET /api/companies
+2025-12-17 13:24:11 [INFO]: Server running on http://localhost:5000
+2025-12-17 13:53:30 [INFO]: GET /api/inventory
+2025-12-17 13:53:30 [INFO]: GET /api/companies
+2025-12-17 13:53:30 [INFO]: GET /api/companies
+2025-12-17 13:53:30 [INFO]: GET /api/inventory
+2025-12-17 13:54:06 [INFO]: GET /api/admin/users
+2025-12-17 13:54:06 [INFO]: Retrieved all users
+2025-12-17 13:56:07 [INFO]: GET /api/invoices
+2025-12-17 13:56:07 [INFO]: GET /api/invoices
+2025-12-17 13:56:19 [INFO]: GET /api/offers
+2025-12-17 13:56:19 [INFO]: GET /api/offers
+2025-12-17 13:56:32 [INFO]: GET /api/admin/users
+2025-12-17 13:56:32 [INFO]: Retrieved all users
+2025-12-17 13:56:32 [INFO]: GET /api/admin/users
+2025-12-17 13:56:32 [INFO]: Retrieved all users
+2025-12-17 14:12:23 [INFO]: GET /api/offers
+2025-12-17 14:12:23 [INFO]: GET /api/offers
+2025-12-17 14:12:33 [INFO]: GET /api/companies
+2025-12-17 14:12:33 [INFO]: GET /api/categories
+2025-12-17 14:12:33 [INFO]: GET /api/companies
+2025-12-17 14:12:33 [INFO]: GET /api/categories
+2025-12-17 14:12:38 [INFO]: GET /api/companies
+2025-12-17 14:12:38 [INFO]: GET /api/categories
+2025-12-17 14:12:38 [INFO]: GET /api/companies
+2025-12-17 14:12:38 [INFO]: GET /api/categories
+2025-12-17 14:12:41 [INFO]: GET /api/companies
+2025-12-17 14:12:41 [INFO]: GET /api/categories
+2025-12-17 14:12:41 [INFO]: GET /api/companies
+2025-12-17 14:12:41 [INFO]: GET /api/categories
+2025-12-17 14:13:18 [INFO]: GET /api/inventory
+2025-12-17 14:13:18 [INFO]: GET /api/companies
+2025-12-17 14:13:18 [INFO]: GET /api/inventory
+2025-12-17 14:13:18 [INFO]: GET /api/companies
+2025-12-17 14:13:25 [INFO]: GET /api/projects
+2025-12-17 14:13:25 [INFO]: GET /api/contacts
+2025-12-17 14:13:25 [INFO]: GET /api/projects
+2025-12-17 14:13:25 [INFO]: GET /api/contacts
+2025-12-17 14:13:27 [INFO]: GET /api/inventory
+2025-12-17 14:13:27 [INFO]: GET /api/companies
+2025-12-17 14:13:27 [INFO]: GET /api/inventory
+2025-12-17 14:13:27 [INFO]: GET /api/companies
+2025-12-17 14:13:35 [INFO]: GET /api/contacts
+2025-12-17 14:13:35 [INFO]: GET /api/companies
+2025-12-17 14:13:35 [INFO]: GET /api/contacts
+2025-12-17 14:13:35 [INFO]: GET /api/companies
+2025-12-17 14:13:42 [INFO]: GET /api/companies
+2025-12-17 14:13:42 [INFO]: GET /api/categories
+2025-12-17 14:13:42 [INFO]: GET /api/companies
+2025-12-17 14:13:42 [INFO]: GET /api/categories
+2025-12-17 14:13:44 [INFO]: GET /api/categories
+2025-12-17 14:13:44 [INFO]: GET /api/categories
+2025-12-17 14:13:48 [INFO]: GET /api/companies
+2025-12-17 14:13:48 [INFO]: GET /api/categories
+2025-12-17 14:13:48 [INFO]: GET /api/categories
+2025-12-17 14:13:48 [INFO]: GET /api/companies
+2025-12-17 14:13:52 [INFO]: GET /api/companies
+2025-12-17 14:13:52 [INFO]: GET /api/inventory
+2025-12-17 14:13:52 [INFO]: GET /api/companies
+2025-12-17 14:13:52 [INFO]: GET /api/inventory
+2025-12-17 14:14:10 [INFO]: GET /api/companies
+2025-12-17 14:14:10 [INFO]: GET /api/categories
+2025-12-17 14:14:10 [INFO]: GET /api/categories
+2025-12-17 14:14:10 [INFO]: GET /api/companies
+2025-12-17 14:14:16 [INFO]: GET /api/companies
+2025-12-17 14:14:16 [INFO]: GET /api/categories
+2025-12-17 14:14:16 [INFO]: GET /api/categories
+2025-12-17 14:14:16 [INFO]: GET /api/companies
+2025-12-17 14:15:44 [INFO]: GET /api/companies
+2025-12-17 14:15:44 [INFO]: GET /api/categories
+2025-12-17 14:15:45 [INFO]: GET /api/categories
+2025-12-17 14:15:45 [INFO]: GET /api/companies
+2025-12-17 14:15:46 [INFO]: GET /api/projects
+2025-12-17 14:15:46 [INFO]: GET /api/contacts
+2025-12-17 14:15:46 [INFO]: GET /api/projects
+2025-12-17 14:15:46 [INFO]: GET /api/contacts
+2025-12-17 14:15:48 [INFO]: GET /api/offers
+2025-12-17 14:15:48 [INFO]: GET /api/offers
+2025-12-17 14:16:02 [INFO]: GET /api/invoices
+2025-12-17 14:16:02 [INFO]: GET /api/invoices
+2025-12-17 14:16:23 [INFO]: GET /api/invoices
+2025-12-17 14:16:23 [INFO]: GET /api/invoices
+2025-12-17 14:16:34 [INFO]: GET /api/invoices
+2025-12-17 14:16:34 [INFO]: GET /api/invoices
+2025-12-17 14:16:41 [INFO]: GET /api/companies
+2025-12-17 14:16:41 [INFO]: GET /api/categories
+2025-12-17 14:16:41 [INFO]: GET /api/companies
+2025-12-17 14:16:41 [INFO]: GET /api/categories
+2025-12-17 14:17:53 [INFO]: GET /api/invoices
+2025-12-17 14:17:53 [INFO]: GET /api/invoices
+2025-12-17 14:18:05 [INFO]: GET /api/offers
+2025-12-17 14:18:05 [INFO]: GET /api/offers
+2025-12-17 14:19:51 [INFO]: GET /api/inventory
+2025-12-17 14:19:51 [INFO]: GET /api/companies
+2025-12-17 14:19:51 [INFO]: GET /api/inventory
+2025-12-17 14:19:51 [INFO]: GET /api/companies
+2025-12-17 14:28:02 [INFO]: Server running on http://localhost:5000
+2025-12-17 14:28:54 [INFO]: Server running on http://localhost:5000
+2025-12-17 14:32:30 [INFO]: GET /api/inventory
+2025-12-17 14:32:30 [INFO]: GET /api/companies
+2025-12-17 14:32:30 [ERROR]: Error fetching products: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:7:47
+
+  4 const getProducts = async (req, res) => {
+  5     try {
+  6         // Only return latest versions
+→ 7         const products = await prisma.product.findMany(
+Unknown nested field 'modifiedBy' for operation findManyProduct does not match any query.
+2025-12-17 14:40:28 [INFO]: GET /api/companies
+2025-12-17 14:40:28 [INFO]: GET /api/inventory
+2025-12-17 14:40:28 [INFO]: GET /api/companies
+2025-12-17 14:40:28 [INFO]: GET /api/inventory
+2025-12-17 14:40:36 [INFO]: POST /api/auth/login
+2025-12-17 14:40:36 [INFO]: Successful login
+2025-12-17 14:41:57 [INFO]: GET /api/inventory
+2025-12-17 14:41:57 [INFO]: GET /api/companies
+2025-12-17 14:41:57 [ERROR]: Error fetching products: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:7:47
+
+  4 const getProducts = async (req, res) => {
+  5     try {
+  6         // Only return latest versions
+→ 7         const products = await prisma.product.findMany(
+Unknown nested field 'modifiedBy' for operation findManyProduct does not match any query.
+2025-12-17 14:41:57 [INFO]: GET /api/inventory
+2025-12-17 14:41:57 [INFO]: GET /api/companies
+2025-12-17 14:41:57 [ERROR]: Error fetching products: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:7:47
+
+  4 const getProducts = async (req, res) => {
+  5     try {
+  6         // Only return latest versions
+→ 7         const products = await prisma.product.findMany(
+Unknown nested field 'modifiedBy' for operation findManyProduct does not match any query.
+2025-12-17 14:42:03 [INFO]: GET /api/inventory
+2025-12-17 14:42:03 [INFO]: GET /api/companies
+2025-12-17 14:42:03 [ERROR]: Error fetching products: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:7:47
+
+  4 const getProducts = async (req, res) => {
+  5     try {
+  6         // Only return latest versions
+→ 7         const products = await prisma.product.findMany(
+Unknown nested field 'modifiedBy' for operation findManyProduct does not match any query.
+2025-12-17 14:42:03 [INFO]: GET /api/inventory
+2025-12-17 14:42:03 [INFO]: GET /api/companies
+2025-12-17 14:42:03 [ERROR]: Error fetching products: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:7:47
+
+  4 const getProducts = async (req, res) => {
+  5     try {
+  6         // Only return latest versions
+→ 7         const products = await prisma.product.findMany(
+Unknown nested field 'modifiedBy' for operation findManyProduct does not match any query.
+2025-12-17 14:42:13 [INFO]: GET /api/inventory
+2025-12-17 14:42:13 [INFO]: GET /api/companies
+2025-12-17 14:42:13 [ERROR]: Error fetching products: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:7:47
+
+  4 const getProducts = async (req, res) => {
+  5     try {
+  6         // Only return latest versions
+→ 7         const products = await prisma.product.findMany(
+Unknown nested field 'modifiedBy' for operation findManyProduct does not match any query.
+2025-12-17 14:42:13 [INFO]: GET /api/inventory
+2025-12-17 14:42:13 [INFO]: GET /api/companies
+2025-12-17 14:42:13 [ERROR]: Error fetching products: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:7:47
+
+  4 const getProducts = async (req, res) => {
+  5     try {
+  6         // Only return latest versions
+→ 7         const products = await prisma.product.findMany(
+Unknown nested field 'modifiedBy' for operation findManyProduct does not match any query.
+2025-12-17 14:44:35 [INFO]: GET /api/inventory
+2025-12-17 14:44:35 [INFO]: GET /api/companies
+2025-12-17 14:44:35 [ERROR]: Error fetching products: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:7:47
+
+  4 const getProducts = async (req, res) => {
+  5     try {
+  6         // Only return latest versions
+→ 7         const products = await prisma.product.findMany(
+Unknown nested field 'modifiedBy' for operation findManyProduct does not match any query.
+2025-12-17 14:44:35 [INFO]: GET /api/inventory
+2025-12-17 14:44:35 [ERROR]: Error fetching products: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:7:47
+
+  4 const getProducts = async (req, res) => {
+  5     try {
+  6         // Only return latest versions
+→ 7         const products = await prisma.product.findMany(
+Unknown nested field 'modifiedBy' for operation findManyProduct does not match any query.
+2025-12-17 14:44:35 [INFO]: GET /api/companies
+2025-12-17 14:50:08 [INFO]: GET /api/inventory
+2025-12-17 14:50:08 [INFO]: GET /api/companies
+2025-12-17 14:50:08 [ERROR]: Error fetching products: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:7:47
+
+  4 const getProducts = async (req, res) => {
+  5     try {
+  6         // Only return latest versions
+→ 7         const products = await prisma.product.findMany(
+Unknown nested field 'modifiedBy' for operation findManyProduct does not match any query.
+2025-12-17 14:50:08 [INFO]: GET /api/inventory
+2025-12-17 14:50:08 [ERROR]: Error fetching products: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:7:47
+
+  4 const getProducts = async (req, res) => {
+  5     try {
+  6         // Only return latest versions
+→ 7         const products = await prisma.product.findMany(
+Unknown nested field 'modifiedBy' for operation findManyProduct does not match any query.
+2025-12-17 14:50:08 [INFO]: GET /api/companies
+2025-12-17 14:50:43 [INFO]: POST /api/auth/login
+2025-12-17 14:50:43 [WARN]: Failed login attempt
+2025-12-17 14:50:48 [INFO]: GET /api/inventory
+2025-12-17 14:50:48 [INFO]: GET /api/companies
+2025-12-17 14:50:48 [ERROR]: Error fetching products: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:7:47
+
+  4 const getProducts = async (req, res) => {
+  5     try {
+  6         // Only return latest versions
+→ 7         const products = await prisma.product.findMany(
+Unknown nested field 'modifiedBy' for operation findManyProduct does not match any query.
+2025-12-17 14:50:48 [INFO]: GET /api/inventory
+2025-12-17 14:50:48 [INFO]: GET /api/companies
+2025-12-17 14:50:48 [ERROR]: Error fetching products: 
+Invalid `prisma.product.findMany()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:7:47
+
+  4 const getProducts = async (req, res) => {
+  5     try {
+  6         // Only return latest versions
+→ 7         const products = await prisma.product.findMany(
+Unknown nested field 'modifiedBy' for operation findManyProduct does not match any query.
+2025-12-17 14:57:23 [INFO]: Server running on http://localhost:5000
+2025-12-17 14:58:26 [INFO]: GET /api/inventory
+2025-12-17 14:58:26 [INFO]: GET /api/companies
+2025-12-17 14:58:26 [INFO]: GET /api/companies
+2025-12-17 14:58:26 [INFO]: GET /api/inventory
+2025-12-17 14:59:00 [INFO]: GET /api/inventory
+2025-12-17 14:59:00 [INFO]: GET /api/companies
+2025-12-17 14:59:00 [INFO]: GET /api/inventory
+2025-12-17 14:59:00 [INFO]: GET /api/companies
+2025-12-17 14:59:41 [INFO]: GET /api/inventory
+2025-12-17 14:59:41 [INFO]: GET /api/companies
+2025-12-17 14:59:42 [INFO]: GET /api/inventory
+2025-12-17 14:59:42 [INFO]: GET /api/companies
+2025-12-17 14:59:47 [INFO]: GET /api/inventory
+2025-12-17 14:59:47 [INFO]: GET /api/companies
+2025-12-17 14:59:47 [INFO]: GET /api/inventory
+2025-12-17 14:59:47 [INFO]: GET /api/companies
+2025-12-17 14:59:47 [INFO]: GET /api/inventory
+2025-12-17 14:59:47 [INFO]: GET /api/companies
+2025-12-17 14:59:47 [INFO]: GET /api/inventory
+2025-12-17 14:59:47 [INFO]: GET /api/companies
+2025-12-17 15:00:30 [INFO]: POST /api/inventory
+2025-12-17 15:00:30 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "Test_Product",
+                 sku: "TEST001",
+                 description: "",
+                 price: 100,
+                 quantity: 50,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 15:00:39 [INFO]: GET /api/companies
+2025-12-17 15:00:39 [INFO]: GET /api/categories
+2025-12-17 15:00:39 [INFO]: GET /api/companies
+2025-12-17 15:00:39 [INFO]: GET /api/categories
+2025-12-17 15:00:40 [INFO]: GET /api/categories
+2025-12-17 15:00:40 [INFO]: GET /api/categories
+2025-12-17 15:02:05 [INFO]: GET /api/categories
+2025-12-17 15:02:05 [INFO]: GET /api/categories
+2025-12-17 15:02:12 [INFO]: GET /api/inventory
+2025-12-17 15:02:12 [INFO]: GET /api/companies
+2025-12-17 15:02:12 [INFO]: GET /api/inventory
+2025-12-17 15:02:12 [INFO]: GET /api/companies
+2025-12-17 15:02:14 [INFO]: GET /api/categories
+2025-12-17 15:02:14 [INFO]: GET /api/categories
+2025-12-17 15:04:50 [INFO]: POST /api/categories
+2025-12-17 15:04:50 [INFO]: GET /api/categories
+2025-12-17 15:04:54 [INFO]: GET /api/categories
+2025-12-17 15:04:54 [INFO]: GET /api/companies
+2025-12-17 15:04:54 [INFO]: GET /api/categories
+2025-12-17 15:04:54 [INFO]: GET /api/companies
+2025-12-17 15:04:55 [INFO]: GET /api/categories
+2025-12-17 15:04:55 [INFO]: GET /api/categories
+2025-12-17 15:05:24 [INFO]: POST /api/companies
+2025-12-17 15:05:24 [INFO]: GET /api/companies
+2025-12-17 15:05:24 [INFO]: GET /api/categories
+2025-12-17 15:05:24 [INFO]: GET /api/companies
+2025-12-17 15:05:24 [INFO]: GET /api/categories
+2025-12-17 15:05:29 [INFO]: GET /api/companies/1
+2025-12-17 15:05:29 [INFO]: GET /api/companies/1
+2025-12-17 15:05:31 [INFO]: GET /api/companies
+2025-12-17 15:05:31 [INFO]: GET /api/categories
+2025-12-17 15:05:31 [INFO]: GET /api/companies
+2025-12-17 15:05:31 [INFO]: GET /api/categories
+2025-12-17 15:05:32 [INFO]: GET /api/companies/1
+2025-12-17 15:05:32 [INFO]: GET /api/companies/1
+2025-12-17 15:06:03 [INFO]: GET /api/categories
+2025-12-17 15:06:03 [INFO]: GET /api/categories
+2025-12-17 15:06:10 [INFO]: GET /api/inventory
+2025-12-17 15:06:10 [INFO]: GET /api/companies
+2025-12-17 15:06:10 [INFO]: GET /api/inventory
+2025-12-17 15:06:10 [INFO]: GET /api/companies
+2025-12-17 15:06:53 [INFO]: GET /api/contacts
+2025-12-17 15:06:53 [INFO]: GET /api/companies
+2025-12-17 15:06:53 [INFO]: GET /api/contacts
+2025-12-17 15:06:53 [INFO]: GET /api/companies
+2025-12-17 15:06:56 [INFO]: GET /api/companies
+2025-12-17 15:06:56 [INFO]: GET /api/categories
+2025-12-17 15:06:56 [INFO]: GET /api/companies
+2025-12-17 15:06:56 [INFO]: GET /api/categories
+2025-12-17 15:06:58 [INFO]: GET /api/companies/1
+2025-12-17 15:06:58 [INFO]: GET /api/companies/1
+2025-12-17 15:11:35 [INFO]: GET /api/companies
+2025-12-17 15:11:35 [INFO]: GET /api/categories
+2025-12-17 15:11:35 [INFO]: GET /api/companies
+2025-12-17 15:11:35 [INFO]: GET /api/categories
+2025-12-17 15:11:37 [INFO]: GET /api/companies/1
+2025-12-17 15:11:37 [INFO]: GET /api/companies/1
+2025-12-17 15:11:40 [INFO]: GET /api/companies
+2025-12-17 15:11:40 [INFO]: GET /api/categories
+2025-12-17 15:11:40 [INFO]: GET /api/companies
+2025-12-17 15:11:40 [INFO]: GET /api/categories
+2025-12-17 15:11:41 [INFO]: GET /api/companies/1
+2025-12-17 15:11:41 [INFO]: GET /api/companies/1
+2025-12-17 15:11:43 [INFO]: GET /api/companies
+2025-12-17 15:11:43 [INFO]: GET /api/categories
+2025-12-17 15:11:43 [INFO]: GET /api/categories
+2025-12-17 15:11:43 [INFO]: GET /api/companies
+2025-12-17 15:11:44 [INFO]: GET /api/companies/1
+2025-12-17 15:11:44 [INFO]: GET /api/companies/1
+2025-12-17 15:11:46 [INFO]: GET /api/companies
+2025-12-17 15:11:46 [INFO]: GET /api/categories
+2025-12-17 15:11:46 [INFO]: GET /api/companies
+2025-12-17 15:11:46 [INFO]: GET /api/categories
+2025-12-17 15:11:54 [INFO]: GET /api/companies/1
+2025-12-17 15:11:54 [INFO]: GET /api/companies/1
+2025-12-17 15:12:04 [INFO]: GET /api/invoices
+2025-12-17 15:12:04 [INFO]: GET /api/invoices
+2025-12-17 15:22:49 [INFO]: GET /api/categories
+2025-12-17 15:22:49 [INFO]: GET /api/categories
+2025-12-17 15:22:56 [INFO]: GET /api/companies
+2025-12-17 15:22:56 [INFO]: GET /api/categories
+2025-12-17 15:22:56 [INFO]: GET /api/companies
+2025-12-17 15:22:56 [INFO]: GET /api/categories
+2025-12-17 15:22:58 [INFO]: GET /api/companies/1
+2025-12-17 15:22:58 [INFO]: GET /api/companies/1
+2025-12-17 15:23:24 [INFO]: POST /api/companies/1/addresses
+2025-12-17 15:23:24 [INFO]: GET /api/companies/1
+2025-12-17 15:23:29 [INFO]: GET /api/companies
+2025-12-17 15:23:29 [INFO]: GET /api/categories
+2025-12-17 15:23:29 [INFO]: GET /api/companies
+2025-12-17 15:23:29 [INFO]: GET /api/categories
+2025-12-17 15:23:34 [INFO]: GET /api/contacts
+2025-12-17 15:23:34 [INFO]: GET /api/companies
+2025-12-17 15:23:34 [INFO]: GET /api/contacts
+2025-12-17 15:23:34 [INFO]: GET /api/companies
+2025-12-17 15:24:00 [INFO]: POST /api/contacts
+2025-12-17 15:24:00 [INFO]: GET /api/contacts
+2025-12-17 15:24:00 [INFO]: GET /api/companies
+2025-12-17 15:24:04 [INFO]: GET /api/inventory
+2025-12-17 15:24:04 [INFO]: GET /api/companies
+2025-12-17 15:24:04 [INFO]: GET /api/inventory
+2025-12-17 15:24:04 [INFO]: GET /api/companies
+2025-12-17 15:24:35 [INFO]: POST /api/inventory
+2025-12-17 15:24:35 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "Test pro",
+                 sku: "SS001",
+                 description: "",
+                 price: 123,
+                 quantity: 90,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: 1,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 15:24:46 [INFO]: POST /api/inventory
+2025-12-17 15:24:46 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "Test pro",
+                 sku: "SS001",
+                 description: "",
+                 price: 123,
+                 quantity: 90,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: 1,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 15:24:53 [INFO]: POST /api/inventory
+2025-12-17 15:24:53 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "Test pro",
+                 sku: "SS001",
+                 description: "",
+                 price: 123,
+                 quantity: 1234,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: 1,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 15:24:54 [INFO]: POST /api/inventory
+2025-12-17 15:24:54 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "Test pro",
+                 sku: "SS001",
+                 description: "",
+                 price: 123,
+                 quantity: 1234,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: 1,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 15:25:01 [INFO]: POST /api/inventory
+2025-12-17 15:25:01 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "Test pro",
+                 sku: "SS001",
+                 description: "",
+                 price: 123,
+                 quantity: 1234,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: 1,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 15:25:01 [INFO]: POST /api/inventory
+2025-12-17 15:25:01 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "Test pro",
+                 sku: "SS001",
+                 description: "",
+                 price: 123,
+                 quantity: 1234,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: 1,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 15:25:01 [INFO]: POST /api/inventory
+2025-12-17 15:25:01 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "Test pro",
+                 sku: "SS001",
+                 description: "",
+                 price: 123,
+                 quantity: 1234,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: 1,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 15:25:01 [INFO]: POST /api/inventory
+2025-12-17 15:25:01 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "Test pro",
+                 sku: "SS001",
+                 description: "",
+                 price: 123,
+                 quantity: 1234,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: 1,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 15:25:01 [INFO]: POST /api/inventory
+2025-12-17 15:25:01 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "Test pro",
+                 sku: "SS001",
+                 description: "",
+                 price: 123,
+                 quantity: 1234,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: 1,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 15:25:01 [INFO]: POST /api/inventory
+2025-12-17 15:25:01 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "Test pro",
+                 sku: "SS001",
+                 description: "",
+                 price: 123,
+                 quantity: 1234,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: 1,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 15:25:02 [INFO]: POST /api/inventory
+2025-12-17 15:25:02 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "Test pro",
+                 sku: "SS001",
+                 description: "",
+                 price: 123,
+                 quantity: 1234,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: 1,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 15:26:10 [INFO]: GET /api/inventory
+2025-12-17 15:26:10 [INFO]: GET /api/companies
+2025-12-17 15:26:10 [INFO]: GET /api/inventory
+2025-12-17 15:26:10 [INFO]: GET /api/companies
+2025-12-17 15:28:15 [INFO]: POST /api/inventory
+2025-12-17 15:28:15 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "Test Product",
+                 sku: "TEST001",
+                 description: "",
+                 price: 100,
+                 quantity: 50,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:18:07 [INFO]: Server running on http://localhost:5000
+2025-12-17 16:18:54 [INFO]: GET /api/categories
+2025-12-17 16:18:54 [INFO]: GET /api/categories
+2025-12-17 16:18:57 [INFO]: GET /api/contacts
+2025-12-17 16:18:57 [INFO]: GET /api/companies
+2025-12-17 16:18:57 [INFO]: GET /api/contacts
+2025-12-17 16:18:57 [INFO]: GET /api/companies
+2025-12-17 16:19:00 [INFO]: GET /api/inventory
+2025-12-17 16:19:00 [INFO]: GET /api/companies
+2025-12-17 16:19:00 [INFO]: GET /api/inventory
+2025-12-17 16:19:00 [INFO]: GET /api/companies
+2025-12-17 16:19:17 [INFO]: POST /api/inventory
+2025-12-17 16:19:17 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:19:34 [INFO]: POST /api/inventory
+2025-12-17 16:19:34 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:13 [INFO]: POST /api/inventory
+2025-12-17 16:20:13 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:14 [INFO]: POST /api/inventory
+2025-12-17 16:20:14 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:14 [INFO]: POST /api/inventory
+2025-12-17 16:20:14 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:14 [INFO]: POST /api/inventory
+2025-12-17 16:20:14 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:14 [INFO]: POST /api/inventory
+2025-12-17 16:20:14 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:14 [INFO]: POST /api/inventory
+2025-12-17 16:20:14 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:15 [INFO]: POST /api/inventory
+2025-12-17 16:20:15 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:20 [INFO]: POST /api/inventory
+2025-12-17 16:20:20 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:20 [INFO]: POST /api/inventory
+2025-12-17 16:20:20 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:21 [INFO]: POST /api/inventory
+2025-12-17 16:20:21 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:21 [INFO]: POST /api/inventory
+2025-12-17 16:20:21 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:21 [INFO]: POST /api/inventory
+2025-12-17 16:20:21 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:32 [INFO]: POST /api/inventory
+2025-12-17 16:20:32 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:32 [INFO]: POST /api/inventory
+2025-12-17 16:20:32 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:32 [INFO]: POST /api/inventory
+2025-12-17 16:20:32 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:37 [INFO]: POST /api/inventory
+2025-12-17 16:20:37 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:37 [INFO]: POST /api/inventory
+2025-12-17 16:20:37 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:37 [INFO]: POST /api/inventory
+2025-12-17 16:20:37 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:20:38 [INFO]: POST /api/inventory
+2025-12-17 16:20:38 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create({
+               data: {
+                 name: "TestPro",
+                 sku: "SS001",
+                 description: "Test\n",
+                 price: 100,
+                 quantity: 1000,
+                 minLevel: 5,
+                 maxLevel: 100,
+                 supplierId: null,
+                 modifiedByUserId: undefined,
+                 isLatest: true,
+             +   modifiedBy: {
+             +     create: UserCreateWithoutProductVersionsInput | UserUncheckedCreateWithoutProductVersionsInput,
+             +     connectOrCreate: UserCreateOrConnectWithoutProductVersionsInput,
+             +     connect: UserWhereUniqueInput
+             +   }
+               },
+               include: {
+                 supplier: true,
+                 modifiedBy: {
+                   select: {
+                     id: true,
+                     email: true,
+                     name: true
+                   }
+                 }
+               }
+             })
+
+Argument `modifiedBy` is missing.
+2025-12-17 16:22:17 [INFO]: Server running on http://localhost:5000
+2025-12-17 16:22:22 [INFO]: POST /api/inventory
+2025-12-17 16:22:22 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create(
+Foreign key constraint failed on the field: `foreign key`
+2025-12-17 16:23:36 [INFO]: GET /api/inventory
+2025-12-17 16:23:36 [INFO]: GET /api/companies
+2025-12-17 16:23:36 [INFO]: GET /api/inventory
+2025-12-17 16:23:36 [INFO]: GET /api/companies
+2025-12-17 16:23:52 [INFO]: POST /api/inventory
+2025-12-17 16:23:52 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create(
+Foreign key constraint failed on the field: `foreign key`
+2025-12-17 16:28:57 [INFO]: Server running on http://localhost:5000
+2025-12-17 16:30:38 [INFO]: GET /api/contacts
+2025-12-17 16:30:38 [INFO]: GET /api/companies
+2025-12-17 16:30:38 [INFO]: GET /api/contacts
+2025-12-17 16:30:38 [INFO]: GET /api/companies
+2025-12-17 16:30:51 [INFO]: POST /api/auth/login
+2025-12-17 16:30:51 [INFO]: Successful login
+2025-12-17 16:31:16 [INFO]: POST /api/auth/login
+2025-12-17 16:31:16 [INFO]: Successful login
+2025-12-17 16:31:23 [INFO]: GET /api/companies
+2025-12-17 16:31:23 [INFO]: GET /api/categories
+2025-12-17 16:31:23 [INFO]: GET /api/companies
+2025-12-17 16:31:23 [INFO]: GET /api/categories
+2025-12-17 16:31:25 [INFO]: GET /api/companies
+2025-12-17 16:31:25 [INFO]: GET /api/inventory
+2025-12-17 16:31:25 [INFO]: GET /api/companies
+2025-12-17 16:31:25 [INFO]: GET /api/inventory
+2025-12-17 16:31:42 [INFO]: POST /api/inventory
+2025-12-17 16:31:42 [INFO]: Product created: Test pro (ID: 1) by User 1
+2025-12-17 16:31:42 [INFO]: GET /api/inventory
+2025-12-17 16:31:42 [INFO]: GET /api/companies
+2025-12-17 16:31:58 [INFO]: PUT /api/inventory/1
+2025-12-17 16:31:58 [ERROR]: Error updating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:94:49
+
+  91 });
+  92 
+  93 // Create new version
+→ 94 const newVersion = await prisma.product.create(
+Unique constraint failed on the fields: (`sku`)
+2025-12-17 16:32:11 [INFO]: PUT /api/inventory/1
+2025-12-17 16:32:26 [INFO]: GET /api/companies
+2025-12-17 16:32:26 [INFO]: GET /api/categories
+2025-12-17 16:32:26 [INFO]: GET /api/companies
+2025-12-17 16:32:26 [INFO]: GET /api/categories
+2025-12-17 16:32:30 [INFO]: GET /api/companies
+2025-12-17 16:32:30 [INFO]: GET /api/inventory
+2025-12-17 16:32:30 [INFO]: GET /api/companies
+2025-12-17 16:32:30 [INFO]: GET /api/inventory
+2025-12-17 16:32:45 [INFO]: POST /api/inventory
+2025-12-17 16:32:45 [ERROR]: Error creating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:43:46
+
+  40 const createProduct = async (req, res) => {
+  41     try {
+  42         const { name, sku, description, price, quantity, minLevel, maxLevel, supplierId } = req.body;
+→ 43         const product = await prisma.product.create(
+Unique constraint failed on the fields: (`sku`)
+2025-12-17 16:34:47 [INFO]: POST /api/inventory
+2025-12-17 16:34:47 [INFO]: Product created: test pro (ID: 2) by User 1
+2025-12-17 16:34:47 [INFO]: GET /api/inventory
+2025-12-17 16:34:47 [INFO]: GET /api/companies
+2025-12-17 16:34:52 [INFO]: PUT /api/inventory/2
+2025-12-17 16:34:52 [ERROR]: Error updating product: 
+Invalid `prisma.product.create()` invocation in
+C:\Users\gokul\.gemini\antigravity\scratch\ERP_Scientific_Solutions\server\controllers\inventoryController.js:94:49
+
+  91 });
+  92 
+  93 // Create new version
+→ 94 const newVersion = await prisma.product.create(
+Unique constraint failed on the fields: (`sku`)
+2025-12-17 16:34:57 [INFO]: GET /api/inventory/2/versions
+2025-12-17 16:34:57 [INFO]: Fetched version history for product ID 2: 1 versions
+2025-12-17 16:34:57 [INFO]: GET /api/inventory/2/versions
+2025-12-17 16:34:57 [INFO]: Fetched version history for product ID 2: 1 versions
+2025-12-17 16:38:26 [INFO]: Server running on http://localhost:5000
+2025-12-17 16:38:46 [INFO]: GET /api/inventory
+2025-12-17 16:38:46 [INFO]: GET /api/companies
+2025-12-17 16:38:46 [INFO]: GET /api/inventory
+2025-12-17 16:38:46 [INFO]: GET /api/companies
+2025-12-17 16:39:09 [INFO]: GET /api/inventory
+2025-12-17 16:39:09 [INFO]: GET /api/inventory
+2025-12-17 16:39:09 [INFO]: GET /api/companies
+2025-12-17 16:39:09 [INFO]: GET /api/companies
+2025-12-17 16:39:10 [INFO]: GET /api/inventory
+2025-12-17 16:39:10 [INFO]: GET /api/inventory
+2025-12-17 16:39:10 [INFO]: GET /api/companies
+2025-12-17 16:39:10 [INFO]: GET /api/companies
+2025-12-17 16:39:10 [INFO]: GET /api/inventory
+2025-12-17 16:39:10 [INFO]: GET /api/inventory
+2025-12-17 16:39:10 [INFO]: GET /api/companies
+2025-12-17 16:39:10 [INFO]: GET /api/companies
+2025-12-17 16:39:10 [INFO]: GET /api/inventory
+2025-12-17 16:39:10 [INFO]: GET /api/companies
+2025-12-17 16:39:10 [INFO]: GET /api/inventory
+2025-12-17 16:39:10 [INFO]: GET /api/companies
+2025-12-17 16:39:10 [INFO]: GET /api/inventory
+2025-12-17 16:39:10 [INFO]: GET /api/companies
+2025-12-17 16:39:10 [INFO]: GET /api/inventory
+2025-12-17 16:39:10 [INFO]: GET /api/companies
+2025-12-17 16:39:11 [INFO]: GET /api/inventory
+2025-12-17 16:39:11 [INFO]: GET /api/companies
+2025-12-17 16:39:11 [INFO]: GET /api/inventory
+2025-12-17 16:39:11 [INFO]: GET /api/companies
+2025-12-17 16:39:11 [INFO]: GET /api/inventory
+2025-12-17 16:39:11 [INFO]: GET /api/companies
+2025-12-17 16:39:11 [INFO]: GET /api/inventory
+2025-12-17 16:39:11 [INFO]: GET /api/companies
+2025-12-17 16:39:11 [INFO]: GET /api/inventory
+2025-12-17 16:39:11 [INFO]: GET /api/inventory
+2025-12-17 16:39:11 [INFO]: GET /api/companies
+2025-12-17 16:39:11 [INFO]: GET /api/companies
+2025-12-17 16:39:11 [INFO]: GET /api/inventory
+2025-12-17 16:39:11 [INFO]: GET /api/companies
+2025-12-17 16:39:11 [INFO]: GET /api/inventory
+2025-12-17 16:39:11 [INFO]: GET /api/companies
+2025-12-17 16:39:21 [INFO]: POST /api/auth/login
+2025-12-17 16:39:21 [INFO]: Successful login
+2025-12-17 16:39:28 [INFO]: POST /api/auth/login
+2025-12-17 16:39:28 [INFO]: Successful login
+2025-12-17 16:39:31 [INFO]: GET /api/inventory
+2025-12-17 16:39:31 [INFO]: GET /api/companies
+2025-12-17 16:39:31 [INFO]: GET /api/inventory
+2025-12-17 16:39:31 [INFO]: GET /api/companies
+2025-12-17 16:39:52 [INFO]: GET /api/categories
+2025-12-17 16:39:52 [INFO]: GET /api/categories
+2025-12-17 16:39:57 [INFO]: POST /api/categories
+2025-12-17 16:39:57 [INFO]: GET /api/categories
+2025-12-17 16:43:47 [INFO]: Server running on http://localhost:5000
+2025-12-17 16:44:32 [INFO]: POST /api/auth/login
+2025-12-17 16:44:32 [INFO]: Successful login
+2025-12-17 16:44:53 [INFO]: GET /api/inventory
+2025-12-17 16:44:53 [INFO]: GET /api/companies
+2025-12-17 16:44:53 [INFO]: GET /api/inventory
+2025-12-17 16:44:53 [INFO]: GET /api/companies
+2025-12-17 16:45:15 [INFO]: PUT /api/inventory/5
+2025-12-17 16:45:15 [INFO]: Product updated: Cable Assembly Kit (New ID: 6, Previous ID: 5) by User 1
+2025-12-17 16:45:15 [INFO]: GET /api/inventory
+2025-12-17 16:45:15 [INFO]: GET /api/companies
+2025-12-17 16:45:28 [INFO]: GET /api/inventory/6/versions
+2025-12-17 16:45:28 [INFO]: Fetched version history for product ID 6: 2 versions
+2025-12-17 16:45:28 [INFO]: GET /api/inventory/6/versions
+2025-12-17 16:45:28 [INFO]: Fetched version history for product ID 6: 2 versions
+2025-12-17 16:46:13 [INFO]: POST /api/inventory/4/adjust
+2025-12-17 16:46:13 [INFO]: Stock adjusted for product ID 4: IN 25
+2025-12-17 16:46:13 [INFO]: GET /api/inventory
+2025-12-17 16:46:13 [INFO]: GET /api/companies
+2025-12-17 16:46:25 [INFO]: GET /api/inventory/7/history
+2025-12-17 16:47:09 [INFO]: POST /api/inventory
+2025-12-17 16:47:09 [INFO]: Product created: New Test Item (ID: 8) by User 1
+2025-12-17 16:47:09 [INFO]: GET /api/inventory
+2025-12-17 16:47:09 [INFO]: GET /api/companies
+2025-12-17 17:06:08 [INFO]: GET /api/inventory/8/versions
+2025-12-17 17:06:08 [INFO]: Fetched version history for product ID 8: 1 versions
+2025-12-17 17:06:08 [INFO]: GET /api/inventory/8/versions
+2025-12-17 17:06:08 [INFO]: Fetched version history for product ID 8: 1 versions
+2025-12-17 17:06:10 [INFO]: GET /api/inventory/6/versions
+2025-12-17 17:06:10 [INFO]: Fetched version history for product ID 6: 2 versions
+2025-12-17 17:06:10 [INFO]: GET /api/inventory/6/versions
+2025-12-17 17:06:11 [INFO]: Fetched version history for product ID 6: 2 versions
+2025-12-17 17:06:24 [INFO]: PUT /api/inventory/6
+2025-12-17 17:06:24 [INFO]: Product updated: Cable Assembly Kit (New ID: 9, Previous ID: 6) by User 1
+2025-12-17 17:06:24 [INFO]: GET /api/inventory
+2025-12-17 17:06:24 [INFO]: GET /api/companies
+2025-12-17 17:06:28 [INFO]: GET /api/inventory/8/versions
+2025-12-17 17:06:28 [INFO]: Fetched version history for product ID 8: 1 versions
+2025-12-17 17:06:28 [INFO]: GET /api/inventory/8/versions
+2025-12-17 17:06:28 [INFO]: Fetched version history for product ID 8: 1 versions
+2025-12-17 17:06:32 [INFO]: GET /api/inventory/9/versions
+2025-12-17 17:06:32 [INFO]: Fetched version history for product ID 9: 3 versions
+2025-12-17 17:06:32 [INFO]: GET /api/inventory/9/versions
+2025-12-17 17:06:32 [INFO]: Fetched version history for product ID 9: 3 versions
+2025-12-17 17:08:42 [INFO]: GET /api/offers
+2025-12-17 17:08:42 [INFO]: GET /api/offers
+2025-12-17 17:08:46 [INFO]: GET /api/invoices
+2025-12-17 17:08:46 [INFO]: GET /api/invoices
+2025-12-17 17:08:51 [INFO]: GET /api/invoices/1
+2025-12-17 17:08:51 [INFO]: GET /api/invoices/1
+2025-12-17 17:08:54 [INFO]: GET /api/invoices
+2025-12-17 17:08:54 [INFO]: GET /api/invoices
+2025-12-17 17:08:57 [INFO]: GET /api/invoices/1
+2025-12-17 17:08:57 [INFO]: GET /api/invoices/1
+2025-12-17 17:11:26 [INFO]: GET /api/invoices
+2025-12-17 17:11:26 [INFO]: GET /api/invoices
+2025-12-17 17:11:29 [INFO]: GET /api/offers
+2025-12-17 17:11:29 [INFO]: GET /api/offers
+2025-12-17 17:11:31 [INFO]: GET /api/companies
+2025-12-17 17:11:31 [INFO]: GET /api/inventory
+2025-12-17 17:11:31 [INFO]: GET /api/companies
+2025-12-17 17:11:31 [INFO]: GET /api/inventory
+2025-12-17 17:11:33 [INFO]: GET /api/inventory
+2025-12-17 17:11:33 [INFO]: GET /api/companies
+2025-12-17 17:11:33 [INFO]: GET /api/inventory
+2025-12-17 17:11:33 [INFO]: GET /api/companies
+2025-12-17 17:20:03 [INFO]: GET /api/companies
+2025-12-17 17:20:03 [INFO]: GET /api/inventory
+2025-12-17 17:20:03 [INFO]: GET /api/companies
+2025-12-17 17:20:03 [INFO]: GET /api/inventory
+2025-12-17 17:20:04 [INFO]: GET /api/offers
+2025-12-17 17:20:04 [INFO]: GET /api/offers
+2025-12-17 17:22:15 [INFO]: GET /api/invoices
+2025-12-17 17:22:15 [INFO]: GET /api/invoices
+2025-12-17 17:22:16 [INFO]: GET /api/companies
+2025-12-17 17:22:16 [INFO]: GET /api/inventory
+2025-12-17 17:22:16 [INFO]: GET /api/companies
+2025-12-17 17:22:16 [INFO]: GET /api/inventory
+2025-12-17 17:25:07 [INFO]: GET /api/offers
+2025-12-17 17:25:07 [INFO]: GET /api/offers
+2025-12-17 17:25:12 [INFO]: GET /api/offers/1
+2025-12-17 17:25:12 [INFO]: GET /api/offers/1
+2025-12-17 17:29:17 [INFO]: GET /api/offers/1
+2025-12-17 17:29:17 [INFO]: GET /api/offers/1
+2025-12-17 17:33:06 [INFO]: GET /api/invoices
+2025-12-17 17:33:06 [INFO]: GET /api/invoices
+2025-12-17 17:33:15 [INFO]: GET /api/invoices/1
+2025-12-17 17:33:15 [INFO]: GET /api/invoices/1
+2025-12-17 17:36:24 [INFO]: GET /api/invoices/1
+2025-12-17 17:36:33 [INFO]: GET /api/invoices/1
+2025-12-17 17:36:33 [INFO]: GET /api/invoices/1
+2025-12-17 17:50:24 [INFO]: GET /api/invoices
+2025-12-17 17:50:24 [INFO]: GET /api/invoices
+2025-12-17 17:50:32 [INFO]: GET /api/invoices/1
+2025-12-17 17:50:32 [INFO]: GET /api/invoices/1
+2025-12-17 17:51:42 [INFO]: GET /api/invoices/1
+2025-12-17 17:51:42 [INFO]: GET /api/invoices/1
+2025-12-17 17:53:36 [INFO]: GET /api/invoices/1
+2025-12-17 17:53:36 [INFO]: GET /api/invoices/1
+2025-12-17 17:54:38 [INFO]: GET /api/invoices/1
+2025-12-17 17:54:38 [INFO]: GET /api/invoices/1
+2025-12-17 17:54:56 [INFO]: GET /api/invoices/1
+2025-12-17 17:54:56 [INFO]: GET /api/invoices/1
+2025-12-17 17:54:57 [INFO]: GET /api/invoices/1
+2025-12-17 17:54:57 [INFO]: GET /api/invoices/1
+2025-12-17 17:54:57 [INFO]: GET /api/invoices/1
+2025-12-17 17:54:57 [INFO]: GET /api/invoices/1
+2025-12-17 17:54:57 [INFO]: GET /api/invoices/1
+2025-12-17 17:54:57 [INFO]: GET /api/invoices/1
+2025-12-17 17:54:57 [INFO]: GET /api/invoices/1
+2025-12-17 17:54:57 [INFO]: GET /api/invoices/1
+2025-12-17 17:57:57 [INFO]: POST /api/auth/login
+2025-12-17 17:57:57 [INFO]: Successful login
+2025-12-17 17:58:17 [INFO]: POST /api/auth/login
+2025-12-17 17:58:17 [INFO]: Successful login
+2025-12-17 17:58:22 [INFO]: GET /api/invoices
+2025-12-17 17:58:22 [INFO]: GET /api/invoices
+2025-12-17 17:59:04 [INFO]: POST /api/auth/login
+2025-12-17 17:59:04 [INFO]: Successful login
+2025-12-17 17:59:07 [INFO]: GET /api/invoices
+2025-12-17 17:59:07 [INFO]: GET /api/invoices
+2025-12-17 17:59:08 [INFO]: GET /api/invoices/1
+2025-12-17 17:59:08 [INFO]: GET /api/invoices/1
+2025-12-17 18:01:07 [INFO]: GET /api/invoices/1
+2025-12-17 18:01:07 [INFO]: GET /api/invoices/1
+2025-12-17 18:02:15 [INFO]: GET /api/invoices/1
+2025-12-17 18:02:15 [INFO]: GET /api/invoices/1
+2025-12-17 18:02:31 [INFO]: GET /api/invoices/1
+2025-12-17 18:02:31 [INFO]: GET /api/invoices/1
+2025-12-17 18:03:48 [INFO]: GET /api/invoices/1
+2025-12-17 18:03:48 [INFO]: GET /api/invoices/1
+2025-12-17 18:04:30 [INFO]: GET /api/invoices/1
+2025-12-17 18:04:30 [INFO]: GET /api/invoices/1
+2025-12-17 18:04:47 [INFO]: GET /api/invoices/1
+2025-12-17 18:04:47 [INFO]: GET /api/invoices/1
+2025-12-17 18:05:35 [INFO]: GET /api/invoices/1
+2025-12-17 18:05:35 [INFO]: GET /api/invoices/1
+2025-12-17 18:06:32 [INFO]: GET /api/invoices/1
+2025-12-17 18:06:32 [INFO]: GET /api/invoices/1

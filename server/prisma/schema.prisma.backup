@@ -20,7 +20,6 @@ model User {
   
   // Permission relationships
   permissions UserPermission[]
-  productVersions Product[] @relation("ProductVersions")
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -130,7 +129,7 @@ model Contact {
 
 model Product {
   id          Int      @id @default(autoincrement())
-  sku         String
+  sku         String   @unique
   name        String
   description String?
   price       Decimal
@@ -141,13 +140,6 @@ model Product {
   
   supplierId  Int?
   supplier    Company? @relation(fields: [supplierId], references: [id])
-  
-  // Version Control Fields
-  recDate          DateTime  @default(now())
-  lastRecID        Int?
-  modifiedByUserId Int
-  isLatest         Boolean   @default(true)
-  modifiedBy       User      @relation("ProductVersions", fields: [modifiedByUserId], references: [id])
   
   movements   StockMovement[]
   offerItems  OfferItem[]
@@ -160,8 +152,6 @@ model Product {
   @@index([name])
   @@index([quantity])
   @@index([supplierId])
-  @@index([isLatest])
-  @@index([lastRecID])
 }
 
 model StockMovement {

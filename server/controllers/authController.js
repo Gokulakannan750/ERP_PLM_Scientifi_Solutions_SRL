@@ -1,6 +1,7 @@
 const prisma = require('../prismaClient');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const logger = require('../utils/logger');
 
 const login = async (req, res) => {
     try {
@@ -13,10 +14,13 @@ const login = async (req, res) => {
                 process.env.JWT_SECRET,
                 { expiresIn: "24h" }
             );
+            logger.info('Successful login', { userId: user.id, email: user.email });
             return res.status(200).json({ token, user: { id: user.id, email: user.email, role: user.role } });
         }
+        logger.warn('Failed login attempt', { email });
         return res.status(400).send("Invalid Credentials");
     } catch (err) {
+        logger.error('Login error', { error: err.message });
         console.log(err);
         res.status(500).send("Server Error");
     }
@@ -47,8 +51,10 @@ const register = async (req, res) => {
             { expiresIn: "2h" }
         );
 
+        logger.info('New user registered', { userId: user.id, email: user.email, role: user.role });
         res.status(201).json(user);
     } catch (err) {
+        logger.error('Registration error', { error: err.message, email: req.body.email });
         console.log(err);
         res.status(500).send("Error creating user");
     }
