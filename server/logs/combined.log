@@ -2596,3 +2596,4 @@ Unique constraint failed on the fields: (`sku`)
 2025-12-22 14:33:11 [INFO]: GET /api/settings
 2025-12-22 14:33:11 [INFO]: GET /api/offers/8
 2025-12-22 14:33:11 [INFO]: GET /api/settings
+2025-12-22 14:35:29 [INFO]: Server running on http://localhost:5000
