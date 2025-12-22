@@ -1,38 +1,67 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+const fs = require('fs');
+
 const createOffer = async (req, res) => {
     try {
-        const { companyId, items, validUntil } = req.body;
+        console.log('Received Create Offer Request:', JSON.stringify(req.body, null, 2));
+        fs.writeFileSync('debug_offer_payload.json', JSON.stringify(req.body, null, 2));
+        const { companyId, items, validUntil, description } = req.body;
         // items: [{ productId, description, quantity, unitPrice }]
 
-        // Calculate total & Prepare Items
+        if (!companyId) {
+            return res.status(400).json({ error: 'Company ID is required' });
+        }
+
+        const parsedCompanyId = parseInt(companyId);
+        if (isNaN(parsedCompanyId)) {
+            return res.status(400).json({ error: 'Invalid Company ID' });
+        }
+
         let totalAmount = 0;
         const formattedItems = items.map(item => {
             const lineTotal = item.quantity * item.unitPrice;
             totalAmount += lineTotal;
+
+            // Handle Product ID
+            let pid = null;
+            if (item.productId && item.productId !== '' && item.productId !== 'null') {
+                pid = parseInt(item.productId);
+                if (isNaN(pid)) pid = null;
+            }
+
             return {
-                productId: item.productId ? parseInt(item.productId) : null,
+                productId: pid,
                 description: item.description,
-                quantity: parseInt(item.quantity),
-                unitPrice: parseFloat(item.unitPrice),
+                quantity: parseInt(item.quantity) || 0,
+                unitPrice: parseFloat(item.unitPrice) || 0,
                 totalPrice: lineTotal
             };
         });
+
+        console.log('Formatted Items:', JSON.stringify(formattedItems, null, 2));
 
         const result = await prisma.$transaction(async (prisma) => {
             // 1. Generate Offer Number
             const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
             const count = await prisma.offer.count();
-            const offerNumber = `OFF-${dateStr}-${count + 1}`;
+            const offerNumber = `OFF - ${dateStr} -${count + 1} `;
 
             // 2. Create Offer
+            // Apply Tax
+            const taxRateVal = parseFloat(req.body.taxRate) || 0;
+            const taxAmount = totalAmount * (taxRateVal / 100);
+            const finalTotal = totalAmount + taxAmount;
+
             const offer = await prisma.offer.create({
                 data: {
                     offerNumber,
-                    companyId: parseInt(companyId),
-                    totalAmount,
+                    companyId: parsedCompanyId,
+                    totalAmount: finalTotal,
+                    taxRate: taxRateVal,
                     validUntil: validUntil ? new Date(validUntil) : null,
+                    description: description || '', // Added description field
                     items: {
                         create: formattedItems
                     }
@@ -57,7 +86,11 @@ const createOffer = async (req, res) => {
 
         res.json(result);
     } catch (err) {
-        console.error(err);
+        console.error('Create Offer Error:', err);
+        // Check for specific Prisma errors
+        if (err.code === 'P2003') { // Foreign key constraint failed
+            return res.status(400).json({ error: 'Invalid Company ID or Product ID referenced.' });
+        }
         res.status(500).json({ error: err.message });
     }
 };

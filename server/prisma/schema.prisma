@@ -211,6 +211,7 @@ model Invoice {
   items         InvoiceItem[]
 
   totalAmount   Decimal
+  taxRate       Decimal  @default(0)
   status        String   @default("UNPAID") // UNPAID, PAID, OVERDUE
   date          DateTime @default(now())
   dueDate       DateTime?
@@ -251,8 +252,10 @@ model Offer {
   items       OfferItem[]
   
   totalAmount Decimal
+  taxRate     Decimal  @default(0)
   status      String   @default("DRAFT") // DRAFT, SENT, ACCEPTED, REJECTED
   validUntil  DateTime?
+  description String?  // Header content / body text from template
 
   invoice     Invoice?
   
@@ -276,6 +279,30 @@ model OfferItem {
   quantity    Int
   unitPrice   Decimal
   totalPrice  Decimal
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Settings {
+  id          Int      @id @default(autoincrement())
+  dateFormat  String   @default("DD/MM/YYYY")
+  timeFormat  String   @default("HH:mm")
+  
+  emailTemplates String // Storing as JSON string for simplicity in SQLite/Prisma handling if specific Json type issues arise, but String is safest for now.
+                        // Structure: { invoice: { subject, body }, offer: { ... }, po: { ... } }
+  
+  invoiceTemplates String? // JSON string array of { id, name, content }
+  offerTemplates   String? // JSON string array of { id, name, content }
+  
+  // Organization Details (From Address)
+  companyName    String?
+  companyAddress String?
+  companyPhone   String?
+  companyCountryCode String? @default("+91")
+  companyEmail   String?
+  
+  isDefault   Boolean  @default(true) @unique
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

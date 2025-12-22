@@ -74,6 +74,8 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/offers', offerRoutes);
 app.use('/api/invoices', require('./routes/invoiceRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/settings', require('./routes/settingsRoutes'));
+
 
 app.get('/', (req, res) => {
   res.send('ERP Server is running');

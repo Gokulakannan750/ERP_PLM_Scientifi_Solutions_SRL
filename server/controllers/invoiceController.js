@@ -22,11 +22,17 @@ const createInvoice = async (req, res) => {
         const count = await prisma.invoice.count();
         const invoiceNumber = `INV-${dateStr}-${count + 1}`;
 
+        // Apply Tax
+        const taxRate = req.body.taxRate ? parseFloat(req.body.taxRate) : 0;
+        const taxAmount = totalAmount * (taxRate / 100);
+        const finalTotal = totalAmount + taxAmount;
+
         const invoice = await prisma.invoice.create({
             data: {
                 invoiceNumber,
                 companyId: parseInt(companyId),
-                totalAmount,
+                totalAmount: finalTotal,
+                taxRate: taxRate,
                 dueDate: dueDate ? new Date(dueDate) : null,
                 offerId: offerId ? parseInt(offerId) : null,
                 status: 'UNPAID',
@@ -123,7 +129,8 @@ const createFromOffer = async (req, res) => {
             data: {
                 invoiceNumber,
                 companyId: offer.companyId,
-                totalAmount: offer.totalAmount,
+                totalAmount: offer.totalAmount, // Already includes tax
+                taxRate: offer.taxRate || 0,
                 offerId: offer.id,
                 status: 'UNPAID', // Default
                 dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Default 30 days

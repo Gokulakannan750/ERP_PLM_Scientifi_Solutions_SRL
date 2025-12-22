@@ -36,16 +36,19 @@ exports.createOfferSchema = Joi.object({
     }),
     items: Joi.array().items(
         Joi.object({
+            productId: Joi.alternatives().try(Joi.number(), Joi.string().allow('', null)),
             description: Joi.string().required(),
             quantity: Joi.number().positive().required(),
-            unitPrice: Joi.number().positive().required(),
-            total: Joi.number().positive().required()
+            unitPrice: Joi.number().min(0).required(), // Allow 0 price
+            total: Joi.number().optional() // Optional, backend calculates
         })
     ).min(1).required().messages({
         'array.min': 'At least one item is required'
     }),
-    totalAmount: Joi.number().positive().required(),
-    validUntil: Joi.date().optional(),
+    totalAmount: Joi.number().optional(), // Optional, backend calculates
+    validUntil: Joi.date().optional().allow(null, ''),
+    description: Joi.string().optional().allow('', null),
+    taxRate: Joi.number().min(0).optional().default(0), // Added taxRate
     notes: Joi.string().optional()
 });
 
@@ -61,6 +64,7 @@ exports.createInvoiceSchema = Joi.object({
         })
     ).min(1).required(),
     totalAmount: Joi.number().positive().required(),
+    taxRate: Joi.number().min(0).optional().default(0), // Added taxRate
     dueDate: Joi.date().optional(),
     notes: Joi.string().optional()
 });
