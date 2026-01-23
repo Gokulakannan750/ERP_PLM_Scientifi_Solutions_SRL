@@ -75,6 +75,7 @@ app.use('/api/offers', offerRoutes);
 app.use('/api/invoices', require('./routes/invoiceRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/settings', require('./routes/settingsRoutes'));
+app.use('/api/dashboard', require('./routes/dashboardRoutes'));
 
 
 app.get('/', (req, res) => {
