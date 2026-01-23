@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-    drugClass, // Using a specific icon name instead of 'LayoutDashboard' if needed, but standard lucide imports usually stick to PascalCase names. Wait, 'LayoutDashboard' is correct.
     LayoutDashboard,
     Building2,
     Users,
@@ -17,19 +16,38 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 
 const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'Companies', href: '/dashboard/companies', icon: Building2 },
-    { name: 'Contacts', href: '/dashboard/contacts', icon: Users },
-    { name: 'Inventory', href: '/dashboard/inventory', icon: Package },
-    { name: 'Projects', href: '/dashboard/projects', icon: Briefcase },
-    { name: 'Offers', href: '/dashboard/offers', icon: FileText },
-    { name: 'Invoices', href: '/dashboard/invoices', icon: Receipt },
-    { name: 'Settings', href: '/dashboard/settings', icon: Settings },
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, permission: null }, // Always visible
+    { name: 'Companies', href: '/dashboard/companies', icon: Building2, permission: ['MANAGE_COMPANIES', 'VIEW_COMPANIES'] },
+    { name: 'Contacts', href: '/dashboard/contacts', icon: Users, permission: ['MANAGE_CONTACTS', 'VIEW_CONTACTS'] },
+    { name: 'Inventory', href: '/dashboard/inventory', icon: Package, permission: ['MANAGE_INVENTORY', 'VIEW_INVENTORY'] },
+    { name: 'Projects', href: '/dashboard/projects', icon: Briefcase, permission: ['MANAGE_PROJECTS', 'VIEW_PROJECTS'] },
+    { name: 'Offers', href: '/dashboard/offers', icon: FileText, permission: ['CREATE_OFFERS', 'VIEW_OFFER_HISTORY', 'EDIT_OFFERS'] },
+    { name: 'Invoices', href: '/dashboard/invoices', icon: Receipt, permission: ['MANAGE_INVOICES', 'VIEW_INVOICES'] },
+    { name: 'Settings', href: '/dashboard/settings', icon: Settings, permission: null }, // Always visible
 ];
 
 export default function Sidebar() {
     const pathname = usePathname();
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
+
+    // Check if user has permission to access a menu item
+    const hasPermission = (requiredPermissions: string[] | null) => {
+        // No permission required - always show
+        if (!requiredPermissions) return true;
+
+        // Admin has access to everything
+        if (user?.role === 'ADMIN') return true;
+
+        // Check if user has any of the required permissions
+        if (!user?.permissions || user.permissions.length === 0) return false;
+
+        return requiredPermissions.some(perm =>
+            user.permissions.some((up: any) => up.name === perm)
+        );
+    };
+
+    // Filter navigation based on permissions
+    const visibleNavigation = navigation.filter(item => hasPermission(item.permission));
 
     return (
         <div className="flex flex-col h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 w-64 transition-all duration-300">
@@ -45,8 +63,8 @@ export default function Sidebar() {
 
             {/* Navigation */}
             <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
-                {navigation.map((item) => {
-                    const isActive = pathname === item.href; // Exact match for now, or startsWith for nested routes
+                {visibleNavigation.map((item) => {
+                    const isActive = pathname === item.href;
                     const Icon = item.icon;
 
                     return (
@@ -54,8 +72,8 @@ export default function Sidebar() {
                             key={item.name}
                             href={item.href}
                             className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive
-                                    ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400'
-                                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50'
+                                ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400'
+                                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50'
                                 }`}
                         >
                             <Icon className={`w-5 h-5 ${isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400'}`} />

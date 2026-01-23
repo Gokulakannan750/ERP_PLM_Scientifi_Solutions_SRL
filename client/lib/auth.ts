@@ -5,6 +5,7 @@ export interface User {
     email: string;
     role: string;
     name?: string;
+    permissions?: Array<{ id: number; name: string; description: string; category: string }>;
 }
 
 export interface DecodedToken {

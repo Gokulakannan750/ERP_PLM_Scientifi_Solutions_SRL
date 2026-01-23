@@ -18,12 +18,16 @@ const defaultPermissions = [
     { name: 'MANAGE_GENERAL_SETTINGS', description: 'Manage date & time format settings', category: 'SETTINGS' },
     { name: 'MANAGE_EMAIL_TEMPLATES', description: 'Manage email template settings', category: 'SETTINGS' },
 
-    // Admin permissions
-    { name: 'MANAGE_SUB_ADMINS', description: 'Create, edit, and delete sub-admin users', category: 'ADMIN' },
+    // Team/Admin permissions
+    { name: 'MANAGE_SUB_ADMINS', description: 'Create, edit, and delete sub-admin users', category: 'TEAM' },
 
-    // Company & Contact permissions
-    { name: 'MANAGE_COMPANIES', description: 'Create, edit, and delete companies', category: 'CONTACTS' },
+    // Company permissions
+    { name: 'MANAGE_COMPANIES', description: 'Create, edit, and delete companies', category: 'COMPANIES' },
+    { name: 'VIEW_COMPANIES', description: 'View company lists', category: 'COMPANIES' },
+
+    // Contact permissions
     { name: 'MANAGE_CONTACTS', description: 'Create, edit, and delete contacts', category: 'CONTACTS' },
+    { name: 'VIEW_CONTACTS', description: 'View contact lists', category: 'CONTACTS' },
 
     // Inventory permissions
     { name: 'MANAGE_INVENTORY', description: 'Manage products and stock', category: 'INVENTORY' },

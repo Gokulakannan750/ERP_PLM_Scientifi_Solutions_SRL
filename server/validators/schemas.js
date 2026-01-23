@@ -6,8 +6,8 @@ exports.createUserSchema = Joi.object({
         'string.email': 'Please provide a valid email address',
         'any.required': 'Email is required'
     }),
-    password: Joi.string().min(8).required().messages({
-        'string.min': 'Password must be at least 8 characters long',
+    password: Joi.string().min(6).required().messages({
+        'string.min': 'Password must be at least 6 characters long',
         'any.required': 'Password is required'
     }),
     name: Joi.string().min(2).max(100).optional(),

@@ -2786,3 +2786,54 @@ Unique constraint failed on the fields: (`sku`)
 2026-01-23 20:23:51 [INFO]: GET /api/contacts
 2026-01-23 20:23:52 [INFO]: GET /api/projects
 2026-01-23 20:23:52 [INFO]: GET /api/projects
+2026-01-23 20:34:19 [INFO]: GET /api/projects
+2026-01-23 20:34:19 [INFO]: GET /api/projects
+2026-01-23 20:34:19 [INFO]: GET /api/dashboard/stats
+2026-01-23 20:34:19 [INFO]: GET /api/dashboard/activity
+2026-01-23 20:34:19 [INFO]: GET /api/dashboard/stats
+2026-01-23 20:34:19 [INFO]: GET /api/dashboard/activity
+2026-01-23 20:58:03 [INFO]: GET /api/admin/users
+2026-01-23 20:58:03 [INFO]: GET /api/admin/permissions
+2026-01-23 20:58:03 [INFO]: Retrieved all users
+2026-01-23 20:58:03 [INFO]: GET /api/admin/users
+2026-01-23 20:58:03 [INFO]: GET /api/admin/permissions
+2026-01-23 20:58:03 [INFO]: Retrieved all users
+2026-01-23 20:58:13 [INFO]: GET /api/admin/users
+2026-01-23 20:58:13 [INFO]: GET /api/admin/permissions
+2026-01-23 20:58:13 [INFO]: Retrieved all users
+2026-01-23 20:58:13 [INFO]: GET /api/admin/users
+2026-01-23 20:58:13 [INFO]: GET /api/admin/permissions
+2026-01-23 20:58:13 [INFO]: Retrieved all users
+2026-01-23 20:58:23 [INFO]: GET /api/admin/users
+2026-01-23 20:58:23 [INFO]: GET /api/admin/permissions
+2026-01-23 20:58:23 [INFO]: Retrieved all users
+2026-01-23 20:58:23 [INFO]: GET /api/admin/users
+2026-01-23 20:58:23 [INFO]: GET /api/admin/permissions
+2026-01-23 20:58:23 [INFO]: Retrieved all users
+2026-01-23 20:59:47 [INFO]: POST /api/admin/users
+2026-01-23 20:59:47 [WARN]: Validation failed
+2026-01-23 21:06:10 [INFO]: Server running on http://localhost:5000
+2026-01-23 21:07:16 [INFO]: GET /
+2026-01-23 21:07:16 [INFO]: GET /favicon.ico
+2026-01-23 21:08:13 [INFO]: GET /api/dashboard/stats
+2026-01-23 21:08:13 [INFO]: GET /api/dashboard/activity
+2026-01-23 21:08:13 [INFO]: GET /api/dashboard/stats
+2026-01-23 21:08:13 [INFO]: GET /api/dashboard/activity
+2026-01-23 21:08:30 [INFO]: GET /api/admin/users
+2026-01-23 21:08:30 [INFO]: GET /api/admin/permissions
+2026-01-23 21:08:30 [INFO]: GET /api/admin/permissions
+2026-01-23 21:08:30 [INFO]: Retrieved all users
+2026-01-23 21:08:30 [INFO]: GET /api/admin/users
+2026-01-23 21:08:30 [INFO]: Retrieved all users
+2026-01-23 21:10:12 [INFO]: GET /api/admin/users
+2026-01-23 21:10:12 [INFO]: GET /api/admin/permissions
+2026-01-23 21:10:12 [INFO]: GET /api/admin/permissions
+2026-01-23 21:10:12 [INFO]: Retrieved all users
+2026-01-23 21:10:12 [INFO]: GET /api/admin/users
+2026-01-23 21:10:12 [INFO]: Retrieved all users
+2026-01-23 21:13:27 [INFO]: GET /api/admin/users
+2026-01-23 21:13:27 [INFO]: GET /api/admin/permissions
+2026-01-23 21:13:27 [INFO]: Retrieved all users
+2026-01-23 21:13:27 [INFO]: GET /api/admin/permissions
+2026-01-23 21:13:27 [INFO]: GET /api/admin/users
+2026-01-23 21:13:27 [INFO]: Retrieved all users
