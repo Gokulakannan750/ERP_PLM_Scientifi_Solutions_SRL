@@ -8,9 +8,11 @@ async function seed() {
 
         // 1. Create Admin User (if not exists)
         const adminEmail = 'admin@example.com';
+        const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+
         let admin = await prisma.user.findUnique({ where: { email: adminEmail } });
         if (!admin) {
-            const hashedPassword = await bcrypt.hash('admin123', 10);
+            const hashedPassword = await bcrypt.hash(adminPassword, 10);
             admin = await prisma.user.create({
                 data: {
                     email: adminEmail,
@@ -26,9 +28,11 @@ async function seed() {
 
         // 2. Create Sub-Admin User
         const subAdminEmail = 'user@example.com';
+        const userPassword = process.env.DEFAULT_USER_PASSWORD || 'user123';
+
         let subAdmin = await prisma.user.findUnique({ where: { email: subAdminEmail } });
         if (!subAdmin) {
-            const hashedPassword = await bcrypt.hash('user123', 10);
+            const hashedPassword = await bcrypt.hash(userPassword, 10);
             subAdmin = await prisma.user.create({
                 data: {
                     email: subAdminEmail,
