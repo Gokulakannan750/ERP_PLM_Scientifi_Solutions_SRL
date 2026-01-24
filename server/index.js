@@ -98,7 +98,9 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  logger.info(`Server running on http://localhost:${PORT}`);
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  logger.info(`Server running on http://0.0.0.0:${PORT}`);
+  logger.info(`Access from network at http://192.168.1.4:${PORT}`);
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
+  console.log(`Access from network at http://192.168.1.4:${PORT}`);
 });

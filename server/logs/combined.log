@@ -2837,3 +2837,217 @@ Unique constraint failed on the fields: (`sku`)
 2026-01-23 21:13:27 [INFO]: GET /api/admin/permissions
 2026-01-23 21:13:27 [INFO]: GET /api/admin/users
 2026-01-23 21:13:27 [INFO]: Retrieved all users
+2026-01-23 21:14:03 [INFO]: POST /api/admin/users
+2026-01-23 21:14:03 [WARN]: Validation failed
+2026-01-23 21:15:28 [INFO]: POST /api/admin/users
+2026-01-23 21:15:28 [WARN]: Validation failed
+2026-01-23 21:15:33 [INFO]: GET /api/admin/users
+2026-01-23 21:15:33 [INFO]: GET /api/admin/permissions
+2026-01-23 21:15:33 [INFO]: Retrieved all users
+2026-01-23 21:15:33 [INFO]: GET /api/admin/users
+2026-01-23 21:15:33 [INFO]: GET /api/admin/permissions
+2026-01-23 21:15:33 [INFO]: Retrieved all users
+2026-01-23 21:15:50 [INFO]: POST /api/admin/users
+2026-01-23 21:15:50 [WARN]: Validation failed
+2026-01-23 21:17:46 [INFO]: POST /api/admin/users
+2026-01-23 21:17:46 [WARN]: Validation failed
+2026-01-23 21:17:52 [INFO]: POST /api/admin/users
+2026-01-23 21:17:52 [INFO]: Created new user
+2026-01-23 21:17:52 [INFO]: GET /api/admin/users
+2026-01-23 21:17:52 [INFO]: Retrieved all users
+2026-01-23 21:17:52 [INFO]: GET /api/admin/permissions
+2026-01-23 21:18:01 [INFO]: GET /api/admin/users
+2026-01-23 21:18:01 [INFO]: GET /api/admin/permissions
+2026-01-23 21:18:01 [INFO]: Retrieved all users
+2026-01-23 21:18:01 [INFO]: GET /api/admin/users
+2026-01-23 21:18:01 [INFO]: GET /api/admin/permissions
+2026-01-23 21:18:01 [INFO]: Retrieved all users
+2026-01-23 21:18:15 [INFO]: POST /api/auth/login
+2026-01-23 21:18:15 [INFO]: Successful login
+2026-01-23 21:18:15 [INFO]: GET /api/dashboard/stats
+2026-01-23 21:18:15 [INFO]: GET /api/dashboard/activity
+2026-01-23 21:18:15 [INFO]: GET /api/dashboard/stats
+2026-01-23 21:18:15 [INFO]: GET /api/dashboard/activity
+2026-01-23 21:18:18 [INFO]: GET /api/companies
+2026-01-23 21:18:18 [INFO]: GET /api/companies
+2026-01-23 21:18:20 [INFO]: GET /api/categories
+2026-01-23 21:18:20 [INFO]: GET /api/categories
+2026-01-23 21:18:21 [INFO]: GET /api/companies
+2026-01-23 21:18:21 [INFO]: GET /api/companies
+2026-01-23 21:18:22 [INFO]: GET /api/contacts
+2026-01-23 21:18:22 [INFO]: GET /api/contacts
+2026-01-23 21:18:23 [INFO]: GET /api/inventory
+2026-01-23 21:18:23 [INFO]: GET /api/inventory
+2026-01-23 21:18:23 [INFO]: GET /api/projects
+2026-01-23 21:18:23 [INFO]: GET /api/projects
+2026-01-23 21:18:24 [INFO]: GET /api/offers
+2026-01-23 21:18:24 [INFO]: GET /api/offers
+2026-01-23 21:18:24 [INFO]: GET /api/invoices
+2026-01-23 21:18:24 [INFO]: GET /api/invoices
+2026-01-23 21:21:06 [INFO]: GET /api/dashboard/stats
+2026-01-23 21:21:06 [INFO]: GET /api/dashboard/activity
+2026-01-23 21:21:06 [INFO]: GET /api/dashboard/stats
+2026-01-23 21:21:06 [INFO]: GET /api/dashboard/activity
+2026-01-23 21:21:20 [INFO]: POST /api/auth/login
+2026-01-23 21:21:20 [INFO]: Successful login
+2026-01-23 21:21:20 [INFO]: GET /api/dashboard/stats
+2026-01-23 21:21:20 [INFO]: GET /api/dashboard/activity
+2026-01-23 21:21:20 [INFO]: GET /api/dashboard/stats
+2026-01-23 21:21:20 [INFO]: GET /api/dashboard/activity
+2026-01-23 21:21:30 [INFO]: GET /api/dashboard/stats
+2026-01-23 21:21:30 [INFO]: GET /api/dashboard/activity
+2026-01-23 21:21:30 [INFO]: GET /api/dashboard/stats
+2026-01-23 21:21:30 [INFO]: GET /api/dashboard/activity
+2026-01-24 17:04:46 [INFO]: Server running on http://0.0.0.0:5000
+2026-01-24 17:04:46 [INFO]: Access from network at http://192.168.1.4:5000
+2026-01-24 17:09:30 [INFO]: GET /
+2026-01-24 17:13:00 [INFO]: POST /api/auth/login
+2026-01-24 17:13:00 [INFO]: Successful login
+2026-01-24 17:13:00 [INFO]: GET /api/dashboard/stats
+2026-01-24 17:13:00 [INFO]: GET /api/dashboard/activity
+2026-01-24 17:13:00 [INFO]: GET /api/dashboard/activity
+2026-01-24 17:13:00 [INFO]: GET /api/dashboard/stats
+2026-01-24 17:13:19 [INFO]: GET /api/companies
+2026-01-24 17:13:19 [INFO]: GET /api/companies
+2026-01-24 17:13:40 [INFO]: GET /api/contacts
+2026-01-24 17:13:40 [INFO]: GET /api/contacts
+2026-01-24 17:13:58 [INFO]: GET /api/inventory
+2026-01-24 17:13:58 [INFO]: GET /api/inventory
+2026-01-24 17:14:09 [INFO]: GET /api/projects
+2026-01-24 17:14:09 [INFO]: GET /api/projects
+2026-01-24 17:14:35 [INFO]: GET /api/offers
+2026-01-24 17:14:35 [INFO]: GET /api/offers
+2026-01-24 17:15:09 [INFO]: GET /api/invoices
+2026-01-24 17:15:09 [INFO]: GET /api/invoices
+2026-01-24 17:15:50 [INFO]: GET /api/inventory
+2026-01-24 17:15:50 [INFO]: GET /api/inventory
+2026-01-24 18:03:01 [INFO]: GET /api/dashboard/stats
+2026-01-24 18:03:01 [INFO]: GET /api/dashboard/activity
+2026-01-24 18:03:01 [INFO]: GET /api/dashboard/stats
+2026-01-24 18:03:01 [INFO]: GET /api/dashboard/activity
+2026-01-24 18:03:07 [INFO]: GET /api/contacts
+2026-01-24 18:03:07 [INFO]: GET /api/contacts
+2026-01-24 18:03:12 [INFO]: GET /api/inventory
+2026-01-24 18:03:12 [INFO]: GET /api/inventory
+2026-01-24 18:03:15 [INFO]: GET /api/inventory
+2026-01-24 18:03:15 [INFO]: GET /api/inventory
+2026-01-24 18:03:16 [INFO]: GET /api/companies
+2026-01-24 18:03:16 [INFO]: GET /api/companies
+2026-01-24 18:03:18 [INFO]: GET /api/inventory
+2026-01-24 18:03:18 [INFO]: GET /api/inventory
+2026-01-24 18:03:20 [INFO]: GET /api/inventory/5
+2026-01-24 18:03:20 [INFO]: GET /api/inventory/5
+2026-01-24 18:03:20 [INFO]: GET /api/companies
+2026-01-24 18:03:20 [INFO]: GET /api/companies
+2026-01-24 18:03:37 [INFO]: GET /api/inventory/5/history
+2026-01-24 18:03:59 [INFO]: PUT /api/inventory/5
+2026-01-24 18:03:59 [INFO]: Product updated: Cable Assembly Kit (New ID: 6, Previous ID: 5) by User 2
+2026-01-24 18:04:00 [INFO]: GET /api/inventory
+2026-01-24 18:04:00 [INFO]: GET /api/inventory
+2026-01-24 18:07:02 [INFO]: GET /api/inventory
+2026-01-24 18:07:02 [INFO]: GET /api/inventory
+2026-01-24 18:07:15 [INFO]: GET /api/inventory/1
+2026-01-24 18:07:15 [INFO]: GET /api/inventory/1
+2026-01-24 18:07:15 [INFO]: GET /api/companies
+2026-01-24 18:07:15 [INFO]: GET /api/companies
+2026-01-24 18:07:29 [INFO]: GET /api/inventory
+2026-01-24 18:07:29 [INFO]: GET /api/inventory
+2026-01-24 18:08:12 [INFO]: PUT /api/inventory/1
+2026-01-24 18:08:12 [INFO]: Product updated: Precision Sensor X100 (New ID: 7, Previous ID: 1) by User 2
+2026-01-24 18:08:13 [INFO]: GET /api/inventory
+2026-01-24 18:08:13 [INFO]: GET /api/inventory
+2026-01-24 18:08:17 [INFO]: GET /api/inventory
+2026-01-24 18:08:17 [INFO]: GET /api/inventory
+2026-01-24 18:08:31 [INFO]: GET /api/inventory/7
+2026-01-24 18:08:31 [INFO]: GET /api/inventory/7
+2026-01-24 18:08:31 [INFO]: GET /api/companies
+2026-01-24 18:08:31 [INFO]: GET /api/companies
+2026-01-24 18:09:42 [INFO]: PUT /api/inventory/7
+2026-01-24 18:09:42 [INFO]: Product updated: Precision Sensor X100 (New ID: 8, Previous ID: 7) by User 2
+2026-01-24 18:09:42 [INFO]: GET /api/inventory
+2026-01-24 18:09:42 [INFO]: GET /api/inventory
+2026-01-24 18:11:57 [INFO]: GET /api/inventory/8
+2026-01-24 18:11:58 [INFO]: GET /api/inventory/8
+2026-01-24 18:11:58 [INFO]: GET /api/companies
+2026-01-24 18:11:58 [INFO]: GET /api/companies
+2026-01-24 18:12:02 [INFO]: PUT /api/inventory/8
+2026-01-24 18:12:02 [INFO]: Product updated: Precision Sensor X100 (New ID: 9, Previous ID: 8) by User 2
+2026-01-24 18:12:02 [INFO]: GET /api/inventory
+2026-01-24 18:12:02 [INFO]: GET /api/inventory
+2026-01-24 18:12:40 [INFO]: GET /api/inventory/3
+2026-01-24 18:12:40 [INFO]: GET /api/inventory/3
+2026-01-24 18:12:40 [INFO]: GET /api/companies
+2026-01-24 18:12:40 [INFO]: GET /api/companies
+2026-01-24 18:12:43 [INFO]: PUT /api/inventory/3
+2026-01-24 18:12:43 [INFO]: Product updated: LED Display Module (New ID: 10, Previous ID: 3) by User 2
+2026-01-24 18:12:43 [INFO]: GET /api/inventory
+2026-01-24 18:12:43 [INFO]: GET /api/inventory
+2026-01-24 18:12:54 [INFO]: GET /api/inventory
+2026-01-24 18:12:54 [INFO]: GET /api/inventory
+2026-01-24 18:13:05 [INFO]: GET /api/inventory/9
+2026-01-24 18:13:05 [INFO]: GET /api/inventory/9
+2026-01-24 18:13:05 [INFO]: GET /api/companies
+2026-01-24 18:13:05 [INFO]: GET /api/companies
+2026-01-24 18:14:07 [INFO]: PUT /api/inventory/9
+2026-01-24 18:14:07 [INFO]: Product updated: Precision Sensor X100 (New ID: 11, Previous ID: 9) by User 2
+2026-01-24 18:14:07 [INFO]: GET /api/inventory
+2026-01-24 18:14:07 [INFO]: GET /api/inventory
+2026-01-24 18:15:07 [INFO]: GET /api/inventory/11
+2026-01-24 18:15:07 [INFO]: GET /api/inventory/11
+2026-01-24 18:15:07 [INFO]: GET /api/companies
+2026-01-24 18:15:07 [INFO]: GET /api/companies
+2026-01-24 18:16:09 [INFO]: PUT /api/inventory/11
+2026-01-24 18:16:09 [INFO]: Product updated: Precision Sensor X100 (New ID: 12, Previous ID: 11) by User 2
+2026-01-24 18:16:09 [INFO]: GET /api/inventory
+2026-01-24 18:16:09 [INFO]: GET /api/inventory
+2026-01-24 18:16:19 [INFO]: GET /api/inventory
+2026-01-24 18:16:19 [INFO]: GET /api/inventory
+2026-01-24 18:16:42 [INFO]: GET /api/inventory
+2026-01-24 18:27:27 [INFO]: GET /api/inventory
+2026-01-24 18:27:27 [INFO]: GET /api/inventory
+2026-01-24 18:27:34 [INFO]: GET /api/inventory
+2026-01-24 18:27:34 [INFO]: GET /api/inventory
+2026-01-24 18:29:30 [INFO]: GET /api/inventory
+2026-01-24 18:29:30 [INFO]: GET /api/inventory
+2026-01-24 18:29:30 [INFO]: GET /api/inventory
+2026-01-24 18:29:30 [INFO]: GET /api/inventory
+2026-01-24 18:29:53 [INFO]: GET /api/inventory
+2026-01-24 18:29:53 [INFO]: GET /api/inventory
+2026-01-24 18:29:56 [INFO]: GET /api/inventory/12/history
+2026-01-24 18:29:56 [INFO]: GET /api/inventory/12/history
+2026-01-24 18:29:59 [INFO]: GET /api/inventory/10/history
+2026-01-24 18:29:59 [INFO]: GET /api/inventory/10/history
+2026-01-24 18:30:00 [INFO]: GET /api/inventory/12/history
+2026-01-24 18:30:00 [INFO]: GET /api/inventory/12/history
+2026-01-24 18:30:06 [INFO]: GET /api/inventory/12/history
+2026-01-24 18:30:06 [INFO]: GET /api/inventory/12/history
+2026-01-24 18:30:22 [INFO]: GET /api/inventory/12
+2026-01-24 18:30:22 [INFO]: GET /api/inventory/12
+2026-01-24 18:30:22 [INFO]: GET /api/companies
+2026-01-24 18:30:22 [INFO]: GET /api/companies
+2026-01-24 18:30:57 [INFO]: PUT /api/inventory/12
+2026-01-24 18:30:58 [INFO]: Product updated: Precision Sensor X100 (New ID: 13, Previous ID: 12) by User 2
+2026-01-24 18:30:58 [INFO]: GET /api/inventory
+2026-01-24 18:30:58 [INFO]: GET /api/inventory
+2026-01-24 18:31:10 [INFO]: GET /api/inventory/13/history
+2026-01-24 18:31:10 [INFO]: GET /api/inventory/13/history
+2026-01-24 18:31:24 [INFO]: GET /api/inventory
+2026-01-24 18:31:24 [INFO]: GET /api/inventory
+2026-01-24 18:35:28 [INFO]: GET /api/inventory/13/versions
+2026-01-24 18:35:28 [INFO]: Fetched version history for product ID 13: 7 versions
+2026-01-24 18:35:28 [INFO]: GET /api/inventory/13/versions
+2026-01-24 18:35:28 [INFO]: Fetched version history for product ID 13: 7 versions
+2026-01-24 18:36:12 [INFO]: GET /api/inventory/10/versions
+2026-01-24 18:36:12 [INFO]: Fetched version history for product ID 10: 2 versions
+2026-01-24 18:36:12 [INFO]: GET /api/inventory/10/versions
+2026-01-24 18:36:12 [INFO]: Fetched version history for product ID 10: 2 versions
+2026-01-24 18:36:15 [INFO]: GET /api/inventory/6/versions
+2026-01-24 18:36:15 [INFO]: Fetched version history for product ID 6: 2 versions
+2026-01-24 18:36:15 [INFO]: GET /api/inventory/6/versions
+2026-01-24 18:36:15 [INFO]: Fetched version history for product ID 6: 2 versions
+2026-01-24 18:36:19 [INFO]: GET /api/inventory/13/versions
+2026-01-24 18:36:19 [INFO]: Fetched version history for product ID 13: 7 versions
+2026-01-24 18:36:19 [INFO]: GET /api/inventory/13/versions
+2026-01-24 18:36:19 [INFO]: Fetched version history for product ID 13: 7 versions
+2026-01-24 18:37:19 [INFO]: Server running on http://0.0.0.0:5000
+2026-01-24 18:37:19 [INFO]: Access from network at http://192.168.1.4:5000

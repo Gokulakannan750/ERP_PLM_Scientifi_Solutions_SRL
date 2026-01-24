@@ -12,7 +12,25 @@ const getProducts = async (req, res) => {
             },
             orderBy: { recDate: 'desc' }
         });
-        res.json(products);
+
+        // Calculate version number for each product
+        const productsWithVersion = await Promise.all(products.map(async (product) => {
+            let versionCount = 1;
+            let currentId = product.lastRecID;
+
+            while (currentId) {
+                versionCount++;
+                const prev = await prisma.product.findUnique({
+                    where: { id: currentId },
+                    select: { lastRecID: true }
+                });
+                currentId = prev?.lastRecID || null;
+            }
+
+            return { ...product, version: versionCount };
+        }));
+
+        res.json(productsWithVersion);
     } catch (err) {
         logger.error(`Error fetching products: ${err.message}`);
         res.status(500).json({ error: err.message });
