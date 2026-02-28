@@ -147,4 +147,73 @@ const createFromOffer = async (req, res) => {
     }
 };
 
-module.exports = { createInvoice, getInvoices, getInvoice, updateStatus, createFromOffer };
+// Full update of an invoice (items, dueDate, taxRate, status)
+const updateInvoice = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { companyId, items, dueDate, taxRate, status } = req.body;
+        const invoiceId = parseInt(id);
+
+        const result = await prisma.$transaction(async (tx) => {
+            // 1. Delete existing items
+            await tx.invoiceItem.deleteMany({ where: { invoiceId } });
+
+            // 2. Recalculate total
+            let totalAmount = 0;
+            const formattedItems = items.map(item => {
+                const lineTotal = item.quantity * item.unitPrice;
+                totalAmount += lineTotal;
+                return {
+                    productId: item.productId ? parseInt(item.productId) : null,
+                    description: item.description,
+                    quantity: parseInt(item.quantity),
+                    unitPrice: parseFloat(item.unitPrice),
+                    totalPrice: lineTotal
+                };
+            });
+
+            const rate = taxRate ? parseFloat(taxRate) : 0;
+            const taxAmount = totalAmount * (rate / 100);
+            const finalTotal = totalAmount + taxAmount;
+
+            // 3. Update invoice + create new items
+            return await tx.invoice.update({
+                where: { id: invoiceId },
+                data: {
+                    companyId: companyId ? parseInt(companyId) : undefined,
+                    totalAmount: finalTotal,
+                    taxRate: rate,
+                    dueDate: dueDate ? new Date(dueDate) : null,
+                    status: status || undefined,
+                    items: { create: formattedItems }
+                },
+                include: { items: true, company: true }
+            });
+        });
+
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// Delete an invoice and its items
+const deleteInvoice = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const invoiceId = parseInt(id);
+
+        await prisma.$transaction(async (tx) => {
+            await tx.invoiceItem.deleteMany({ where: { invoiceId } });
+            await tx.invoice.delete({ where: { id: invoiceId } });
+        });
+
+        res.json({ message: 'Invoice deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+};
+
+module.exports = { createInvoice, getInvoices, getInvoice, updateStatus, createFromOffer, updateInvoice, deleteInvoice };

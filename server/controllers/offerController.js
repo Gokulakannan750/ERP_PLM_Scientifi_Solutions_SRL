@@ -195,4 +195,125 @@ const updateStatus = async (req, res) => {
     }
 };
 
-module.exports = { createOffer, getOffers, getOffer, updateStatus };
+// Full update of an offer (items, validUntil, description, taxRate)
+const updateOffer = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { companyId, items, validUntil, description, taxRate } = req.body;
+        const offerId = parseInt(id);
+
+        const result = await prisma.$transaction(async (tx) => {
+            // 1. Get existing offer items for stock adjustment
+            const existingOffer = await tx.offer.findUnique({
+                where: { id: offerId },
+                include: { items: true }
+            });
+            if (!existingOffer) throw new Error('Offer not found');
+
+            // 2. Release old reservations
+            for (const item of existingOffer.items) {
+                if (item.productId && ['DRAFT', 'SENT'].includes(existingOffer.status)) {
+                    await tx.product.update({
+                        where: { id: item.productId },
+                        data: { reserved: { decrement: item.quantity } }
+                    });
+                }
+            }
+
+            // 3. Delete old items
+            await tx.offerItem.deleteMany({ where: { offerId } });
+
+            // 4. Recalculate total
+            let totalAmount = 0;
+            const formattedItems = items.map(item => {
+                const lineTotal = item.quantity * item.unitPrice;
+                totalAmount += lineTotal;
+                let pid = null;
+                if (item.productId && item.productId !== '' && item.productId !== 'null') {
+                    pid = parseInt(item.productId);
+                    if (isNaN(pid)) pid = null;
+                }
+                return {
+                    productId: pid,
+                    description: item.description,
+                    quantity: parseInt(item.quantity) || 0,
+                    unitPrice: parseFloat(item.unitPrice) || 0,
+                    totalPrice: lineTotal
+                };
+            });
+
+            const taxRateVal = parseFloat(taxRate) || 0;
+            const taxAmount = totalAmount * (taxRateVal / 100);
+            const finalTotal = totalAmount + taxAmount;
+
+            // 5. Reserve stock for new items (if still in reservable status)
+            if (['DRAFT', 'SENT'].includes(existingOffer.status)) {
+                for (const item of formattedItems) {
+                    if (item.productId) {
+                        await tx.product.update({
+                            where: { id: item.productId },
+                            data: { reserved: { increment: item.quantity } }
+                        });
+                    }
+                }
+            }
+
+            // 6. Update offer + create new items
+            return await tx.offer.update({
+                where: { id: offerId },
+                data: {
+                    companyId: companyId ? parseInt(companyId) : undefined,
+                    totalAmount: finalTotal,
+                    taxRate: taxRateVal,
+                    validUntil: validUntil ? new Date(validUntil) : null,
+                    description: description || '',
+                    items: { create: formattedItems }
+                },
+                include: { items: true, company: true }
+            });
+        });
+
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// Delete an offer (release stock reservations, cascade delete items)
+const deleteOffer = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const offerId = parseInt(id);
+
+        await prisma.$transaction(async (tx) => {
+            const offer = await tx.offer.findUnique({
+                where: { id: offerId },
+                include: { items: true }
+            });
+            if (!offer) throw new Error('Offer not found');
+
+            // Release reservations if still in reservable status
+            if (['DRAFT', 'SENT'].includes(offer.status)) {
+                for (const item of offer.items) {
+                    if (item.productId) {
+                        await tx.product.update({
+                            where: { id: item.productId },
+                            data: { reserved: { decrement: item.quantity } }
+                        });
+                    }
+                }
+            }
+
+            await tx.offerItem.deleteMany({ where: { offerId } });
+            await tx.offer.delete({ where: { id: offerId } });
+        });
+
+        res.json({ message: 'Offer deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+};
+
+module.exports = { createOffer, getOffers, getOffer, updateStatus, updateOffer, deleteOffer };
