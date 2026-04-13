@@ -40,9 +40,10 @@ interface OfferFormData {
 interface OfferFormProps {
     initialData?: any;
     isEditing?: boolean;
+    isReadOnly?: boolean;
 }
 
-export default function OfferForm({ initialData, isEditing = false }: OfferFormProps) {
+export default function OfferForm({ initialData, isEditing = false, isReadOnly = false }: OfferFormProps) {
     const router = useRouter();
     const [clients, setClients] = useState<Company[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
@@ -233,7 +234,8 @@ export default function OfferForm({ initialData, isEditing = false }: OfferFormP
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className={`space-y-6 ${isReadOnly ? 'pointer-events-none opacity-90' : ''}`}>
+            <fieldset disabled={isReadOnly} className="space-y-6">
             {error && (
                 <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl flex items-center gap-3 text-red-600 dark:text-red-400">
                     <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -424,14 +426,16 @@ export default function OfferForm({ initialData, isEditing = false }: OfferFormP
                             </div>
 
                             <div className="col-span-1 text-center py-2">
-                                <button
-                                    type="button"
-                                    onClick={() => removeItem(index)}
-                                    className="text-red-500 hover:text-red-700 transition-colors"
-                                    disabled={formData.items.length === 1}
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                </button>
+                                {!isReadOnly && (
+                                    <button
+                                        type="button"
+                                        onClick={() => removeItem(index)}
+                                        className="text-red-500 hover:text-red-700 transition-colors pointer-events-auto"
+                                        disabled={formData.items.length === 1}
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+                                )}
                             </div>
                         </div>
                     ))}
@@ -463,27 +467,31 @@ export default function OfferForm({ initialData, isEditing = false }: OfferFormP
                 </div>
             </div>
 
+            </fieldset>
+
             {/* Form Actions */}
-            <div className="flex items-center justify-end gap-4">
+            <div className={`flex items-center justify-end gap-4 ${isReadOnly ? 'pointer-events-auto opacity-100' : ''}`}>
                 <button
                     type="button"
                     onClick={() => router.back()}
                     className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
-                    Cancel
+                    {isReadOnly ? 'Back' : 'Cancel'}
                 </button>
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    {loading ? (
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    ) : (
-                        <Save className="w-4 h-4" />
-                    )}
-                    {isEditing ? 'Update Quote' : 'Create Quote'}
-                </button>
+                {!isReadOnly && (
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {loading ? (
+                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        ) : (
+                            <Save className="w-4 h-4" />
+                        )}
+                        {isEditing ? 'Update Quote' : 'Create Quote'}
+                    </button>
+                )}
             </div>
         </form>
     );
