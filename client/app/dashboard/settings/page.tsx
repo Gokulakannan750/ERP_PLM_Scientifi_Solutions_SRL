@@ -43,6 +43,7 @@ export default function SettingsPage() {
 
     // Profile form state
     const [profileName, setProfileName] = useState(user?.name || '');
+    const [savingProfile, setSavingProfile] = useState(false);
 
     useEffect(() => {
         fetchSettings();
@@ -77,6 +78,19 @@ export default function SettingsPage() {
             showToast('error', error.response?.data?.message || 'Failed to save settings');
         } finally {
             setSaving(false);
+        }
+    };
+
+    const saveProfile = async () => {
+        if (!profileName.trim()) return;
+        setSavingProfile(true);
+        try {
+            await api.put('/auth/profile', { name: profileName.trim() });
+            showToast('success', 'Profile saved successfully');
+        } catch (error: any) {
+            showToast('error', error.response?.data?.error || 'Failed to save profile');
+        } finally {
+            setSavingProfile(false);
         }
     };
 
@@ -212,9 +226,13 @@ export default function SettingsPage() {
                                     </div>
                                 </div>
                                 <div className="flex justify-end pt-4 border-t border-gray-100 dark:border-gray-700">
-                                    <button className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors shadow-sm font-medium">
+                                    <button
+                                        onClick={saveProfile}
+                                        disabled={savingProfile}
+                                        className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors shadow-sm font-medium disabled:opacity-50"
+                                    >
                                         <Save className="w-4 h-4" />
-                                        Save Profile
+                                        {savingProfile ? 'Saving...' : 'Save Profile'}
                                     </button>
                                 </div>
                             </div>

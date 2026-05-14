@@ -2,6 +2,7 @@ const prisma = require('../prismaClient');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const logger = require('../utils/logger');
+const { badRequest, conflict, serverError } = require('../utils/errorResponse');
 
 const login = async (req, res) => {
     try {
@@ -18,11 +19,10 @@ const login = async (req, res) => {
             return res.status(200).json({ token, user: { id: user.id, email: user.email, role: user.role } });
         }
         logger.warn('Failed login attempt', { email });
-        return res.status(400).send("Invalid Credentials");
+        return badRequest(res, 'Invalid email or password');
     } catch (err) {
         logger.error('Login error', { error: err.message });
-        console.log(err);
-        res.status(500).send("Server Error");
+        return serverError(res, 'Login failed');
     }
 };
 
@@ -32,7 +32,7 @@ const register = async (req, res) => {
         const oldUser = await prisma.user.findUnique({ where: { email } });
 
         if (oldUser) {
-            return res.status(409).send("User Already Exist. Please Login");
+            return conflict(res, 'An account with this email already exists');
         }
 
         const encryptedPassword = await bcrypt.hash(password, 10);
@@ -52,12 +52,31 @@ const register = async (req, res) => {
         );
 
         logger.info('New user registered', { userId: user.id, email: user.email, role: user.role });
-        res.status(201).json(user);
+        res.status(201).json({ id: user.id, email: user.email, role: user.role, token });
     } catch (err) {
         logger.error('Registration error', { error: err.message, email: req.body.email });
-        console.log(err);
-        res.status(500).send("Error creating user");
+        return serverError(res, 'Registration failed');
     }
-}
+};
 
-module.exports = { login, register };
+const updateProfile = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        const { name } = req.body;
+        if (!name || !name.trim()) return badRequest(res, 'Name is required');
+
+        const user = await prisma.user.update({
+            where: { id: userId },
+            data: { name: name.trim() },
+            select: { id: true, email: true, name: true, role: true }
+        });
+
+        logger.info('Profile updated', { userId });
+        res.json(user);
+    } catch (err) {
+        logger.error('Profile update error', { error: err.message });
+        return serverError(res, 'Failed to update profile');
+    }
+};
+
+module.exports = { login, register, updateProfile };

@@ -8,6 +8,7 @@ import api from '@/lib/api';
 interface Company {
     id: number;
     name: string;
+    vatPercentage?: number | null;
 }
 
 interface Product {
@@ -25,6 +26,7 @@ interface OfferItem {
     description: string;
     quantity: number;
     unitPrice: number;
+    discountPercent: number;
     totalPrice: number;
 }
 
@@ -56,13 +58,19 @@ export default function OfferForm({ initialData, isEditing = false, isReadOnly =
         validUntil: initialData?.validUntil ? new Date(initialData.validUntil).toISOString().split('T')[0] : '',
         taxRate: initialData?.taxRate?.toString() || '0',
         description: initialData?.description || '',
-        items: initialData?.items?.map((item: any) => ({
-            productId: item.productId,
-            description: item.description,
-            quantity: item.quantity,
-            unitPrice: Number(item.unitPrice),
-            totalPrice: Number(item.totalPrice)
-        })) || [{ description: '', quantity: 1, unitPrice: 0, totalPrice: 0 }],
+        items: initialData?.items?.map((item: any) => {
+            const qty  = Number(item.quantity);
+            const price = Number(item.unitPrice);
+            const disc  = Number(item.discountPercent ?? 0);
+            return {
+                productId: item.productId,
+                description: item.description,
+                quantity: qty,
+                unitPrice: price,
+                discountPercent: disc,
+                totalPrice: qty * price * (1 - disc / 100),
+            };
+        }) || [{ description: '', quantity: 1, unitPrice: 0, discountPercent: 0, totalPrice: 0 }],
     });
 
     useEffect(() => {
@@ -119,14 +127,15 @@ export default function OfferForm({ initialData, isEditing = false, isReadOnly =
             item.productName = product.name;
             item.description = product.description || product.name;
             item.unitPrice = Number(product.price);
-            item.totalPrice = item.quantity * Number(product.price);
+            item.discountPercent = item.discountPercent ?? 0;
+            item.totalPrice = item.quantity * Number(product.price) * (1 - (item.discountPercent) / 100);
             item.isSearchOpen = false;
 
             newItems[index] = item;
 
             // Auto-append if last item
             if (index === newItems.length - 1) {
-                newItems.push({ description: '', quantity: 1, unitPrice: 0, totalPrice: 0 });
+                newItems.push({ description: '', quantity: 1, unitPrice: 0, discountPercent: 0, totalPrice: 0 });
             }
 
             return { ...prev, items: newItems };
@@ -146,10 +155,11 @@ export default function OfferForm({ initialData, isEditing = false, isReadOnly =
             }
 
             // Auto-calculate totals
-            if (field === 'quantity' || field === 'unitPrice') {
+            if (field === 'quantity' || field === 'unitPrice' || field === 'discountPercent') {
                 const quantity = field === 'quantity' ? Number(value) : item.quantity;
                 const unitPrice = field === 'unitPrice' ? Number(value) : item.unitPrice;
-                item.totalPrice = quantity * unitPrice;
+                const disc = field === 'discountPercent' ? Math.min(100, Math.max(0, Number(value) || 0)) : (item.discountPercent ?? 0);
+                item.totalPrice = quantity * unitPrice * (1 - disc / 100);
             }
 
             // Auto-fill description/price if product selected
@@ -158,13 +168,14 @@ export default function OfferForm({ initialData, isEditing = false, isReadOnly =
                 if (product) {
                     item.description = product.description || product.name;
                     item.unitPrice = Number(product.price);
-                    item.totalPrice = item.quantity * Number(product.price);
-                    item.productName = product.name; // Ensure name is set
+                    item.discountPercent = item.discountPercent ?? 0;
+                    item.totalPrice = item.quantity * Number(product.price) * (1 - (item.discountPercent) / 100);
+                    item.productName = product.name;
                 }
 
                 // Auto-append new item if the last item has a product selected
                 if (index === newItems.length - 1) {
-                    newItems.push({ description: '', quantity: 1, unitPrice: 0, totalPrice: 0 });
+                    newItems.push({ description: '', quantity: 1, unitPrice: 0, discountPercent: 0, totalPrice: 0 });
                 }
             }
 
@@ -176,7 +187,7 @@ export default function OfferForm({ initialData, isEditing = false, isReadOnly =
     const addItem = () => {
         setFormData({
             ...formData,
-            items: [...formData.items, { description: '', quantity: 1, unitPrice: 0, totalPrice: 0 }]
+            items: [...formData.items, { description: '', quantity: 1, unitPrice: 0, discountPercent: 0, totalPrice: 0 }]
         });
     };
 
@@ -213,6 +224,7 @@ export default function OfferForm({ initialData, isEditing = false, isReadOnly =
                     description: item.description,
                     quantity: Number(item.quantity),
                     unitPrice: Number(item.unitPrice),
+                    discountPercent: Number(item.discountPercent ?? 0),
                     totalPrice: Number(item.totalPrice)
                 })),
                 totalAmount: calculateTotal()
@@ -257,7 +269,17 @@ export default function OfferForm({ initialData, isEditing = false, isReadOnly =
                         <select
                             required
                             value={formData.companyId}
-                            onChange={(e) => setFormData({ ...formData, companyId: e.target.value })}
+                            onChange={(e) => {
+                                const companyId = e.target.value;
+                                const client = clients.find(c => c.id.toString() === companyId);
+                                setFormData({ 
+                                    ...formData, 
+                                    companyId,
+                                    taxRate: (client?.vatPercentage !== undefined && client?.vatPercentage !== null)
+                                        ? client.vatPercentage.toString() 
+                                        : formData.taxRate
+                                });
+                            }}
                             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         >
                             <option value="">Select Client</option>
@@ -332,16 +354,17 @@ export default function OfferForm({ initialData, isEditing = false, isReadOnly =
 
                 <div className="space-y-4">
                     <div className="grid grid-cols-12 gap-4 text-sm font-medium text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 pb-2">
-                        <div className="col-span-4">Item details</div>
+                        <div className="col-span-3">Item details</div>
                         <div className="col-span-2 text-center">Quantity</div>
                         <div className="col-span-2 text-right">Price</div>
-                        <div className="col-span-3 text-right">Total</div>
+                        <div className="col-span-2 text-right">Disc %</div>
+                        <div className="col-span-2 text-right">Total</div>
                         <div className="col-span-1"></div>
                     </div>
 
                     {formData.items.map((item, index) => (
                         <div key={index} className="grid grid-cols-12 gap-4 items-start">
-                            <div className="col-span-4 space-y-2 relative">
+                            <div className="col-span-3 space-y-2 relative">
                                 {/* Product Search Input */}
                                 {/* Product Search Input */}
                                 <div className="relative search-container">
@@ -421,8 +444,20 @@ export default function OfferForm({ initialData, isEditing = false, isReadOnly =
                                 />
                             </div>
 
-                            <div className="col-span-3 text-right py-2 text-sm font-medium text-gray-900 dark:text-white">
-                                ₹{item.totalPrice.toFixed(2)}
+                            <div className="col-span-2">
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max="100"
+                                    step="0.1"
+                                    value={item.discountPercent ?? 0}
+                                    onChange={(e) => handleItemChange(index, 'discountPercent', e.target.value)}
+                                    className="w-full px-3 py-2 text-sm text-right border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                />
+                            </div>
+
+                            <div className="col-span-2 text-right py-2 text-sm font-medium text-gray-900 dark:text-white">
+                                ₹{(item.totalPrice ?? 0).toFixed(2)}
                             </div>
 
                             <div className="col-span-1 text-center py-2">
@@ -443,7 +478,7 @@ export default function OfferForm({ initialData, isEditing = false, isReadOnly =
 
                 {/* Totals */}
                 <div className="mt-8 pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-end">
-                    <div className="w-64 space-y-3">
+                    <div className="w-72 space-y-3">
                         <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
                             <span>Subtotal</span>
                             <span>₹{calculateSubtotal().toFixed(2)}</span>
@@ -458,6 +493,10 @@ export default function OfferForm({ initialData, isEditing = false, isReadOnly =
                                 onChange={(e) => setFormData({ ...formData, taxRate: e.target.value })}
                                 className="w-20 px-2 py-1 text-right border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             />
+                        </div>
+                        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                            <span>Tax Amount</span>
+                            <span>₹{(calculateSubtotal() * (parseFloat(formData.taxRate) / 100)).toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between text-lg font-bold text-gray-900 dark:text-white pt-3 border-t border-gray-200 dark:border-gray-600">
                             <span>Total</span>

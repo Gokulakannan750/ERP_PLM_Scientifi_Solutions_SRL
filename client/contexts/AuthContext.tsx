@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User, getCurrentUser, getAuthToken, removeAuthToken, setAuthToken } from '@/lib/auth';
+import { User, getCurrentUser, getAuthToken, removeAuthToken, setAuthToken, setStoredUser } from '@/lib/auth';
 import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
 
@@ -21,10 +22,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const router = useRouter();
 
     useEffect(() => {
-        // Check if user is logged in on mount
-        const currentUser = getCurrentUser();
-        setUser(currentUser);
-        setLoading(false);
+        const initUser = async () => {
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                setLoading(false);
+                return;
+            }
+            // Refresh permissions from server in background
+            try {
+                const res = await api.get(`/admin/users/${currentUser.id}/permissions`);
+                const enriched = { ...currentUser, permissions: res.data };
+                setStoredUser(enriched);
+                setUser(enriched);
+            } catch {
+                setUser(currentUser);
+            }
+            setLoading(false);
+        };
+        initUser();
     }, []);
 
     const login = async (email: string, password: string) => {
@@ -33,10 +48,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const { token, user: userData } = response.data;
 
             setAuthToken(token);
-            setUser(userData);
+
+            // Fetch permissions for this user
+            let enrichedUser = userData;
+            try {
+                const permRes = await api.get(`/admin/users/${userData.id}/permissions`);
+                enrichedUser = { ...userData, permissions: permRes.data };
+            } catch { /* ignore, continue without permissions */ }
+
+            setStoredUser(enrichedUser);
+            setUser(enrichedUser);
             router.push('/dashboard');
         } catch (error: any) {
-            throw new Error(error.response?.data?.message || 'Login failed');
+            throw new Error(error.response?.data?.message || error.response?.data?.error || 'Login failed');
         }
     };
 

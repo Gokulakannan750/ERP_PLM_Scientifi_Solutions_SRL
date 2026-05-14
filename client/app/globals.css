@@ -4,18 +4,35 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
+  --background: #F4F4F5;
   --foreground: #171717;
+  --sidebar-bg: #1E1E1E;
+  --card-bg: #FFFFFF;
+  --status-ok: #22C55E;
+  --status-error: #EF4444;
+  --status-warning: #F59E0B;
+  --status-info: #3B82F6;
+  --status-obsolete: #888888;
 }
 
 .dark {
   --background: #0a0a0a;
   --foreground: #ededed;
+  --sidebar-bg: #111111;
+  --card-bg: #1e1e1e;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-sidebar-bg: var(--sidebar-bg);
+  --color-card-bg: var(--card-bg);
+  --color-status-ok: var(--status-ok);
+  --color-status-error: var(--status-error);
+  --color-status-warning: var(--status-warning);
+  --color-status-info: var(--status-info);
+  --color-status-obsolete: var(--status-obsolete);
+  
   --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
 }

@@ -5,7 +5,7 @@ const verifyToken = (req, res, next) => {
     const token = req.headers['authorization'];
 
     if (!token) {
-        return res.status(403).send('A token is required for authentication');
+        return res.status(403).json({ error: 'A token is required for authentication' });
     }
 
     try {
@@ -14,7 +14,7 @@ const verifyToken = (req, res, next) => {
         // Normalize userId field for consistency across controllers
         req.user.userId = decoded.user_id || decoded.userId || decoded.id;
     } catch (err) {
-        return res.status(401).send('Invalid Token');
+        return res.status(401).json({ error: 'Invalid Token' });
     }
 
     return next();

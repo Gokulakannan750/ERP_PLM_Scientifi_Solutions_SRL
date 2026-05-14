@@ -32,6 +32,20 @@ export const removeAuthToken = () => {
     localStorage.removeItem('user');
 };
 
+export const setStoredUser = (user: User) => {
+    localStorage.setItem('user', JSON.stringify(user));
+};
+
+export const getStoredUser = (): User | null => {
+    if (typeof window === 'undefined') return null;
+    try {
+        const raw = localStorage.getItem('user');
+        return raw ? JSON.parse(raw) : null;
+    } catch {
+        return null;
+    }
+};
+
 export const decodeToken = (token: string): DecodedToken | null => {
     try {
         return jwtDecode<DecodedToken>(token);
@@ -52,14 +66,20 @@ export const isTokenExpired = (token: string): boolean => {
 export const getCurrentUser = (): User | null => {
     const token = getAuthToken();
     if (!token || isTokenExpired(token)) {
+        removeAuthToken();
         return null;
     }
 
+    // Prefer the stored full user object (includes permissions, name)
+    const stored = getStoredUser();
+    if (stored) return stored;
+
+    // Fallback: decode token (handles both user_id and userId field names)
     const decoded = decodeToken(token);
     if (!decoded) return null;
 
     return {
-        id: decoded.userId,
+        id: (decoded as any).user_id ?? decoded.userId,
         email: decoded.email,
         role: decoded.role,
     };

@@ -11,7 +11,8 @@ const {
     deleteUser,
     getUserPermissions,
     updateUserPermissions,
-    getAllPermissions
+    getAllPermissions,
+    getAuditLog,
 } = require('../controllers/adminController');
 
 // User management routes (ADMIN only) with validation
@@ -25,5 +26,8 @@ router.delete('/users/:id', verifyAdmin, deleteUser);
 router.get('/users/:id/permissions', verifyToken, getUserPermissions);
 router.put('/users/:id/permissions', verifyAdmin, updateUserPermissions);
 router.get('/permissions', verifyToken, getAllPermissions);
+
+// System-wide audit log (ADMIN only)
+router.get('/audit', verifyAdmin, getAuditLog);
 
 module.exports = router;

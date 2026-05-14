@@ -292,6 +292,78 @@ const getAllPermissions = async (req, res) => {
     }
 };
 
+// ─── System-wide Audit Log ────────────────────────────────────────────────────
+// Aggregates PLM audit logs, company change logs, and stock movements.
+const getAuditLog = async (req, res) => {
+    try {
+        const { page = 1, limit = 100, module } = req.query;
+        const skip = (parseInt(page) - 1) * parseInt(limit);
+        const take = parseInt(limit);
+
+        const entries = [];
+
+        if (!module || module === 'plm') {
+            const plmLogs = await prisma.plmAuditLog.findMany({
+                include: {
+                    user:    { select: { id: true, name: true, email: true } },
+                    product: { select: { id: true, sku: true, name: true } },
+                },
+                orderBy: { createdAt: 'desc' },
+                take: Math.min(take, 500),
+            });
+            plmLogs.forEach(l => entries.push({
+                module:    'PLM',
+                action:    l.action,
+                detail:    `${l.product?.sku} — ${l.note || l.toState || ''}`,
+                user:      l.user,
+                createdAt: l.createdAt,
+            }));
+        }
+
+        if (!module || module === 'company') {
+            const compLogs = await prisma.companyChangeLog.findMany({
+                include: {
+                    user:    { select: { id: true, name: true, email: true } },
+                    company: { select: { id: true, name: true } },
+                },
+                orderBy: { changedAt: 'desc' },
+                take: Math.min(take, 500),
+            });
+            compLogs.forEach(l => entries.push({
+                module:    'Company',
+                action:    'FIELD_CHANGE',
+                detail:    `${l.company?.name}: ${l.fieldName} changed`,
+                user:      l.user,
+                createdAt: l.changedAt,
+            }));
+        }
+
+        if (!module || module === 'inventory') {
+            const movLogs = await prisma.stockMovement.findMany({
+                include: { product: { select: { id: true, sku: true, name: true } } },
+                orderBy: { createdAt: 'desc' },
+                take: Math.min(take, 500),
+            });
+            movLogs.forEach(l => entries.push({
+                module:    'Inventory',
+                action:    `STOCK_${l.type}`,
+                detail:    `${l.product?.sku} qty ${l.quantity} — ${l.reason || ''}`,
+                user:      null,
+                createdAt: l.createdAt,
+            }));
+        }
+
+        // Sort all sources together by date descending then paginate
+        entries.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        const paginated = entries.slice(skip, skip + take);
+
+        res.json({ entries: paginated, total: entries.length, page: parseInt(page), limit: take });
+    } catch (error) {
+        logger.error('Audit log error', { error: error.message });
+        res.status(500).json({ error: 'Error fetching audit log' });
+    }
+};
+
 module.exports = {
     getAllUsers,
     getUser,
@@ -300,5 +372,6 @@ module.exports = {
     deleteUser,
     getUserPermissions,
     updateUserPermissions,
-    getAllPermissions
+    getAllPermissions,
+    getAuditLog,
 };

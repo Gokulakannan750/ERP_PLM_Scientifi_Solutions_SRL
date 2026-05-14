@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, Search, MoreVertical, Package, AlertTriangle, ArrowUpRight, ArrowDownRight, History } from 'lucide-react';
+import { Plus, Search, MoreVertical, Package, AlertTriangle, ArrowUpRight, ArrowDownRight, History, PackagePlus, PackageMinus } from 'lucide-react';
 import api from '@/lib/api';
 import ProductHistoryModal from '@/components/modals/ProductHistoryModal';
+import StockCheckInModal from '@/components/modals/StockCheckInModal';
+import StockCheckOutModal from '@/components/modals/StockCheckOutModal';
 
 interface Product {
     id: number;
@@ -14,6 +16,8 @@ interface Product {
     quantity: number;
     minLevel: number;
     version?: number;
+    categoryCode?: string;
+    subcategoryCode?: string;
     supplier?: {
         name: string;
     };
@@ -24,15 +28,19 @@ export default function InventoryPage() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
+    const [selectedProductDetails, setSelectedProductDetails] = useState<{name: string, quantity: number} | null>(null);
     const [showHistory, setShowHistory] = useState(false);
+    const [showCheckIn, setShowCheckIn] = useState(false);
+    const [showCheckOut, setShowCheckOut] = useState(false);
+    const [showObsolete, setShowObsolete] = useState(false);
 
     useEffect(() => {
         fetchProducts();
-    }, []);
+    }, [showObsolete]);
 
     const fetchProducts = async () => {
         try {
-            const response = await api.get('/inventory');
+            const response = await api.get(`/inventory?showObsolete=${showObsolete}`);
             setProducts(response.data);
         } catch (error) {
             console.error('Failed to fetch inventory:', error);
@@ -79,16 +87,28 @@ export default function InventoryPage() {
             </div>
 
             {/* Filters and Search */}
-            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-                <div className="relative max-w-md">
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row gap-4 justify-between items-center">
+                <div className="relative w-full max-w-md">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <input
                         type="text"
                         placeholder="Search products..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-gray-50 dark:bg-gray-900/50 text-gray-900 dark:text-white"
+                        className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-background dark:bg-gray-950 text-gray-900 dark:text-white"
                     />
+                </div>
+                <div className="flex items-center gap-2">
+                    <label className="relative inline-flex items-center cursor-pointer">
+                        <input
+                            type="checkbox"
+                            className="sr-only peer"
+                            checked={showObsolete}
+                            onChange={(e) => setShowObsolete(e.target.checked)}
+                        />
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">Show Obsolete</span>
+                    </label>
                 </div>
             </div>
 
@@ -100,6 +120,7 @@ export default function InventoryPage() {
                             <tr>
                                 <th className="px-6 py-4 font-medium text-sm">Product Name</th>
                                 <th className="px-6 py-4 font-medium text-sm">SKU</th>
+                                <th className="px-6 py-4 font-medium text-sm">Category</th>
                                 <th className="px-6 py-4 font-medium text-sm">Version</th>
                                 <th className="px-6 py-4 font-medium text-sm">Stock Level</th>
                                 <th className="px-6 py-4 font-medium text-sm">Price</th>
@@ -126,20 +147,31 @@ export default function InventoryPage() {
                                         </span>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">
+                                        <div className="flex flex-col gap-1">
+                                            {product.categoryCode ? (
+                                                <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+                                                    {product.categoryCode} {product.subcategoryCode ? `/ ${product.subcategoryCode}` : ''}
+                                                </span>
+                                            ) : <span className="text-gray-400 text-xs">-</span>}
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-status-info/10 text-status-info">
                                             v{product.version || 1}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-2">
                                             <span className={`text-sm font-medium ${product.quantity <= product.minLevel
-                                                ? 'text-red-600 dark:text-red-400'
+                                                ? 'text-status-error'
                                                 : 'text-gray-900 dark:text-white'
                                                 }`}>
                                                 {product.quantity}
                                             </span>
                                             {product.quantity <= product.minLevel && (
-                                                <AlertTriangle className="w-4 h-4 text-red-500" />
+                                                <span title="Low Stock">
+                                                    <AlertTriangle className="w-4 h-4 text-status-error" />
+                                                </span>
                                             )}
                                         </div>
                                     </td>
@@ -152,8 +184,30 @@ export default function InventoryPage() {
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end gap-2">
                                             <button
+                                                onClick={() => {
+                                                    setSelectedProductId(product.id);
+                                                    setSelectedProductDetails({ name: product.name, quantity: product.quantity });
+                                                    setShowCheckIn(true);
+                                                }}
+                                                className="text-green-600 hover:text-green-700 p-1.5 rounded hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
+                                                title="Check In Stock"
+                                            >
+                                                <PackagePlus className="w-4 h-4" />
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    setSelectedProductId(product.id);
+                                                    setSelectedProductDetails({ name: product.name, quantity: product.quantity });
+                                                    setShowCheckOut(true);
+                                                }}
+                                                className="text-amber-600 hover:text-amber-700 p-1.5 rounded hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors"
+                                                title="Check Out Stock"
+                                            >
+                                                <PackageMinus className="w-4 h-4" />
+                                            </button>
+                                            <button
                                                 onClick={() => handleViewHistory(product.id)}
-                                                className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                                                className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ml-2 border-l border-gray-200 dark:border-gray-700"
                                                 title="View History"
                                             >
                                                 <History className="w-4 h-4" />
@@ -193,6 +247,47 @@ export default function InventoryPage() {
                     onClose={() => {
                         setShowHistory(false);
                         setSelectedProductId(null);
+                    }}
+                />
+            )}
+
+            {/* Check In Modal */}
+            {selectedProductId && selectedProductDetails && (
+                <StockCheckInModal
+                    productId={selectedProductId}
+                    productName={selectedProductDetails.name}
+                    isOpen={showCheckIn}
+                    onClose={() => {
+                        setShowCheckIn(false);
+                        setSelectedProductId(null);
+                        setSelectedProductDetails(null);
+                    }}
+                    onSuccess={() => {
+                        setShowCheckIn(false);
+                        setSelectedProductId(null);
+                        setSelectedProductDetails(null);
+                        fetchProducts();
+                    }}
+                />
+            )}
+
+            {/* Check Out Modal */}
+            {selectedProductId && selectedProductDetails && (
+                <StockCheckOutModal
+                    productId={selectedProductId}
+                    productName={selectedProductDetails.name}
+                    currentStock={selectedProductDetails.quantity}
+                    isOpen={showCheckOut}
+                    onClose={() => {
+                        setShowCheckOut(false);
+                        setSelectedProductId(null);
+                        setSelectedProductDetails(null);
+                    }}
+                    onSuccess={() => {
+                        setShowCheckOut(false);
+                        setSelectedProductId(null);
+                        setSelectedProductDetails(null);
+                        fetchProducts();
                     }}
                 />
             )}

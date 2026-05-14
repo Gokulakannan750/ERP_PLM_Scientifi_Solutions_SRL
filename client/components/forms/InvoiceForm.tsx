@@ -8,6 +8,8 @@ import api from '@/lib/api';
 interface Company {
     id: number;
     name: string;
+    vatPercentage?: number | null;
+    paymentTerms?: string | null;
 }
 
 interface Product {
@@ -24,17 +26,9 @@ interface InvoiceItem {
     description: string;
     quantity: number;
     unitPrice: number;
+    discountPercent: number;
+    vatPercent: number;
     totalPrice: number;
-}
-
-interface InvoiceFormData {
-    companyId: string;
-    status: string;
-    date: string;
-    dueDate: string;
-    taxRate: string;
-    notes: string;
-    items: InvoiceItem[];
 }
 
 interface InvoiceFormProps {
@@ -50,174 +44,161 @@ export default function InvoiceForm({ initialData, isEditing = false, isReadOnly
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const [formData, setFormData] = useState<InvoiceFormData>({
-        companyId: initialData?.companyId?.toString() || '',
-        status: initialData?.status || 'UNPAID',
-        date: initialData?.date ? new Date(initialData.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
-        dueDate: initialData?.dueDate ? new Date(initialData.dueDate).toISOString().split('T')[0] : '',
-        taxRate: initialData?.taxRate?.toString() || '0',
-        notes: initialData?.notes || '',
-        items: initialData?.items?.map((item: any) => ({
-            productId: item.productId,
-            description: item.description,
-            quantity: item.quantity,
-            unitPrice: Number(item.unitPrice),
-            totalPrice: Number(item.totalPrice)
-        })) || [{ description: '', quantity: 1, unitPrice: 0, totalPrice: 0 }],
-    });
+    const [companyId, setCompanyId]             = useState(initialData?.companyId?.toString() || '');
+    const [status, setStatus]                   = useState(initialData?.status || 'UNPAID');
+    const [date, setDate]                       = useState(initialData?.date ? new Date(initialData.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]);
+    const [dueDate, setDueDate]                 = useState(initialData?.dueDate ? new Date(initialData.dueDate).toISOString().split('T')[0] : '');
+    const [taxRate, setTaxRate]                 = useState(initialData?.taxRate?.toString() || '0');
+    const [discountPercent, setDiscountPercent] = useState(initialData?.discountPercent?.toString() || '0');
+    const [notes, setNotes]                     = useState(initialData?.notes || '');
+    const [poNumber, setPoNumber]               = useState(initialData?.poNumber || '');
+    const [poDate, setPoDate]                   = useState(initialData?.poDate ? new Date(initialData.poDate).toISOString().split('T')[0] : '');
+    const [paymentMethod, setPaymentMethod]     = useState(initialData?.paymentMethod || '');
+    const [items, setItems]                     = useState<InvoiceItem[]>(
+        initialData?.items?.map((item: any) => {
+            const qty   = Number(item.quantity);
+            const price = Number(item.unitPrice);
+            const disc  = Number(item.discountPercent ?? 0);
+            const vat   = Number(item.vatPercent ?? 0);
+            return {
+                productId:       item.productId,
+                description:     item.description,
+                quantity:        qty,
+                unitPrice:       price,
+                discountPercent: disc,
+                vatPercent:      vat,
+                totalPrice:      qty * price * (1 - disc / 100) * (1 + vat / 100),
+            };
+        }) || [{ description: '', quantity: 1, unitPrice: 0, discountPercent: 0, vatPercent: 0, totalPrice: 0 }]
+    );
 
     useEffect(() => {
         fetchClients();
         fetchProducts();
     }, []);
 
-    // Populate product names when products are loaded (for Edit mode)
+    // Populate product names in edit mode
     useEffect(() => {
-        if (products.length > 0 && formData.items.length > 0) {
-            const updatedItems = formData.items.map(item => {
+        if (products.length > 0) {
+            setItems(prev => prev.map(item => {
                 if (item.productId && !item.productName) {
-                    const product = products.find(p => p.id === item.productId);
-                    if (product) {
-                        return { ...item, productName: product.name };
-                    }
+                    const p = products.find(p => p.id === item.productId);
+                    if (p) return { ...item, productName: p.name };
                 }
                 return item;
-            });
-
-            // Only update if there are changes to avoid infinite loop
-            const hasChanges = updatedItems.some((item, index) => item.productName !== formData.items[index].productName);
-            if (hasChanges) {
-                setFormData(prev => ({ ...prev, items: updatedItems }));
-            }
+            }));
         }
     }, [products]);
 
     const fetchClients = async () => {
-        try {
-            const response = await api.get('/companies');
-            setClients(response.data);
-        } catch (error) {
-            console.error('Failed to fetch clients:', error);
-        }
+        try { setClients((await api.get('/companies')).data); } catch {}
     };
-
     const fetchProducts = async () => {
-        try {
-            const response = await api.get('/inventory');
-            setProducts(response.data);
-        } catch (error) {
-            console.error('Failed to fetch products:', error);
-        }
+        try { setProducts((await api.get('/inventory')).data); } catch {}
     };
 
-    const handleProductSelect = (index: number, product: Product) => {
-        setFormData(prev => {
-            const newItems = [...prev.items];
-            const item = { ...newItems[index] };
+    const parsePaymentTermsDays = (terms: string | null | undefined): number | null => {
+        if (!terms) return null;
+        const t = terms.trim().toUpperCase();
+        if (t === 'COD' || t === 'IMMEDIATE' || t === 'PIA') return 0;
+        const match = t.match(/(\d+)/);
+        return match ? parseInt(match[1]) : null;
+    };
 
-            // Update all fields at once
-            item.productId = product.id;
-            item.productName = product.name;
-            item.description = product.name; // Use name as default description
-            item.unitPrice = Number(product.price);
-            item.totalPrice = item.quantity * Number(product.price);
-            item.isSearchOpen = false;
+    const autoCalcDueDate = (invoiceDate: string, terms: string | null | undefined) => {
+        const days = parsePaymentTermsDays(terms);
+        if (days === null || !invoiceDate) return;
+        const d = new Date(invoiceDate);
+        d.setDate(d.getDate() + days);
+        setDueDate(d.toISOString().split('T')[0]);
+    };
 
-            newItems[index] = item;
-
-            // Auto-append if last item
-            if (index === newItems.length - 1) {
-                newItems.push({ description: '', quantity: 1, unitPrice: 0, totalPrice: 0 });
-            }
-
-            return { ...prev, items: newItems };
-        });
+    const calcLineTotal = (qty: number, price: number, disc: number, vat: number) => {
+        const net = qty * price * (1 - Math.max(0, Math.min(100, disc)) / 100);
+        return net * (1 + Math.max(0, Math.min(100, vat)) / 100);
     };
 
     const handleItemChange = (index: number, field: keyof InvoiceItem, value: any) => {
-        setFormData(prev => {
-            const newItems = [...prev.items];
-            const item = { ...newItems[index], [field]: value };
+        setItems(prev => {
+            const updated = [...prev];
+            const item    = { ...updated[index], [field]: value };
 
-            // Handle Product Search Input
             if (field === 'productName') {
                 item.isSearchOpen = true;
-                // Clear productId if name is manually changed (optional, depends on if you want to allow free-text products)
                 if (!value) item.productId = undefined;
             }
-
-            // Auto-calculate totals
-            if (field === 'quantity' || field === 'unitPrice') {
-                const quantity = field === 'quantity' ? Number(value) : item.quantity;
-                const unitPrice = field === 'unitPrice' ? Number(value) : item.unitPrice;
-                item.totalPrice = quantity * unitPrice;
+            if (field === 'quantity' || field === 'unitPrice' || field === 'discountPercent' || field === 'vatPercent') {
+                const qty   = field === 'quantity'        ? Number(value) : item.quantity;
+                const price = field === 'unitPrice'       ? Number(value) : item.unitPrice;
+                const disc  = field === 'discountPercent' ? Number(value) : item.discountPercent;
+                const vat   = field === 'vatPercent'      ? Number(value) : item.vatPercent;
+                item.totalPrice = calcLineTotal(qty, price, disc, vat);
             }
-
-            // Auto-fill description/price if product selected
-            if (field === 'productId') {
-                const product = products.find(p => p.id === Number(value));
-                if (product) {
-                    item.description = product.name;
-                    item.unitPrice = Number(product.price);
-                    item.totalPrice = item.quantity * Number(product.price);
-                    item.productName = product.name; // Ensure name is set
-                }
-
-                // Auto-append new item if the last item has a product selected
-                if (index === newItems.length - 1) {
-                    newItems.push({ description: '', quantity: 1, unitPrice: 0, totalPrice: 0 });
-                }
-            }
-
-            newItems[index] = item;
-            return { ...prev, items: newItems };
+            updated[index] = item;
+            return updated;
         });
     };
 
-    const addItem = () => {
-        setFormData({
-            ...formData,
-            items: [...formData.items, { description: '', quantity: 1, unitPrice: 0, totalPrice: 0 }]
+    const handleProductSelect = (index: number, product: Product) => {
+        setItems(prev => {
+            const updated = [...prev];
+            const item    = {
+                ...updated[index],
+                productId:   product.id,
+                productName: product.name,
+                description: product.name,
+                unitPrice:   Number(product.price),
+                isSearchOpen: false,
+            };
+            item.totalPrice = calcLineTotal(item.quantity, item.unitPrice, item.discountPercent, item.vatPercent);
+            updated[index]  = item;
+            if (index === updated.length - 1) {
+                updated.push({ description: '', quantity: 1, unitPrice: 0, discountPercent: 0, vatPercent: parseFloat(taxRate) || 0, totalPrice: 0 });
+            }
+            return updated;
         });
     };
 
     const removeItem = (index: number) => {
-        if (formData.items.length === 1) return;
-        const newItems = formData.items.filter((_, i) => i !== index);
-        setFormData({ ...formData, items: newItems });
+        if (items.length === 1) return;
+        setItems(prev => prev.filter((_, i) => i !== index));
     };
 
-    const calculateSubtotal = () => {
-        return formData.items.reduce((sum, item) => sum + (item.totalPrice || 0), 0);
-    };
-
-    const calculateTotal = () => {
-        const subtotal = calculateSubtotal();
-        const tax = subtotal * (parseFloat(formData.taxRate) / 100);
-        return subtotal + tax;
-    };
+    // Per-line VAT already included in each item.totalPrice
+    const subtotalInclVat = items.reduce((s, i) => s + (i.totalPrice || 0), 0);
+    const subtotalExVat   = items.reduce((s, i) => {
+        const net = i.quantity * i.unitPrice * (1 - Math.max(0, Math.min(100, i.discountPercent)) / 100);
+        return s + net;
+    }, 0);
+    const totalVatAmount  = subtotalInclVat - subtotalExVat;
+    const headerDiscount  = subtotalInclVat * (parseFloat(discountPercent) / 100 || 0);
+    const total           = subtotalInclVat - headerDiscount;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError('');
-
         try {
             const payload = {
-                companyId: parseInt(formData.companyId),
-                status: formData.status,
-                date: new Date(formData.date),
-                dueDate: formData.dueDate ? new Date(formData.dueDate) : null,
-                taxRate: parseFloat(formData.taxRate),
-                notes: formData.notes,
-                items: formData.items.map(item => ({
-                    productId: item.productId ? Number(item.productId) : null,
-                    description: item.description,
-                    quantity: Number(item.quantity),
-                    unitPrice: Number(item.unitPrice),
-                    totalPrice: Number(item.totalPrice)
+                companyId:       parseInt(companyId),
+                status, date, taxRate: parseFloat(taxRate),
+                discountPercent: parseFloat(discountPercent) || 0,
+                discountAmount:  headerDiscount,
+                dueDate:         dueDate || null,
+                notes:           notes || null,
+                poNumber:        poNumber || null,
+                poDate:          poDate || null,
+                paymentMethod:   paymentMethod || null,
+                totalAmount:     total,
+                items:           items.map(item => ({
+                    productId:       item.productId ? Number(item.productId) : null,
+                    description:     item.description,
+                    quantity:        Number(item.quantity),
+                    unitPrice:       Number(item.unitPrice),
+                    discountPercent: Number(item.discountPercent || 0),
+                    vatPercent:      Number(item.vatPercent || 0),
+                    totalPrice:      Number(item.totalPrice),
                 })),
-                totalAmount: calculateTotal()
             };
 
             if (isEditing && initialData?.id) {
@@ -225,18 +206,19 @@ export default function InvoiceForm({ initialData, isEditing = false, isReadOnly
             } else {
                 await api.post('/invoices', payload);
             }
-
             router.push('/dashboard/invoices');
             router.refresh();
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Something went wrong. Please try again.');
+            setError(err.response?.data?.error || err.response?.data?.message || 'Something went wrong.');
         } finally {
             setLoading(false);
         }
     };
 
+    const inputCls = 'w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent';
+
     return (
-        <form onSubmit={handleSubmit} className={`space-y-6 ${isReadOnly ? 'pointer-events-none opacity-90' : ''}`}>
+        <form onSubmit={handleSubmit} className="space-y-6">
             <fieldset disabled={isReadOnly} className="space-y-6">
             {error && (
                 <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl flex items-center gap-3 text-red-600 dark:text-red-400">
@@ -247,42 +229,36 @@ export default function InvoiceForm({ initialData, isEditing = false, isReadOnly
 
             {/* Invoice Details */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    Invoice Details
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Client */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Client *
-                        </label>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Invoice Details</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Client *</label>
                         <select
-                            required
-                            value={formData.companyId}
-                            onChange={(e) => setFormData({ ...formData, companyId: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            required value={companyId}
+                            onChange={e => {
+                                const id     = e.target.value;
+                                const client = clients.find(c => c.id.toString() === id);
+                                setCompanyId(id);
+                                const newVat = client?.vatPercentage != null ? client.vatPercentage.toString() : taxRate;
+                                if (client?.vatPercentage != null) setTaxRate(newVat);
+                                autoCalcDueDate(date, client?.paymentTerms);
+                                // Pre-fill vatPercent on existing blank items
+                                const vatVal = parseFloat(newVat) || 0;
+                                setItems(prev => prev.map(item =>
+                                    item.vatPercent === 0 ? { ...item, vatPercent: vatVal, totalPrice: calcLineTotal(item.quantity, item.unitPrice, item.discountPercent, vatVal) } : item
+                                ));
+                            }}
+                            className={inputCls}
                         >
                             <option value="">Select Client</option>
-                            {clients.map((client) => (
-                                <option key={client.id} value={client.id}>
-                                    {client.name}
-                                </option>
-                            ))}
+                            {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                         </select>
                     </div>
 
-                    {/* Status */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Status
-                        </label>
-                        <select
-                            value={formData.status}
-                            onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                        >
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                        <select value={status} onChange={e => setStatus(e.target.value)} className={inputCls}>
                             <option value="DRAFT">Draft</option>
-                            <option value="PENDING">Pending</option>
                             <option value="UNPAID">Unpaid</option>
                             <option value="PAID">Paid</option>
                             <option value="OVERDUE">Overdue</option>
@@ -290,153 +266,136 @@ export default function InvoiceForm({ initialData, isEditing = false, isReadOnly
                         </select>
                     </div>
 
-                    {/* Invoice Date */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Invoice Date *
-                        </label>
-                        <input
-                            type="date"
-                            required
-                            value={formData.date}
-                            onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                        />
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Invoice Date *</label>
+                        <input type="date" required value={date} onChange={e => {
+                            setDate(e.target.value);
+                            const client = clients.find(c => c.id.toString() === companyId);
+                            autoCalcDueDate(e.target.value, client?.paymentTerms);
+                        }} className={inputCls} />
                     </div>
 
-                    {/* Due Date */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Due Date
-                        </label>
-                        <input
-                            type="date"
-                            value={formData.dueDate}
-                            onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                        />
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Due Date</label>
+                        <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} className={inputCls} />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Payment Method</label>
+                        <select value={paymentMethod} onChange={e => setPaymentMethod(e.target.value)} className={inputCls}>
+                            <option value="">Not specified</option>
+                            <option value="BANK_TRANSFER">Bank Transfer</option>
+                            <option value="CASH">Cash</option>
+                            <option value="CREDIT_CARD">Credit Card</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">PO Number (Customer)</label>
+                        <input type="text" value={poNumber} onChange={e => setPoNumber(e.target.value)} placeholder="e.g. PO-2024-001" className={inputCls} />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">PO Date</label>
+                        <input type="date" value={poDate} onChange={e => setPoDate(e.target.value)} className={inputCls} />
                     </div>
                 </div>
             </div>
 
             {/* Line Items */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-                <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                        Line Items
-                    </h3>
-                    {/* <button
-                        type="button"
-                        onClick={addItem}
-                        className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 font-medium"
-                    >
-                        <Plus className="w-4 h-4" />
-                        Add Item
-                    </button> */}
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Line Items</h3>
+
+                {/* Header row */}
+                <div className="hidden md:grid grid-cols-12 gap-2 text-xs font-medium text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
+                    <div className="col-span-3">Item / Description</div>
+                    <div className="col-span-2 text-center">Qty</div>
+                    <div className="col-span-2 text-right">Unit Price</div>
+                    <div className="col-span-1 text-right">Disc%</div>
+                    <div className="col-span-1 text-right">VAT%</div>
+                    <div className="col-span-2 text-right">Total (incl. VAT)</div>
+                    <div className="col-span-1" />
                 </div>
 
-                <div className="space-y-4">
-                    <div className="grid grid-cols-12 gap-4 text-sm font-medium text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 pb-2">
-                        <div className="col-span-4">Item details</div>
-                        <div className="col-span-2 text-center">Quantity</div>
-                        <div className="col-span-2 text-right">Price</div>
-                        <div className="col-span-3 text-right">Total</div>
-                        <div className="col-span-1"></div>
-                    </div>
-
-                    {formData.items.map((item, index) => (
-                        <div key={index} className="grid grid-cols-12 gap-4 items-start">
-                            <div className="col-span-4 space-y-2 relative">
-                                {/* Product Search Input */}
-                                <div className="relative search-container">
+                <div className="space-y-3">
+                    {items.map((item, index) => (
+                        <div key={index} className="grid grid-cols-12 gap-2 items-start">
+                            {/* Product search + description */}
+                            <div className="col-span-12 md:col-span-3 space-y-1 relative">
+                                <div className="relative">
                                     <input
                                         type="text"
-                                        placeholder="Search Product..."
+                                        placeholder="Search product..."
                                         value={item.productName || ''}
-                                        onChange={(e) => handleItemChange(index, 'productName', e.target.value)}
+                                        onChange={e => handleItemChange(index, 'productName', e.target.value)}
                                         onFocus={() => handleItemChange(index, 'isSearchOpen', true)}
                                         autoComplete="off"
-                                        className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                                        className={inputCls}
                                     />
-                                    {/* Dropdown Suggestions */}
                                     {item.isSearchOpen && (
                                         <>
-                                            {/* Backdrop to close on click outside */}
-                                            <div
-                                                className="fixed inset-0 z-40 cursor-default"
-                                                onClick={() => handleItemChange(index, 'isSearchOpen', false)}
-                                            ></div>
-
-                                            <div className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl max-h-60 overflow-y-auto">
+                                            <div className="fixed inset-0 z-40" onClick={() => handleItemChange(index, 'isSearchOpen', false)} />
+                                            <div className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl max-h-48 overflow-y-auto">
                                                 {products
                                                     .filter(p => !item.productName || p.name.toLowerCase().includes(item.productName.toLowerCase()))
-                                                    .map((p) => (
-                                                        <button
-                                                            key={p.id}
-                                                            type="button"
-                                                            onMouseDown={(e) => {
-                                                                // Prevent blur from firing before click
-                                                                e.preventDefault();
-                                                                handleProductSelect(index, p);
-                                                            }}
-                                                            className="w-full text-left px-4 py-3 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white border-b border-gray-100 dark:border-gray-700 last:border-0"
+                                                    .map(p => (
+                                                        <button key={p.id} type="button"
+                                                            onMouseDown={e => { e.preventDefault(); handleProductSelect(index, p); }}
+                                                            className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 last:border-0"
                                                         >
-                                                            <div className="font-semibold text-gray-900 dark:text-gray-100">{p.name}</div>
-                                                            <div className="flex justify-between mt-1">
-                                                                <span className="text-xs text-gray-500">SKU: {p.sku}</span>
-                                                                <span className="text-xs font-medium text-blue-600 dark:text-blue-400">₹{p.price}</span>
+                                                            <div className="font-medium">{p.name}</div>
+                                                            <div className="flex justify-between text-xs text-gray-500 mt-0.5">
+                                                                <span>SKU: {p.sku}</span>
+                                                                <span className="text-blue-600">₹{p.price}</span>
                                                             </div>
                                                         </button>
                                                     ))}
                                                 {products.filter(p => !item.productName || p.name.toLowerCase().includes(item.productName.toLowerCase())).length === 0 && (
-                                                    <div className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 italic text-center">No products found</div>
+                                                    <div className="px-3 py-2 text-sm text-gray-400 italic text-center">No products found</div>
                                                 )}
                                             </div>
                                         </>
                                     )}
                                 </div>
-                                <input
-                                    type="text"
-                                    placeholder="Description"
-                                    value={item.description}
-                                    onChange={(e) => handleItemChange(index, 'description', e.target.value)}
-                                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                                />
+                                <input type="text" placeholder="Description" value={item.description}
+                                    onChange={e => handleItemChange(index, 'description', e.target.value)}
+                                    className={inputCls} />
                             </div>
 
-                            <div className="col-span-2">
-                                <input
-                                    type="number"
-                                    min="1"
-                                    value={item.quantity}
-                                    onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                                    className="w-full px-3 py-2 text-sm text-center border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                                />
+                            <div className="col-span-4 md:col-span-2">
+                                <input type="number" min="1" value={item.quantity}
+                                    onChange={e => handleItemChange(index, 'quantity', e.target.value)}
+                                    className={`${inputCls} text-center`} />
                             </div>
 
-                            <div className="col-span-2">
-                                <input
-                                    type="number"
-                                    min="0"
-                                    step="0.01"
-                                    value={item.unitPrice}
-                                    onChange={(e) => handleItemChange(index, 'unitPrice', e.target.value)}
-                                    className="w-full px-3 py-2 text-sm text-right border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                                />
+                            <div className="col-span-4 md:col-span-2">
+                                <input type="number" min="0" step="0.01" value={item.unitPrice}
+                                    onChange={e => handleItemChange(index, 'unitPrice', e.target.value)}
+                                    className={`${inputCls} text-right`} />
                             </div>
 
-                            <div className="col-span-3 text-right py-2 text-sm font-medium text-gray-900 dark:text-white">
-                                ₹{item.totalPrice.toFixed(2)}
+                            <div className="col-span-2 md:col-span-1">
+                                <input type="number" min="0" max="100" step="0.1" value={item.discountPercent}
+                                    onChange={e => handleItemChange(index, 'discountPercent', e.target.value)}
+                                    className={`${inputCls} text-right`} />
                             </div>
 
-                            <div className="col-span-1 text-center py-2">
+                            <div className="col-span-2 md:col-span-1">
+                                <input type="number" min="0" max="100" step="0.1" value={item.vatPercent ?? 0}
+                                    onChange={e => handleItemChange(index, 'vatPercent', e.target.value)}
+                                    className={`${inputCls} text-right`} />
+                            </div>
+
+                            <div className="col-span-6 md:col-span-2 text-right py-2 text-sm font-medium text-gray-900 dark:text-white">
+                                ₹{(item.totalPrice || 0).toFixed(2)}
+                            </div>
+
+                            <div className="col-span-2 md:col-span-1 text-center py-2">
                                 {!isReadOnly && (
-                                    <button
-                                        type="button"
-                                        onClick={() => removeItem(index)}
+                                    <button type="button" onClick={() => removeItem(index)}
                                         className="text-red-500 hover:text-red-700 transition-colors pointer-events-auto"
-                                        disabled={formData.items.length === 1}
-                                    >
+                                        disabled={items.length === 1}>
                                         <Trash2 className="w-4 h-4" />
                                     </button>
                                 )}
@@ -446,26 +405,45 @@ export default function InvoiceForm({ initialData, isEditing = false, isReadOnly
                 </div>
 
                 {/* Totals */}
-                <div className="mt-8 pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-end">
-                    <div className="w-64 space-y-3">
-                        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
-                            <span>Subtotal</span>
-                            <span>₹{calculateSubtotal().toFixed(2)}</span>
+                <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-end">
+                    <div className="w-80 space-y-2 text-sm">
+                        <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                            <span>Subtotal (ex. VAT)</span>
+                            <span>₹{subtotalExVat.toFixed(2)}</span>
                         </div>
-                        <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-400">
-                            <span>Tax Rate (%)</span>
-                            <input
-                                type="number"
-                                min="0"
-                                step="0.1"
-                                value={formData.taxRate}
-                                onChange={(e) => setFormData({ ...formData, taxRate: e.target.value })}
-                                className="w-20 px-2 py-1 text-right border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                            />
+                        <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                            <span>Total VAT (per line)</span>
+                            <span>₹{totalVatAmount.toFixed(2)}</span>
                         </div>
-                        <div className="flex justify-between text-lg font-bold text-gray-900 dark:text-white pt-3 border-t border-gray-200 dark:border-gray-600">
+                        <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                            <span>Subtotal (incl. VAT)</span>
+                            <span>₹{subtotalInclVat.toFixed(2)}</span>
+                        </div>
+
+                        <div className="flex justify-between items-center text-gray-600 dark:text-gray-400">
+                            <span>Header Discount %</span>
+                            <input type="number" min="0" max="100" step="0.1" value={discountPercent}
+                                onChange={e => setDiscountPercent(e.target.value)}
+                                className="w-20 px-2 py-1 text-right border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+                        </div>
+
+                        {headerDiscount > 0 && (
+                            <div className="flex justify-between text-red-500 dark:text-red-400">
+                                <span>Discount Amount</span>
+                                <span>- ₹{headerDiscount.toFixed(2)}</span>
+                            </div>
+                        )}
+
+                        <div className="flex justify-between items-center text-gray-500 dark:text-gray-500 text-xs pt-1">
+                            <span>Default VAT % (for new lines)</span>
+                            <input type="number" min="0" step="0.1" value={taxRate}
+                                onChange={e => setTaxRate(e.target.value)}
+                                className="w-20 px-2 py-1 text-right border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+                        </div>
+
+                        <div className="flex justify-between text-lg font-bold text-gray-900 dark:text-white pt-2 border-t border-gray-200 dark:border-gray-600">
                             <span>Total</span>
-                            <span>₹{calculateTotal().toFixed(2)}</span>
+                            <span>₹{total.toFixed(2)}</span>
                         </div>
                     </div>
                 </div>
@@ -473,40 +451,25 @@ export default function InvoiceForm({ initialData, isEditing = false, isReadOnly
 
             {/* Notes */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Payment Terms / Notes
-                </label>
-                <textarea
-                    rows={3}
-                    value={formData.notes}
-                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                    placeholder="e.g., Payment due within 15 days..."
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                />
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Payment Terms / Notes</label>
+                <textarea rows={3} value={notes} onChange={e => setNotes(e.target.value)}
+                    placeholder="e.g. Payment due within 30 days via bank transfer..."
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500" />
             </div>
-
             </fieldset>
 
-            {/* Form Actions */}
-            <div className={`flex items-center justify-end gap-4 ${isReadOnly ? 'pointer-events-auto opacity-100' : ''}`}>
-                <button
-                    type="button"
-                    onClick={() => router.back()}
-                    className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                >
+            {/* Actions */}
+            <div className={`flex items-center justify-end gap-4 ${isReadOnly ? 'pointer-events-auto' : ''}`}>
+                <button type="button" onClick={() => router.back()}
+                    className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                     {isReadOnly ? 'Back' : 'Cancel'}
                 </button>
                 {!isReadOnly && (
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {loading ? (
-                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        ) : (
-                            <Save className="w-4 h-4" />
-                        )}
+                    <button type="submit" disabled={loading}
+                        className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm disabled:opacity-50">
+                        {loading
+                            ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            : <Save className="w-4 h-4" />}
                         {isEditing ? 'Update Invoice' : 'Create Invoice'}
                     </button>
                 )}

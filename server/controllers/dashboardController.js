@@ -17,18 +17,16 @@ const getStats = async (req, res) => {
         // 2. Active Projects
         const activeProjects = await prisma.project.count({
             where: {
-                status: 'active'
+                status: 'ACTIVE'
             }
         });
 
-        // 3. Low Stock Items (quantity <= minLevel)
-        const lowStockItems = await prisma.product.count({
-            where: {
-                quantity: {
-                    lte: prisma.product.fields.minLevel
-                }
-            }
-        });
+        // 3. Low Stock Items (quantity <= minLevel per product, latest versions only)
+        const lowStockResult = await prisma.$queryRaw`
+            SELECT COUNT(*) as count FROM "Product"
+            WHERE "isLatest" = 1 AND "quantity" <= "minLevel"
+        `;
+        const lowStockItems = parseInt(lowStockResult[0]?.count ?? 0);
 
         // 4. Total Users
         const totalUsers = await prisma.user.count();

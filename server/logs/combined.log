@@ -3470,3 +3470,232 @@ Unique constraint failed on the fields: (`sku`)
 2026-02-28 19:27:05 [INFO]: GET /api/invoices
 2026-02-28 19:27:34 [INFO]: GET /api/offers
 2026-02-28 19:27:34 [INFO]: GET /api/offers
+2026-05-10 17:22:36 [INFO]: Server running on http://0.0.0.0:3001
+2026-05-10 17:22:36 [INFO]: Access from network at http://192.168.1.4:3001
+2026-05-10 21:03:36 [INFO]: Server running on http://0.0.0.0:3001
+2026-05-10 21:03:36 [INFO]: Access from network at http://192.168.1.4:3001
+2026-05-10 21:06:58 [INFO]: Server running on http://0.0.0.0:3001
+2026-05-10 21:06:58 [INFO]: Access from network at http://192.168.1.4:3001
+2026-05-10 21:19:34 [INFO]: Server running on http://0.0.0.0:3001
+2026-05-10 21:19:34 [INFO]: Access from network at http://192.168.1.4:3001
+2026-05-10 22:11:14 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-10 22:11:14 [INFO]: Access from network at http://192.168.1.4:5000
+2026-05-10 22:11:25 [INFO]: POST /api/auth/login
+2026-05-10 22:11:25 [INFO]: Successful login
+2026-05-10 22:13:20 [INFO]: POST /api/auth/login
+2026-05-10 22:13:21 [INFO]: Successful login
+2026-05-10 22:13:22 [INFO]: GET /api/dashboard/stats
+2026-05-10 22:13:22 [INFO]: GET /api/dashboard/activity
+2026-05-10 22:13:22 [INFO]: GET /api/dashboard/activity
+2026-05-10 22:13:22 [INFO]: GET /api/dashboard/stats
+2026-05-10 22:13:26 [INFO]: GET /api/companies
+2026-05-10 22:13:26 [INFO]: GET /api/companies
+2026-05-10 22:13:29 [INFO]: GET /api/contacts
+2026-05-10 22:13:29 [INFO]: GET /api/contacts
+2026-05-10 22:13:31 [INFO]: GET /api/inventory
+2026-05-10 22:13:31 [INFO]: GET /api/inventory
+2026-05-10 22:13:32 [INFO]: GET /api/projects
+2026-05-10 22:13:32 [INFO]: GET /api/projects
+2026-05-10 22:13:34 [INFO]: GET /api/offers
+2026-05-10 22:13:34 [INFO]: GET /api/offers
+2026-05-10 22:13:35 [INFO]: GET /api/invoices
+2026-05-10 22:13:35 [INFO]: GET /api/invoices
+2026-05-10 22:13:37 [INFO]: GET /api/settings
+2026-05-10 22:13:37 [INFO]: GET /api/settings
+2026-05-10 22:13:44 [INFO]: GET /api/admin/users
+2026-05-10 22:13:44 [INFO]: GET /api/admin/permissions
+2026-05-10 22:13:44 [INFO]: Retrieved all users
+2026-05-10 22:13:44 [INFO]: GET /api/admin/users
+2026-05-10 22:13:44 [INFO]: GET /api/admin/permissions
+2026-05-10 22:13:44 [INFO]: Retrieved all users
+2026-05-10 22:24:26 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-10 22:24:26 [INFO]: Access from network at http://192.168.1.4:5000
+2026-05-10 22:24:39 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-10 22:24:39 [INFO]: Access from network at http://192.168.1.4:5000
+2026-05-10 22:25:09 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-10 22:25:09 [INFO]: Access from network at http://192.168.1.4:5000
+2026-05-10 22:25:19 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-10 22:25:19 [INFO]: Access from network at http://192.168.1.4:5000
+2026-05-10 22:25:31 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-10 22:25:31 [INFO]: Access from network at http://192.168.1.4:5000
+2026-05-10 22:25:46 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-10 22:25:46 [INFO]: Access from network at http://192.168.1.4:5000
+2026-05-10 22:28:34 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-10 22:28:34 [INFO]: Access from network at http://192.168.1.4:5000
+2026-05-10 22:30:45 [INFO]: POST /api/auth/login
+2026-05-10 22:30:46 [INFO]: Successful login
+2026-05-10 22:30:47 [INFO]: GET /api/dashboard/stats
+2026-05-10 22:30:47 [INFO]: GET /api/dashboard/activity
+2026-05-10 22:30:47 [INFO]: GET /api/dashboard/activity
+2026-05-10 22:30:47 [INFO]: GET /api/dashboard/stats
+2026-05-10 22:30:50 [INFO]: GET /api/inventory
+2026-05-10 22:30:50 [INFO]: GET /api/inventory
+2026-05-10 22:30:54 [INFO]: GET /api/product-categories
+2026-05-10 22:30:54 [INFO]: GET /api/companies
+2026-05-10 22:30:54 [INFO]: GET /api/product-categories
+2026-05-10 22:30:54 [INFO]: GET /api/companies
+2026-05-10 22:30:57 [INFO]: POST /api/auth/login
+2026-05-10 22:30:57 [INFO]: Successful login
+2026-05-10 22:30:58 [INFO]: GET /api/dashboard/stats
+2026-05-10 22:30:58 [INFO]: GET /api/dashboard/activity
+2026-05-10 22:30:58 [INFO]: GET /api/dashboard/activity
+2026-05-10 22:30:58 [INFO]: GET /api/dashboard/stats
+2026-05-11 11:52:30 [INFO]: GET /api/plm/items
+2026-05-11 11:52:30 [INFO]: GET /api/plm/items
+2026-05-11 11:52:30 [INFO]: POST /api/plm/items
+2026-05-11 11:52:30 [INFO]: POST /api/plm/items
+2026-05-11 11:52:30 [INFO]: POST /api/plm/items
+2026-05-11 11:52:30 [INFO]: POST /api/plm/items/1/checkout
+2026-05-11 11:52:30 [INFO]: POST /api/plm/items/1/checkout
+2026-05-11 11:52:30 [INFO]: POST /api/plm/items/1/checkout
+2026-05-11 11:52:30 [INFO]: PATCH /api/plm/items/1/state
+2026-05-11 11:52:30 [INFO]: PATCH /api/plm/items/1/state
+2026-05-11 11:52:30 [INFO]: PATCH /api/plm/items/1/state
+2026-05-11 11:52:31 [INFO]: GET /api/inventory
+2026-05-11 11:52:31 [INFO]: GET /api/inventory
+2026-05-11 11:52:31 [INFO]: POST /api/inventory
+2026-05-11 11:52:31 [INFO]: POST /api/inventory
+2026-05-11 11:52:31 [INFO]: GET /api/inventory/999
+2026-05-11 11:52:31 [INFO]: GET /api/inventory/5
+2026-05-11 11:52:31 [INFO]: POST /api/inventory/1/check-in
+2026-05-11 11:52:31 [INFO]: POST /api/inventory/1/check-in
+2026-05-11 11:52:32 [INFO]: POST /api/auth/login
+2026-05-11 11:52:32 [WARN]: Failed login attempt
+2026-05-11 11:52:32 [INFO]: POST /api/auth/login
+2026-05-11 11:52:32 [INFO]: Successful login
+2026-05-11 11:52:32 [INFO]: POST /api/auth/login
+2026-05-11 11:52:32 [WARN]: Failed login attempt
+2026-05-11 11:52:32 [INFO]: POST /api/auth/register
+2026-05-11 11:52:32 [INFO]: POST /api/auth/register
+2026-05-11 11:52:32 [INFO]: New user registered
+2026-05-11 11:58:40 [INFO]: GET /api/plm/items
+2026-05-11 11:58:40 [INFO]: GET /api/plm/items
+2026-05-11 11:58:40 [INFO]: POST /api/plm/items
+2026-05-11 11:58:40 [INFO]: POST /api/plm/items
+2026-05-11 11:58:40 [INFO]: POST /api/plm/items
+2026-05-11 11:58:40 [INFO]: POST /api/plm/items/1/checkout
+2026-05-11 11:58:40 [INFO]: POST /api/plm/items/1/checkout
+2026-05-11 11:58:40 [INFO]: POST /api/plm/items/1/checkout
+2026-05-11 11:58:40 [INFO]: PATCH /api/plm/items/1/state
+2026-05-11 11:58:40 [INFO]: PATCH /api/plm/items/1/state
+2026-05-11 11:58:40 [INFO]: PATCH /api/plm/items/1/state
+2026-05-11 11:58:43 [INFO]: GET /api/inventory
+2026-05-11 11:58:43 [INFO]: GET /api/inventory
+2026-05-11 11:58:43 [INFO]: POST /api/inventory
+2026-05-11 11:58:43 [INFO]: POST /api/inventory
+2026-05-11 11:58:43 [INFO]: GET /api/inventory/999
+2026-05-11 11:58:43 [INFO]: GET /api/inventory/5
+2026-05-11 11:58:43 [INFO]: POST /api/inventory/1/check-in
+2026-05-11 11:58:43 [INFO]: POST /api/inventory/1/check-in
+2026-05-11 11:58:45 [INFO]: POST /api/auth/login
+2026-05-11 11:58:45 [WARN]: Failed login attempt
+2026-05-11 11:58:45 [INFO]: POST /api/auth/login
+2026-05-11 11:58:45 [INFO]: Successful login
+2026-05-11 11:58:45 [INFO]: POST /api/auth/login
+2026-05-11 11:58:45 [WARN]: Failed login attempt
+2026-05-11 11:58:45 [INFO]: POST /api/auth/register
+2026-05-11 11:58:45 [INFO]: POST /api/auth/register
+2026-05-11 11:58:45 [INFO]: New user registered
+2026-05-11 12:27:44 [INFO]: GET /api/plm/items
+2026-05-11 12:27:44 [INFO]: GET /api/plm/items
+2026-05-11 12:27:44 [INFO]: POST /api/plm/items
+2026-05-11 12:27:44 [INFO]: POST /api/plm/items
+2026-05-11 12:27:44 [INFO]: POST /api/plm/items
+2026-05-11 12:27:44 [INFO]: POST /api/plm/items/1/checkout
+2026-05-11 12:27:44 [INFO]: POST /api/plm/items/1/checkout
+2026-05-11 12:27:44 [INFO]: POST /api/plm/items/1/checkout
+2026-05-11 12:27:44 [INFO]: PATCH /api/plm/items/1/state
+2026-05-11 12:27:44 [INFO]: PATCH /api/plm/items/1/state
+2026-05-11 12:27:44 [INFO]: PATCH /api/plm/items/1/state
+2026-05-11 12:27:45 [INFO]: GET /api/inventory
+2026-05-11 12:27:45 [INFO]: GET /api/inventory
+2026-05-11 12:27:45 [INFO]: POST /api/inventory
+2026-05-11 12:27:45 [INFO]: POST /api/inventory
+2026-05-11 12:27:45 [INFO]: GET /api/inventory/999
+2026-05-11 12:27:45 [INFO]: GET /api/inventory/5
+2026-05-11 12:27:45 [INFO]: POST /api/inventory/1/check-in
+2026-05-11 12:27:45 [INFO]: POST /api/inventory/1/check-in
+2026-05-11 12:27:46 [INFO]: POST /api/auth/login
+2026-05-11 12:27:46 [WARN]: Failed login attempt
+2026-05-11 12:27:46 [INFO]: POST /api/auth/login
+2026-05-11 12:27:46 [INFO]: Successful login
+2026-05-11 12:27:46 [INFO]: POST /api/auth/login
+2026-05-11 12:27:46 [WARN]: Failed login attempt
+2026-05-11 12:27:46 [INFO]: POST /api/auth/register
+2026-05-11 12:27:46 [INFO]: POST /api/auth/register
+2026-05-11 12:27:46 [INFO]: New user registered
+2026-05-11 12:54:10 [INFO]: GET /api/plm/items
+2026-05-11 12:54:10 [INFO]: GET /api/plm/items
+2026-05-11 12:54:10 [INFO]: POST /api/plm/items
+2026-05-11 12:54:10 [INFO]: POST /api/plm/items
+2026-05-11 12:54:10 [INFO]: POST /api/plm/items
+2026-05-11 12:54:10 [INFO]: POST /api/plm/items/1/checkout
+2026-05-11 12:54:10 [INFO]: POST /api/plm/items/1/checkout
+2026-05-11 12:54:10 [INFO]: POST /api/plm/items/1/checkout
+2026-05-11 12:54:10 [INFO]: PATCH /api/plm/items/1/state
+2026-05-11 12:54:10 [INFO]: PATCH /api/plm/items/1/state
+2026-05-11 12:54:10 [INFO]: PATCH /api/plm/items/1/state
+2026-05-11 12:54:11 [INFO]: GET /api/inventory
+2026-05-11 12:54:11 [INFO]: GET /api/inventory
+2026-05-11 12:54:11 [INFO]: POST /api/inventory
+2026-05-11 12:54:11 [INFO]: POST /api/inventory
+2026-05-11 12:54:11 [INFO]: GET /api/inventory/999
+2026-05-11 12:54:11 [INFO]: GET /api/inventory/5
+2026-05-11 12:54:11 [INFO]: POST /api/inventory/1/check-in
+2026-05-11 12:54:11 [INFO]: POST /api/inventory/1/check-in
+2026-05-11 12:54:12 [INFO]: POST /api/auth/login
+2026-05-11 12:54:12 [WARN]: Failed login attempt
+2026-05-11 12:54:12 [INFO]: POST /api/auth/login
+2026-05-11 12:54:12 [INFO]: Successful login
+2026-05-11 12:54:12 [INFO]: POST /api/auth/login
+2026-05-11 12:54:12 [WARN]: Failed login attempt
+2026-05-11 12:54:12 [INFO]: POST /api/auth/register
+2026-05-11 12:54:12 [INFO]: POST /api/auth/register
+2026-05-11 12:54:12 [INFO]: New user registered
+2026-05-11 21:16:55 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-11 21:16:55 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-11 21:17:03 [INFO]: GET /api/admin/users/1/permissions
+2026-05-11 21:17:03 [INFO]: GET /api/admin/users/1/permissions
+2026-05-11 21:17:03 [INFO]: GET /api/admin/users/1/permissions
+2026-05-11 21:17:03 [INFO]: GET /api/dashboard/stats
+2026-05-11 21:17:03 [INFO]: GET /api/dashboard/activity
+2026-05-11 21:17:03 [INFO]: GET /api/dashboard/activity
+2026-05-11 21:17:03 [INFO]: GET /api/dashboard/stats
+2026-05-11 21:17:07 [INFO]: GET /api/companies
+2026-05-11 21:17:07 [INFO]: GET /api/companies
+2026-05-11 21:17:08 [INFO]: GET /api/contacts
+2026-05-11 21:17:08 [INFO]: GET /api/contacts
+2026-05-11 21:17:09 [INFO]: GET /api/inventory
+2026-05-11 21:17:09 [INFO]: GET /api/inventory
+2026-05-11 21:17:10 [INFO]: GET /api/plm/items
+2026-05-11 21:17:10 [INFO]: GET /api/plm/materials
+2026-05-11 21:17:10 [INFO]: GET /api/plm/items
+2026-05-11 21:17:10 [INFO]: GET /api/plm/materials
+2026-05-11 21:17:13 [INFO]: GET /api/projects
+2026-05-11 21:17:13 [INFO]: GET /api/projects
+2026-05-11 21:17:14 [INFO]: GET /api/offers
+2026-05-11 21:17:14 [INFO]: GET /api/offers
+2026-05-11 21:17:15 [INFO]: GET /api/invoices
+2026-05-11 21:17:15 [INFO]: GET /api/invoices
+2026-05-11 21:17:16 [INFO]: GET /api/invoices/revenue
+2026-05-11 21:17:16 [INFO]: GET /api/invoices/revenue
+2026-05-11 21:17:17 [INFO]: GET /api/credit-notes
+2026-05-11 21:17:17 [INFO]: GET /api/credit-notes
+2026-05-11 21:17:19 [INFO]: GET /api/purchase-requests
+2026-05-11 21:17:19 [INFO]: GET /api/purchase-requests/stats
+2026-05-11 21:17:19 [INFO]: GET /api/purchase-requests
+2026-05-11 21:17:19 [INFO]: GET /api/purchase-requests/stats
+2026-05-11 21:17:21 [INFO]: GET /api/delivery-notes
+2026-05-11 21:17:21 [INFO]: GET /api/delivery-notes
+2026-05-11 21:17:23 [INFO]: GET /api/settings
+2026-05-11 21:17:23 [INFO]: GET /api/settings
+2026-05-11 21:17:33 [INFO]: GET /api/dashboard/stats
+2026-05-11 21:17:33 [INFO]: GET /api/dashboard/activity
+2026-05-11 21:17:33 [INFO]: GET /api/dashboard/activity
+2026-05-11 21:17:33 [INFO]: GET /api/dashboard/stats
+2026-05-11 21:17:35 [INFO]: GET /api/companies
+2026-05-11 21:17:35 [INFO]: GET /api/companies
+2026-05-11 21:17:41 [INFO]: GET /api/contacts
+2026-05-11 21:17:41 [INFO]: GET /api/contacts
+2026-05-11 21:18:59 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-11 21:18:59 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs

@@ -10,7 +10,7 @@ export default function Header() {
     const { theme, toggleTheme } = useTheme();
 
     return (
-        <header className="h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6 z-10 transition-colors duration-300">
+        <header className="h-16 bg-card-bg dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-6 z-10 transition-colors duration-300">
             {/* Search Bar */}
             <div className="flex-1 max-w-lg">
                 <div className="relative">
@@ -18,7 +18,7 @@ export default function Header() {
                     <input
                         type="text"
                         placeholder="Search anything..."
-                        className="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-gray-900 dark:text-white placeholder-gray-400"
+                        className="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-background dark:bg-gray-950 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-gray-900 dark:text-white placeholder-gray-400"
                     />
                 </div>
             </div>
