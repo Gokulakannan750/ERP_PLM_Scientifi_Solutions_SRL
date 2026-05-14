@@ -1,0 +1,272 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String
+  role        String   @default("SUB_ADMIN") // ADMIN or SUB_ADMIN
+  name        String?  // User's full name
+  isActive    Boolean  @default(true)
+  
+  // Permission relationships
+  permissions UserPermission[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([email])
+  @@index([role])
+  @@index([createdAt])
+}
+
+model Permission {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique // e.g., "MANAGE_OFFERS", "MANAGE_INVOICES"
+  description String?
+  category    String   // e.g., "OFFERS", "INVOICES", "SETTINGS"
+  
+  users       UserPermission[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model UserPermission {
+  id           Int        @id @default(autoincrement())
+  userId       Int
+  permissionId Int
+  
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  
+  createdAt    DateTime   @default(now())
+  
+  @@unique([userId, permissionId])
+}
+
+// Categories for Companies (e.g. Supplier, Customer)
+model ContactCategory {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique 
+  description String?
+  
+  companies   Company[]
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Company {
+  id          Int       @id @default(autoincrement())
+  name        String
+  website     String?
+  email       String?   // General Company Email
+  phone       String?   // General Company Phone
+  
+  categoryId  Int?
+  category    ContactCategory? @relation(fields: [categoryId], references: [id])
+  
+  addresses   Address[]
+  contacts    Contact[] // People
+  
+  // Relations to other modules
+  projects    Project[]
+  products    Product[] // Suppliers
+  invoices    Invoice[]
+  offers      Offer[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([name])
+  @@index([categoryId])
+  @@index([createdAt])
+}
+
+model Address {
+  id          Int      @id @default(autoincrement())
+  street      String?
+  city        String?
+  state        String?
+  pincode     String?
+  country     String?
+  
+  companyId   Int
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  
+  contacts    Contact[] // People sitting at this address
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Contact {
+  id          Int      @id @default(autoincrement())
+  name        String   // Person Name
+  email       String?  // Personal Work Email
+  phone       String?  // Personal Work Phone
+  jobTitle    String?
+  
+  companyId   Int
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  
+  addressId   Int?
+  address     Address? @relation(fields: [addressId], references: [id])
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  sku         String   @unique
+  name        String
+  description String?
+  price       Decimal
+  quantity    Int      @default(0)
+  reserved    Int      @default(0) // Stock reserved in Offers
+  minLevel    Int      @default(5)
+  maxLevel    Int      @default(100)
+  
+  supplierId  Int?
+  supplier    Company? @relation(fields: [supplierId], references: [id])
+  
+  movements   StockMovement[]
+  offerItems  OfferItem[]
+  invoiceItems InvoiceItem[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([sku])
+  @@index([name])
+  @@index([quantity])
+  @@index([supplierId])
+}
+
+model StockMovement {
+  id          Int      @id @default(autoincrement())
+  type        String   // 'IN', 'OUT', 'ADJUSTMENT'
+  quantity    Int
+  reason      String?
+  
+  productId   Int
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  budget      Decimal?
+  status      String   @default("active")
+  startDate   DateTime?
+  endDate     DateTime?
+
+  clientId    Int?
+  client      Company? @relation(fields: [clientId], references: [id])
+  
+  cadFilePath String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([status])
+  @@index([clientId])
+  @@index([createdAt])
+}
+
+model Invoice {
+  id            Int      @id @default(autoincrement())
+  invoiceNumber String   @unique
+  
+  companyId     Int
+  company       Company  @relation(fields: [companyId], references: [id])
+
+  offerId       Int?     @unique
+  offer         Offer?   @relation(fields: [offerId], references: [id])
+  
+  items         InvoiceItem[]
+
+  totalAmount   Decimal
+  status        String   @default("UNPAID") // UNPAID, PAID, OVERDUE
+  date          DateTime @default(now())
+  dueDate       DateTime?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([companyId])
+  @@index([status])
+  @@index([dueDate])
+  @@index([createdAt])
+}
+
+model InvoiceItem {
+  id          Int      @id @default(autoincrement())
+  invoiceId   Int
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  
+  productId   Int?
+  product     Product? @relation(fields: [productId], references: [id])
+  
+  description String
+  quantity    Int
+  unitPrice   Decimal
+  totalPrice  Decimal
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Offer {
+  id          Int      @id @default(autoincrement())
+  offerNumber String   @unique
+  
+  companyId   Int
+  company     Company  @relation(fields: [companyId], references: [id])
+  
+  items       OfferItem[]
+  
+  totalAmount Decimal
+  status      String   @default("DRAFT") // DRAFT, SENT, ACCEPTED, REJECTED
+  validUntil  DateTime?
+
+  invoice     Invoice?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([companyId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OfferItem {
+  id          Int      @id @default(autoincrement())
+  offerId     Int
+  offer       Offer    @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  
+  productId   Int?
+  product     Product? @relation(fields: [productId], references: [id])
+  
+  description String
+  quantity    Int
+  unitPrice   Decimal
+  totalPrice  Decimal
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

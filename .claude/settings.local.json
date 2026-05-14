@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//mnt/c/**)",
+      "Read(//c/Gokul//**)",
+      "Bash(npm install *)",
+      "Bash(node -e \"require\\('./app'\\)\")",
+      "Bash(node -e \"require\\('./app'\\); console.log\\('OK'\\)\")",
+      "Bash(npx jest *)",
+      "Bash(node -e ' *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Gokul\\\\ERP_Application_Scientific_Solutions-main\\\\ERP_Application_Scientific_Solutions-main\" -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(npx prisma *)"
+    ]
+  }
+}
