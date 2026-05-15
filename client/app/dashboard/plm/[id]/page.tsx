@@ -10,7 +10,7 @@ import {useAuth} from '@/contexts/AuthContext';
 import creoService from '@/lib/creoService';
 
 interface User {id:number;name:string;email:string}
-interface PlmItem {id:number;sku:string;name:string;description:string;plmType:string;lifecycleState:string;revision:string;isLocked:boolean;itemNumber:string;parentId?:number;updatedAt:string;modifiedByUserId?:number;modifiedBy?:User|null;checkedOutBy?:User|null;checkedOutAt?:string|null;checkoutNote?:string|null;materialId?:number|null;material?:{id:number;name:string}|null;plmItemLink?:string|null;cadTool:string}
+interface PlmItem {id:number;sku:string;name:string;description:string;plmType:string;lifecycleState:string;revision:string;isLocked:boolean;itemNumber:string;parentId?:number;updatedAt:string;modifiedByUserId?:number;modifiedBy?:User|null;checkedOutBy?:User|null;checkedOutAt?:string|null;checkoutNote?:string|null;materialId?:number|null;material?:{id:number;name:string}|null;plmItemLink?:string|null;cadTool:string;vaultFileName?:string|null;vaultVersion?:number}
 interface BomRow {id:number;child:PlmItem;quantity:number}
 
 const STATE_STYLE:Record<string,string>={IN_WORK:'text-blue-600 bg-blue-50 border-blue-200 dark:text-blue-300 dark:bg-blue-500/10 dark:border-blue-500/20',UNDER_REVIEW:'text-amber-600 bg-amber-50 border-amber-200 dark:text-amber-300 dark:bg-amber-500/10 dark:border-amber-500/20',RELEASED:'text-green-600 bg-green-50 border-green-200 dark:text-green-300 dark:bg-green-500/10 dark:border-green-500/20',OBSOLETE:'text-gray-500 bg-gray-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700'};
@@ -41,6 +41,8 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
   const [availableMaterials,setAvailableMaterials]=useState<any[]>([]);
   const [editingPath,setEditingPath]=useState(false);
   const [pathValue,setPathValue]=useState('');
+  const [checkinModal,setCheckinModal]=useState(false);
+  const [checkinFile,setCheckinFile]=useState<File|null>(null);
 
   const load=useCallback(async()=>{
     try{
@@ -124,27 +126,45 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
       }
     }
   },nextState);
-  const handleCheckout=()=>act(()=>api.post(`/plm/items/${id}/checkout`),'checkout');
-  const handleCheckin=()=>act(async()=>{
-    // 1. Call ERP check-in API
-    await api.post(`/plm/items/${id}/checkin`);
-    // 2. If Creo is available and item has a file path, sync params → model
-    if(creoAvailable&&item?.plmItemLink&&item.cadTool!=='NONE'){
-      const toolLabel = item.cadTool === 'FREECAD' ? 'FreeCAD' : 'Creo';
-      setCreoStatus(`Syncing parameters to ${toolLabel} model…`);
-      try{
-        await creoService.syncParamsToCreo(item.plmItemLink,{
-          PART_NUMBER: item.sku,
-          DESCRIPTION: item.name,
-          REVISION: item.revision,
-          PTC_MATERIAL_NAME: item.material?.name || '',
-        }, item.cadTool);
-        setCreoStatus(`Parameters synced to ${toolLabel} ✓`);
-      }catch(e){
-        setCreoStatus(`Check-in done. ${toolLabel} param sync failed.`);
-      }
+  const handleCheckout=()=>act(async()=>{
+    const res=await api.post(`/plm/items/${id}/checkout`);
+    // If a vault file exists on the server, auto-download it to the user's machine
+    if(res.data?.downloadUrl){
+      const token=typeof window!=='undefined'?localStorage.getItem('token'):null;
+      const apiBase=process.env.NEXT_PUBLIC_API_URL||'http://localhost:5000/api';
+      const url=`${apiBase}${res.data.downloadUrl.replace('/api','')}`;
+      const blob=await fetch(url,{headers:{Authorization:`Bearer ${token}`}}).then(r=>r.blob());
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download=item?.sku+(item?.vaultFileName?`.${item.vaultFileName.split('.').pop()}`:'');
+      a.click();
+      URL.revokeObjectURL(a.href);
     }
-  },'checkin');
+  },'checkout');
+
+  const submitCheckin=async()=>{
+    setActionLoading('checkin');
+    try{
+      const fd=new FormData();
+      if(checkinFile) fd.append('cadFile',checkinFile);
+      await api.post(`/plm/items/${id}/checkin`,fd,{headers:{'Content-Type':'multipart/form-data'}});
+      // Sync params to local CAD tool if connected
+      if(creoAvailable&&item?.plmItemLink&&item.cadTool!=='NONE'){
+        const toolLabel=item.cadTool==='FREECAD'?'FreeCAD':'Creo';
+        setCreoStatus(`Syncing parameters to ${toolLabel}…`);
+        try{
+          await creoService.syncParamsToCreo(item.plmItemLink,{
+            PART_NUMBER:item.sku,DESCRIPTION:item.name,REVISION:item.revision,
+            PTC_MATERIAL_NAME:item.material?.name||'',
+          },item.cadTool);
+          setCreoStatus(`Parameters synced to ${toolLabel} ✓`);
+        }catch{setCreoStatus('Check-in done. Param sync failed.');}
+      }
+      setCheckinModal(false);setCheckinFile(null);
+      await load();
+    }catch(e:any){alert(e.response?.data?.error||'Check-in failed');}
+    finally{setActionLoading('');}
+  };
   const handleUndo=()=>{if(!confirm('Discard changes and return to last checked-in state?'))return;act(()=>api.post(`/plm/items/${id}/undo-checkout`),'undo');};
   const handleRevise=()=>{if(!confirm('Create new revision (B, C…)? Current Released version will be locked.'))return;act(async()=>{const r=await api.post(`/plm/items/${id}/revise`);router.push(`/dashboard/plm/${r.data.id}`);},'revise');};
   const handleMaterialChange=(e:any)=>act(()=>api.patch(`/plm/items/${id}/material`,{materialId:e.target.value||null}),'material');
@@ -198,7 +218,7 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
           )}
           {isMyCheckout&&(
             <>
-              <button onClick={handleCheckin} disabled={!!actionLoading} className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white rounded-lg text-sm font-medium transition-colors">
+              <button onClick={()=>setCheckinModal(true)} disabled={!!actionLoading} className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white rounded-lg text-sm font-medium transition-colors">
                 <CheckCheck className="w-4 h-4"/>{actionLoading==='checkin'?'Checking in…':'Check In'}
               </button>
               <button onClick={handleUndo} disabled={!!actionLoading} className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-50 transition-colors">
@@ -680,8 +700,80 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
             )}
             {!item?.plmItemLink&&item.cadTool!=='NONE'&&<p className="text-xs text-gray-400 mt-3 italic">Set a file path (plmItemLink) on this item to enable CAD actions.</p>}
           </div>
+
+          {/* Vault File Section */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl p-5 border border-gray-100 dark:border-gray-800">
+            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Vault File</h4>
+            {item.vaultFileName ? (
+              <div className="space-y-3">
+                <div className="p-3 bg-gray-50 dark:bg-gray-950 rounded-lg border border-gray-100 dark:border-gray-800">
+                  <p className="text-xs font-mono text-gray-700 dark:text-gray-300 break-all">{item.vaultFileName}</p>
+                  <div className="flex items-center gap-2 mt-1.5">
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold">v{item.vaultVersion}</span>
+                    {isCheckedOut&&!isMyCheckout&&<span className="text-[10px] text-amber-600 dark:text-amber-400 font-medium">Checked out — read-only</span>}
+                  </div>
+                </div>
+                {/* Any user can always download the last checked-in version */}
+                <button
+                  onClick={()=>{
+                    const token=typeof window!=='undefined'?localStorage.getItem('token'):null;
+                    const apiBase=process.env.NEXT_PUBLIC_API_URL||'http://localhost:5000/api';
+                    fetch(`${apiBase}/plm/items/${id}/vault/download`,{headers:{Authorization:`Bearer ${token}`}})
+                      .then(r=>r.blob()).then(blob=>{
+                        const a=document.createElement('a');
+                        a.href=URL.createObjectURL(blob);
+                        a.download=item.vaultFileName!;
+                        a.click();URL.revokeObjectURL(a.href);
+                      });
+                  }}
+                  className="w-full flex items-center justify-center gap-2 px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                >
+                  <Download className="w-4 h-4"/>
+                  {isMyCheckout?'Re-download my checkout':'Download (read-only)'}
+                </button>
+              </div>
+            ) : (
+              <p className="text-xs text-gray-400 italic">No vault file yet. Check in a CAD file to store it on the server.</p>
+            )}
+          </div>
         </div>
       </div>
+
+      {/* Check-In Modal */}
+      {checkinModal&&(
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-5">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <CheckCheck className="w-5 h-5 text-green-500"/>Check In — {item.sku}
+              </h2>
+              <button onClick={()=>{setCheckinModal(false);setCheckinFile(null);}} className="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"><X className="w-4 h-4"/></button>
+            </div>
+
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Upload updated CAD file</p>
+              <p className="text-xs text-gray-400">The file will be stored on the server as the new vault version. Other users will be able to download it after check-in.</p>
+              <label className={`flex flex-col items-center justify-center gap-2 p-6 rounded-xl border-2 border-dashed cursor-pointer transition-colors ${checkinFile?'border-green-400 bg-green-50 dark:bg-green-500/10':'border-gray-200 dark:border-gray-700 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-500/5'}`}>
+                <Download className={`w-6 h-6 ${checkinFile?'text-green-500':'text-gray-400'}`}/>
+                {checkinFile
+                  ? <span className="text-sm font-medium text-green-700 dark:text-green-300 text-center break-all">{checkinFile.name}</span>
+                  : <span className="text-sm text-gray-500">Click to select .FCStd, .prt, .asm, .drw…</span>
+                }
+                <input type="file" className="hidden" accept=".FCStd,.fcstd,.prt,.asm,.drw,.stp,.step,.igs,.iges,.stl,.3mf,.dxf,.dwg" onChange={e=>setCheckinFile(e.target.files?.[0]||null)}/>
+              </label>
+              {item.vaultFileName&&<p className="text-[11px] text-gray-400">Current vault: <span className="font-mono">{item.vaultFileName}</span> (v{item.vaultVersion}) — will become v{(item.vaultVersion||0)+1}</p>}
+              <p className="text-[11px] text-gray-400">No file? Leave empty to check in without changing the stored file (metadata-only check-in).</p>
+            </div>
+
+            <div className="flex gap-3 pt-1">
+              <button onClick={()=>{setCheckinModal(false);setCheckinFile(null);}} className="flex-1 px-4 py-2.5 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 rounded-xl text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Cancel</button>
+              <button onClick={submitCheckin} disabled={actionLoading==='checkin'} className="flex-1 px-4 py-2.5 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white rounded-xl text-sm font-medium transition-colors">
+                {actionLoading==='checkin'?'Checking in…':'Confirm Check In'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

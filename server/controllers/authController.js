@@ -6,7 +6,8 @@ const { badRequest, conflict, serverError } = require('../utils/errorResponse');
 
 const login = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { username, password } = req.body;
+        const email = username;
         const user = await prisma.user.findUnique({ where: { email } });
 
         if (user && (await bcrypt.compare(password, user.password))) {

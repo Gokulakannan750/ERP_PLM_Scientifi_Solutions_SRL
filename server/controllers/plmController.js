@@ -3,14 +3,15 @@ const multer = require('multer');
 const path   = require('path');
 const fs     = require('fs');
 
-// ─── Multer — PLM file uploads ────────────────────────────────────────────────
+// ─── Directory helpers ────────────────────────────────────────────────────────
+const ATTACH_DIR = path.join(__dirname, '../../uploads/plm');
+const VAULT_DIR  = path.join(__dirname, '../../uploads/plm/vault');
+[ATTACH_DIR, VAULT_DIR].forEach(d => { if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true }); });
+
+// ─── Multer — general PLM file attachments ────────────────────────────────────
 const plmStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const dir = path.join(__dirname, '../../uploads/plm');
-        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-        cb(null, dir);
-    },
-    filename: (req, file, cb) => {
+    destination: (req, file, cb) => cb(null, ATTACH_DIR),
+    filename:    (req, file, cb) => {
         const unique = `${Date.now()}-${Math.round(Math.random()*1e9)}`;
         cb(null, `${unique}-${file.originalname}`);
     },
@@ -19,17 +20,37 @@ const ALLOWED_PLM_EXTENSIONS = [
     '.prt', '.asm', '.drw', '.stp', '.step', '.igs', '.iges',
     '.pdf', '.doc', '.docx', '.xls', '.xlsx',
     '.png', '.jpg', '.jpeg', '.dxf', '.dwg', '.stl', '.3mf', '.txt', '.csv',
+    '.FCStd', '.fcstd',
 ];
 const upload = multer({
     storage: plmStorage,
-    limits: { fileSize: 50 * 1024 * 1024 }, // 50 MB
+    limits: { fileSize: 200 * 1024 * 1024 }, // 200 MB
     fileFilter: (req, file, cb) => {
         const ext = path.extname(file.originalname).toLowerCase();
-        if (ALLOWED_PLM_EXTENSIONS.includes(ext)) {
-            cb(null, true);
-        } else {
-            cb(new Error(`File type '${ext}' is not allowed for PLM attachments`));
-        }
+        if (ALLOWED_PLM_EXTENSIONS.includes(ext)) cb(null, true);
+        else cb(new Error(`File type '${ext}' is not allowed for PLM attachments`));
+    },
+});
+
+// ─── Multer — vault CAD file upload (checkin) ─────────────────────────────────
+const ALLOWED_VAULT_EXTENSIONS = [
+    '.prt', '.asm', '.drw', '.FCStd', '.fcstd',
+    '.stp', '.step', '.igs', '.iges', '.stl', '.3mf', '.dxf', '.dwg',
+];
+const vaultStorage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, VAULT_DIR),
+    filename:    (req, file, cb) => {
+        // Temp name — will be renamed to <sku>_v<n><ext> after DB update
+        cb(null, `tmp_${Date.now()}_${file.originalname}`);
+    },
+});
+const uploadVault = multer({
+    storage: vaultStorage,
+    limits: { fileSize: 500 * 1024 * 1024 }, // 500 MB
+    fileFilter: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        if (ALLOWED_VAULT_EXTENSIONS.includes(ext)) cb(null, true);
+        else cb(new Error(`File type '${ext}' is not allowed as a vault CAD file`));
     },
 });
 
@@ -47,9 +68,10 @@ const generatePlmNumber = async (type, parentItem = null) => {
         return { sku, sequence, revision: drawingSequence };
     }
 
-    const counter = await prisma.plmCounter.update({
-        where: { id: 1 },
-        data: { lastNumber: { increment: 1 } }
+    const counter = await prisma.plmCounter.upsert({
+        where:  { id: 1 },
+        update: { lastNumber: { increment: 1 } },
+        create: { id: 1, lastNumber: 1 },
     });
     const sequence = String(counter.lastNumber).padStart(5, '0');
     const revision = 'A';
@@ -288,6 +310,8 @@ const transitionState = async (req, res) => {
 };
 
 // ─── Check-Out ────────────────────────────────────────────────────────────────
+// Locks the item and returns the vault file as a download (if one exists).
+// Response: JSON { item, downloadUrl } — client triggers download via URL.
 const checkoutItem = async (req, res) => {
     try {
         const { id } = req.params;
@@ -318,13 +342,21 @@ const checkoutItem = async (req, res) => {
         });
 
         audit(parseInt(id), req.user.userId, 'CHECKOUT', { note: note?.trim() || null });
-        res.json(updated);
+
+        // Include vault download URL if a file is stored on the server
+        const downloadUrl = item.vaultFileName
+            ? `/api/plm/items/${id}/vault/download`
+            : null;
+
+        res.json({ item: updated, downloadUrl });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
 // ─── Check-In ─────────────────────────────────────────────────────────────────
+// Accepts an optional multipart CAD file upload, stores it in the vault,
+// increments vaultVersion, clears checkout lock.
 const checkinItem = async (req, res) => {
     try {
         const { id } = req.params;
@@ -339,20 +371,64 @@ const checkinItem = async (req, res) => {
             return res.status(403).json({ error: 'Only the user who checked out this item (or an admin) can check it in' });
         }
 
+        const updateData = {
+            checkedOutByUserId: null,
+            checkedOutAt:       null,
+            checkoutNote:       null,
+            isLocked:           false,
+            modifiedByUserId:   req.user.userId,
+        };
+
+        // If a CAD file was uploaded, move it into the vault with a versioned name
+        if (req.file) {
+            const ext        = path.extname(req.file.originalname).toLowerCase();
+            const newVersion = (item.vaultVersion || 0) + 1;
+            const vaultName  = `${item.sku}_v${newVersion}${ext}`;
+            const vaultPath  = path.join(VAULT_DIR, vaultName);
+
+            // Remove old temp file if rename needed
+            fs.renameSync(req.file.path, vaultPath);
+
+            // Delete previous vault file if it exists and name differs
+            if (item.vaultFileName && item.vaultFileName !== vaultName) {
+                const oldPath = path.join(VAULT_DIR, item.vaultFileName);
+                if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+            }
+
+            updateData.vaultFileName = vaultName;
+            updateData.vaultVersion  = newVersion;
+        }
+
         const updated = await prisma.product.update({
             where: { id: parseInt(id) },
-            data: {
-                checkedOutByUserId: null,
-                checkedOutAt:       null,
-                checkoutNote:       null,
-                isLocked:           false,
-                modifiedByUserId:   req.user.userId,
-            },
+            data:  updateData,
             include: PLM_INCLUDE,
         });
 
-        audit(parseInt(id), req.user.userId, 'CHECKIN');
+        const note = req.file ? `Checked in with file v${updateData.vaultVersion}` : 'Checked in (no file change)';
+        audit(parseInt(id), req.user.userId, 'CHECKIN', { note });
         res.json(updated);
+    } catch (error) {
+        // Clean up orphaned temp file if something went wrong
+        if (req.file && fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// ─── Vault Download ───────────────────────────────────────────────────────────
+// Any authenticated user can download the latest checked-in vault file (read-only).
+const downloadVaultFile = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const item = await prisma.product.findUnique({ where: { id: parseInt(id) } });
+        if (!item)               return res.status(404).json({ error: 'Item not found' });
+        if (!item.vaultFileName) return res.status(404).json({ error: 'No vault file exists for this item yet.' });
+
+        const filePath = path.join(VAULT_DIR, item.vaultFileName);
+        if (!fs.existsSync(filePath)) return res.status(404).json({ error: 'Vault file missing on disk.' });
+
+        res.setHeader('Content-Disposition', `attachment; filename="${item.vaultFileName}"`);
+        res.sendFile(filePath);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -824,8 +900,69 @@ const assignMaterial = async (req, res) => {
     } catch (e) { res.status(500).json({ error: e.message }); }
 };
 
+// ─── Folder CRUD ──────────────────────────────────────────────────────────────
+const listFolders = async (req, res) => {
+    try {
+        const folders = await prisma.plmFolder.findMany({
+            orderBy: [{ parentId: 'asc' }, { name: 'asc' }],
+            include: { children: { orderBy: { name: 'asc' } } },
+        });
+        // Return only root folders; children are nested inside
+        res.json(folders.filter(f => f.parentId === null));
+    } catch (e) { res.status(500).json({ error: e.message }); }
+};
+
+const createFolder = async (req, res) => {
+    try {
+        const { name, parentId } = req.body;
+        if (!name?.trim()) return res.status(400).json({ error: 'Folder name is required' });
+        const folder = await prisma.plmFolder.create({
+            data: { name: name.trim(), parentId: parentId ? parseInt(parentId) : null },
+            include: { children: true },
+        });
+        res.status(201).json(folder);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+};
+
+const renameFolder = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name } = req.body;
+        if (!name?.trim()) return res.status(400).json({ error: 'Name is required' });
+        const folder = await prisma.plmFolder.update({
+            where: { id: parseInt(id) },
+            data:  { name: name.trim() },
+        });
+        res.json(folder);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+};
+
+const deleteFolder = async (req, res) => {
+    try {
+        const { id } = req.params;
+        // Move items in this folder to no folder before deleting
+        await prisma.product.updateMany({ where: { folderId: parseInt(id) }, data: { folderId: null } });
+        await prisma.plmFolder.delete({ where: { id: parseInt(id) } });
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+};
+
+const moveItemToFolder = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { folderId } = req.body; // null to move to root
+        const updated = await prisma.product.update({
+            where:   { id: parseInt(id) },
+            data:    { folderId: folderId ? parseInt(folderId) : null },
+            include: PLM_INCLUDE,
+        });
+        res.json(updated);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+};
+
 module.exports = {
     upload,
+    uploadVault,
     listPlmItems,
     createPlmItem,
     updatePlmItem,
@@ -833,6 +970,7 @@ module.exports = {
     transitionState,
     checkoutItem,
     checkinItem,
+    downloadVaultFile,
     undoCheckout,
     getMyWorkspace,
     getBom,
@@ -853,4 +991,9 @@ module.exports = {
     updateMaterial,
     deleteMaterial,
     assignMaterial,
+    listFolders,
+    createFolder,
+    renameFolder,
+    deleteFolder,
+    moveItemToFolder,
 };

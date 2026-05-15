@@ -241,6 +241,9 @@ model Product {
   lastStockCheckDate               DateTime?
   barcodeQrData                    String?
   plmItemLink                      String?
+  vaultFileName                    String?
+  vaultVersion                     Int               @default(0)
+  folderId                         Int?
   supplierId                       Int?
   materialId                       Int?
   recDate                          DateTime          @default(now())
@@ -261,6 +264,7 @@ model Product {
   parentItem                       Product?          @relation("ItemDrawings", fields: [parentId], references: [id])
   drawings                         Product[]         @relation("ItemDrawings")
   supplier                         Company?          @relation(fields: [supplierId], references: [id])
+  folder                           PlmFolder?        @relation(fields: [folderId], references: [id])
   documents                        ProductDocument[]
   purchaseRequests                 PurchaseRequest[]
   batches                          StockBatch[]
@@ -296,6 +300,19 @@ model PlmCounter {
   id         Int      @id @default(1)
   lastNumber Int      @default(0)
   updatedAt  DateTime @updatedAt
+}
+
+model PlmFolder {
+  id        Int         @id @default(autoincrement())
+  name      String
+  parentId  Int?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  parent    PlmFolder?  @relation("FolderTree", fields: [parentId], references: [id])
+  children  PlmFolder[] @relation("FolderTree")
+  items     Product[]
+
+  @@index([parentId])
 }
 
 model PlmAuditLog {

@@ -12,12 +12,16 @@ router.post('/items',              plmController.createPlmItem);
 router.post('/items/:id/revise',   plmController.reviseItem);
 router.patch('/items/:id',         plmController.updatePlmItem);
 router.patch('/items/:id/state',   plmController.transitionState);
+router.patch('/items/:id/folder',  plmController.moveItemToFolder);
 
 // ─── Personal Workspace ───────────────────────────────────────────────────────
 router.get('/workspace',                   plmController.getMyWorkspace);
 router.post('/items/:id/checkout',         plmController.checkoutItem);
-router.post('/items/:id/checkin',          plmController.checkinItem);
+router.post('/items/:id/checkin',          plmController.uploadVault.single('cadFile'), plmController.checkinItem);
 router.post('/items/:id/undo-checkout',    plmController.undoCheckout);
+
+// ─── Vault (server-side CAD file store) ──────────────────────────────────────
+router.get('/items/:id/vault/download',    plmController.downloadVaultFile);
 
 // ─── BOM ──────────────────────────────────────────────────────────────────────
 router.get('/items/:id/bom',          plmController.getBom);
@@ -46,5 +50,11 @@ router.post('/materials',          plmController.createMaterial);
 router.put('/materials/:id',       plmController.updateMaterial);
 router.delete('/materials/:id',    plmController.deleteMaterial);
 router.patch('/items/:id/material', plmController.assignMaterial);
+
+// ─── Folders ──────────────────────────────────────────────────────────────────
+router.get('/folders',          plmController.listFolders);
+router.post('/folders',         plmController.createFolder);
+router.patch('/folders/:id',    plmController.renameFolder);
+router.delete('/folders/:id',   plmController.deleteFolder);
 
 module.exports = router;
