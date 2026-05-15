@@ -23,6 +23,9 @@ async function getAdapter(): Promise<ICreoAdapter> {
   } else if (type === 'jlink') {
     const { JLinkAdapter } = await import('./adapters/jlinkAdapter');
     _adapter = new JLinkAdapter();
+  } else if (type === 'freecad') {
+    const { FreecadAdapter } = await import('./adapters/freecadAdapter');
+    _adapter = new FreecadAdapter();
   } else {
     const { MockAdapter } = await import('./adapters/mockAdapter');
     _adapter = new MockAdapter();

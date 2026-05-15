@@ -1,18 +1,22 @@
-// ─── Creo Integration Configuration ─────────────────────────────────────────
-// Change CREO_ADAPTER to switch implementations without touching any other code.
+// ─── CAD Integration Configuration ───────────────────────────────────────────
+// Change CREO_ADAPTER to switch CAD back-ends without touching any other code.
 //
-//  'weblink'  → Option 2: PFC/Web.Link (runs inside Creo embedded browser)
-//  'jlink'    → Option 3: Custom J-Link middleware (local REST server)
-//  'mock'     → No-op, for development / non-Creo environments
+//  'weblink'  → PFC/Web.Link (runs inside Creo's embedded browser)
+//  'jlink'    → Custom J-Link middleware (local Java REST server)
+//  'freecad'  → FreeCAD bridge server (freecad-server/app.py)
+//  'mock'     → No-op, for development / environments without a CAD install
 
-export type CreoAdapter = 'weblink' | 'jlink' | 'mock';
+export type CreoAdapter = 'weblink' | 'jlink' | 'freecad' | 'mock';
 
 const creoConfig = {
   // ── Active adapter ─────────────────────────────────────────────────────────
-  CREO_ADAPTER: (process.env.NEXT_PUBLIC_CREO_ADAPTER as CreoAdapter) || 'weblink',
+  CREO_ADAPTER: (process.env.NEXT_PUBLIC_CREO_ADAPTER as CreoAdapter) || 'mock',
 
   // ── J-Link middleware URL (used only when CREO_ADAPTER = 'jlink') ──────────
   JLINK_BASE_URL: process.env.NEXT_PUBLIC_JLINK_URL || 'http://localhost:8080/creo',
+
+  // ── FreeCAD bridge URL (used only when CREO_ADAPTER = 'freecad') ──────────
+  FREECAD_SERVER_URL: process.env.NEXT_PUBLIC_FREECAD_SERVER_URL || 'http://localhost:7474',
 
   // ── PFC library path relative to Creo installation ────────────────────────
   // Creo ships this at: <Creo install>\Common Files\weblink\pfcweb.js
