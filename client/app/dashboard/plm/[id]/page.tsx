@@ -39,6 +39,8 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
   const [bomTree,setBomTree]=useState<any[]>([]);
   const [bomView,setBomView]=useState<'flat'|'tree'>('tree');
   const [availableMaterials,setAvailableMaterials]=useState<any[]>([]);
+  const [editingPath,setEditingPath]=useState(false);
+  const [pathValue,setPathValue]=useState('');
 
   const load=useCallback(async()=>{
     try{
@@ -146,6 +148,13 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
   const handleUndo=()=>{if(!confirm('Discard changes and return to last checked-in state?'))return;act(()=>api.post(`/plm/items/${id}/undo-checkout`),'undo');};
   const handleRevise=()=>{if(!confirm('Create new revision (B, C…)? Current Released version will be locked.'))return;act(async()=>{const r=await api.post(`/plm/items/${id}/revise`);router.push(`/dashboard/plm/${r.data.id}`);},'revise');};
   const handleMaterialChange=(e:any)=>act(()=>api.patch(`/plm/items/${id}/material`,{materialId:e.target.value||null}),'material');
+  const handleSavePath=async()=>{
+    await act(async()=>{
+      await api.patch(`/plm/items/${id}`,{plmItemLink:pathValue});
+      setItem(prev=>prev?{...prev,plmItemLink:pathValue}:prev);
+      setEditingPath(false);
+    },'savePath');
+  };
 
   const startBomEdit=()=>{setDraftBom(bom.map(b=>({childId:String(b.child.id),quantity:String(b.quantity)})));setBomEditing(true);};
   const saveBom=()=>act(async()=>{const r=await api.post(`/plm/items/${id}/bom`,{components:draftBom.filter(r=>r.childId).map(r=>({childId:r.childId,quantity:r.quantity||'1'}))});setBom(r.data);setBomEditing(false);},'bom');
@@ -605,6 +614,35 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
                 {creoAvailable
                   ? `${item.cadTool==='FREECAD'?'FreeCAD':'Creo'} server connected`
                   : `${item.cadTool==='FREECAD'?'FreeCAD':'Creo'} not detected`}
+              </div>
+            )}
+            {/* File Path Editor */}
+            {item.cadTool!=='NONE'&&(
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-1.5 px-1">
+                  <span className="text-[10px] font-bold text-gray-400 uppercase">File Path</span>
+                  {!editingPath && (
+                    <button onClick={()=>{setPathValue(item.plmItemLink||'');setEditingPath(true);}} className="text-[10px] text-blue-600 dark:text-blue-400 font-bold hover:underline uppercase">Edit</button>
+                  )}
+                </div>
+                {editingPath ? (
+                  <div className="space-y-2">
+                    <input
+                      value={pathValue}
+                      onChange={e=>setPathValue(e.target.value)}
+                      placeholder="e.g. C:/CAD/MyPart.FCStd"
+                      className="w-full px-3 py-1.5 text-xs rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    />
+                    <div className="flex gap-2">
+                      <button onClick={handleSavePath} disabled={actionLoading==='savePath'} className="flex-1 px-3 py-1.5 bg-blue-600 text-white text-[10px] font-bold rounded-lg hover:bg-blue-700 disabled:opacity-50">SAVE</button>
+                      <button onClick={()=>setEditingPath(false)} className="flex-1 px-3 py-1.5 border border-gray-200 dark:border-gray-700 text-gray-500 text-[10px] font-bold rounded-lg hover:bg-gray-50">CANCEL</button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="p-2.5 bg-gray-50 dark:bg-gray-950 rounded-lg border border-gray-100 dark:border-gray-800 break-all">
+                    <span className="text-xs text-gray-600 dark:text-gray-400 font-mono">{item.plmItemLink || <span className="italic text-gray-400">Not set</span>}</span>
+                  </div>
+                )}
               </div>
             )}
             {creoStatus&&<p className="text-xs text-blue-600 dark:text-blue-400 mb-3 px-1">{creoStatus}</p>}

@@ -200,11 +200,13 @@ export default function TeamSettings() {
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${user.role === 'ADMIN'
-                                        ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400'
-                                        : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                                    <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
+                                        user.role === 'ADMIN' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' :
+                                        user.role === 'ENGINEER' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' :
+                                        user.role === 'DOCUMENTATION' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
+                                        'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
                                         }`}>
-                                        {user.role}
+                                        {user.role.replace('_', ' ')}
                                     </span>
                                 </td>
                                 <td className="px-6 py-4">
@@ -313,6 +315,8 @@ export default function TeamSettings() {
                                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700"
                                     >
                                         <option value="SUB_ADMIN">Sub Admin</option>
+                                        <option value="ENGINEER">Engineer</option>
+                                        <option value="DOCUMENTATION">Documentation</option>
                                         <option value="ADMIN">Admin</option>
                                     </select>
                                 </div>

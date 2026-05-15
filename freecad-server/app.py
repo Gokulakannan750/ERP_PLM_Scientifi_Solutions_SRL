@@ -30,8 +30,15 @@ from flask_cors import CORS
 
 # ── FreeCAD discovery ────────────────────────────────────────────────────────
 FREECAD_LIB_PATH = os.environ.get('FREECAD_LIB_PATH', '')
-if FREECAD_LIB_PATH and FREECAD_LIB_PATH not in sys.path:
-    sys.path.insert(0, FREECAD_LIB_PATH)
+if FREECAD_LIB_PATH:
+    if os.path.exists(FREECAD_LIB_PATH):
+        if FREECAD_LIB_PATH not in sys.path:
+            sys.path.insert(0, FREECAD_LIB_PATH)
+        # On Windows + Python 3.8+, we must also add the DLL directory
+        if os.name == 'nt' and hasattr(os, 'add_dll_directory'):
+            os.add_dll_directory(FREECAD_LIB_PATH)
+    else:
+        print(f"Warning: FREECAD_LIB_PATH does not exist: {FREECAD_LIB_PATH}")
 
 try:
     import FreeCAD

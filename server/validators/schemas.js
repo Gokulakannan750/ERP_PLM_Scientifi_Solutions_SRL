@@ -11,7 +11,7 @@ exports.createUserSchema = Joi.object({
         'any.required': 'Password is required'
     }),
     name: Joi.string().min(2).max(100).optional(),
-    role: Joi.string().valid('ADMIN', 'SUB_ADMIN').optional(),
+    role: Joi.string().valid('ADMIN', 'SUB_ADMIN', 'ENGINEER', 'DOCUMENTATION').optional(),
     permissionIds: Joi.array().items(Joi.number()).optional(),
     isActive: Joi.boolean().optional()
 });
@@ -19,7 +19,7 @@ exports.createUserSchema = Joi.object({
 exports.updateUserSchema = Joi.object({
     email: Joi.string().email().optional(),
     name: Joi.string().min(2).max(100).optional(),
-    role: Joi.string().valid('ADMIN', 'SUB_ADMIN').optional(),
+    role: Joi.string().valid('ADMIN', 'SUB_ADMIN', 'ENGINEER', 'DOCUMENTATION').optional(),
     permissionIds: Joi.array().items(Joi.number()).optional(),
     isActive: Joi.boolean().optional()
 });

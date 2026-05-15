@@ -24,7 +24,7 @@ const getStats = async (req, res) => {
         // 3. Low Stock Items (quantity <= minLevel per product, latest versions only)
         const lowStockResult = await prisma.$queryRaw`
             SELECT COUNT(*) as count FROM "Product"
-            WHERE "isLatest" = 1 AND "quantity" <= "minLevel"
+            WHERE "isLatest" = TRUE AND "quantity" <= "minLevel"
         `;
         const lowStockItems = parseInt(lowStockResult[0]?.count ?? 0);
 

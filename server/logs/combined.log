@@ -3699,3 +3699,303 @@ Unique constraint failed on the fields: (`sku`)
 2026-05-11 21:17:41 [INFO]: GET /api/contacts
 2026-05-11 21:18:59 [INFO]: Server running on http://0.0.0.0:5000
 2026-05-11 21:18:59 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-15 12:05:20 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 12:05:20 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-15 12:05:49 [INFO]: GET /dashboard/plm/1
+2026-05-15 12:06:15 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:06:15 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:06:15 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:06:24 [INFO]: POST /api/auth/login
+2026-05-15 12:06:24 [INFO]: Successful login
+2026-05-15 12:06:24 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:06:24 [INFO]: GET /api/dashboard/stats
+2026-05-15 12:06:24 [INFO]: GET /api/dashboard/activity
+2026-05-15 12:06:24 [INFO]: GET /api/dashboard/activity
+2026-05-15 12:06:24 [INFO]: GET /api/dashboard/stats
+2026-05-15 12:06:28 [INFO]: GET /api/plm/items
+2026-05-15 12:06:28 [INFO]: GET /api/plm/materials
+2026-05-15 12:06:28 [INFO]: GET /api/plm/materials
+2026-05-15 12:06:28 [INFO]: GET /api/plm/items
+2026-05-15 12:06:34 [INFO]: GET /api/delivery-notes
+2026-05-15 12:06:34 [INFO]: GET /api/delivery-notes
+2026-05-15 12:06:44 [INFO]: GET /api/plm/items
+2026-05-15 12:06:44 [INFO]: GET /api/plm/materials
+2026-05-15 12:06:44 [INFO]: GET /api/plm/items
+2026-05-15 12:06:44 [INFO]: GET /api/plm/materials
+2026-05-15 12:06:51 [INFO]: POST /api/plm/items
+2026-05-15 12:06:56 [INFO]: POST /api/plm/items
+2026-05-15 12:07:12 [INFO]: POST /api/plm/items
+2026-05-15 12:07:13 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:07:13 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:07:13 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:07:19 [INFO]: POST /api/plm/items
+2026-05-15 12:07:47 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 12:07:47 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-15 12:07:54 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:07:54 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:07:54 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:07:58 [INFO]: POST /api/plm/items
+2026-05-15 12:08:00 [INFO]: GET /api/inventory/1
+2026-05-15 12:08:00 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:08:00 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:08:00 [INFO]: GET /api/plm/materials
+2026-05-15 12:08:00 [INFO]: GET /api/inventory/1
+2026-05-15 12:08:00 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:08:00 [INFO]: GET /api/plm/materials
+2026-05-15 12:08:00 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:08:04 [INFO]: PATCH /api/plm/items/1
+2026-05-15 12:08:06 [INFO]: PATCH /api/plm/items/1
+2026-05-15 12:08:08 [INFO]: POST /api/plm/items/1/checkout
+2026-05-15 12:08:08 [INFO]: GET /api/inventory/1
+2026-05-15 12:08:08 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:08:08 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:08:08 [INFO]: GET /api/plm/materials
+2026-05-15 12:10:31 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:10:31 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:10:31 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:10:31 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:10:31 [INFO]: GET /api/inventory/1
+2026-05-15 12:10:31 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:10:31 [INFO]: GET /api/plm/materials
+2026-05-15 12:10:31 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:10:31 [INFO]: GET /api/inventory/1
+2026-05-15 12:10:31 [INFO]: GET /api/plm/materials
+2026-05-15 12:10:31 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:13:01 [INFO]: GET /api/dashboard/activity
+2026-05-15 12:13:01 [INFO]: GET /api/dashboard/stats
+2026-05-15 12:15:14 [INFO]: GET /api/inventory/1
+2026-05-15 12:15:14 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:15:14 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:15:14 [INFO]: GET /api/plm/materials
+2026-05-15 12:16:12 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:16:12 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:16:12 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:16:12 [INFO]: GET /api/inventory/1
+2026-05-15 12:16:12 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:16:12 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:16:12 [INFO]: GET /api/plm/materials
+2026-05-15 12:16:12 [INFO]: GET /api/inventory/1
+2026-05-15 12:16:12 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:16:12 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:16:12 [INFO]: GET /api/plm/materials
+2026-05-15 12:16:23 [INFO]: GET /api/plm/items
+2026-05-15 12:16:23 [INFO]: GET /api/plm/materials
+2026-05-15 12:16:23 [INFO]: GET /api/plm/items
+2026-05-15 12:16:23 [INFO]: GET /api/plm/materials
+2026-05-15 12:16:29 [INFO]: GET /api/inventory/1
+2026-05-15 12:16:29 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:16:29 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:16:29 [INFO]: GET /api/plm/materials
+2026-05-15 12:16:29 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:16:29 [INFO]: GET /api/inventory/1
+2026-05-15 12:16:29 [INFO]: GET /api/plm/materials
+2026-05-15 12:16:29 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:16:45 [INFO]: GET /api/plm/items/1/bom/tree
+2026-05-15 12:16:46 [INFO]: GET /api/plm/items/1/audit
+2026-05-15 12:16:51 [INFO]: GET /api/plm/items
+2026-05-15 12:16:51 [INFO]: GET /api/plm/materials
+2026-05-15 12:16:51 [INFO]: GET /api/plm/items
+2026-05-15 12:16:51 [INFO]: GET /api/plm/materials
+2026-05-15 12:16:54 [INFO]: GET /api/plm/templates
+2026-05-15 12:16:54 [INFO]: GET /api/plm/templates
+2026-05-15 12:16:56 [INFO]: GET /api/plm/items
+2026-05-15 12:16:56 [INFO]: GET /api/plm/materials
+2026-05-15 12:16:56 [INFO]: GET /api/plm/items
+2026-05-15 12:16:56 [INFO]: GET /api/plm/materials
+2026-05-15 12:17:01 [INFO]: GET /api/plm/materials
+2026-05-15 12:17:01 [INFO]: GET /api/inventory/1
+2026-05-15 12:17:01 [INFO]: GET /api/plm/materials
+2026-05-15 12:17:01 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:17:01 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:17:01 [INFO]: GET /api/inventory/1
+2026-05-15 12:17:01 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:17:01 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:17:46 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:17:46 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:17:46 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:17:46 [INFO]: GET /api/inventory/1
+2026-05-15 12:17:46 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:17:46 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:17:46 [INFO]: GET /api/plm/materials
+2026-05-15 12:17:46 [INFO]: GET /api/inventory/1
+2026-05-15 12:17:46 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:17:46 [INFO]: GET /api/plm/materials
+2026-05-15 12:17:46 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:23:44 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:23:44 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:23:44 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:23:44 [INFO]: GET /api/inventory/1
+2026-05-15 12:23:44 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:23:44 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:23:44 [INFO]: GET /api/plm/materials
+2026-05-15 12:23:44 [INFO]: GET /api/inventory/1
+2026-05-15 12:23:44 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:23:44 [INFO]: GET /api/plm/materials
+2026-05-15 12:23:44 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:23:57 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:23:57 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:23:57 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:23:57 [INFO]: GET /api/inventory/1
+2026-05-15 12:23:57 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:23:57 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:23:57 [INFO]: GET /api/plm/materials
+2026-05-15 12:23:57 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:23:57 [INFO]: GET /api/inventory/1
+2026-05-15 12:23:57 [INFO]: GET /api/plm/materials
+2026-05-15 12:23:57 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:24:11 [INFO]: PATCH /api/plm/items/1
+2026-05-15 12:24:11 [INFO]: GET /api/inventory/1
+2026-05-15 12:24:11 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:24:11 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:24:11 [INFO]: GET /api/plm/materials
+2026-05-15 12:24:28 [INFO]: PATCH /api/plm/items/1
+2026-05-15 12:24:28 [INFO]: GET /api/inventory/1
+2026-05-15 12:24:28 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:24:28 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:24:28 [INFO]: GET /api/plm/materials
+2026-05-15 12:26:01 [INFO]: PATCH /api/plm/items/1
+2026-05-15 12:26:01 [INFO]: GET /api/inventory/1
+2026-05-15 12:26:01 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:26:01 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:26:01 [INFO]: GET /api/plm/materials
+2026-05-15 12:26:12 [INFO]: PATCH /api/plm/items/1
+2026-05-15 12:26:12 [INFO]: GET /api/inventory/1
+2026-05-15 12:26:12 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:26:12 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:26:12 [INFO]: GET /api/plm/materials
+2026-05-15 12:27:10 [INFO]: PATCH /api/plm/items/1
+2026-05-15 12:27:16 [INFO]: PATCH /api/plm/items/1
+2026-05-15 12:28:47 [INFO]: PATCH /api/plm/items/1
+2026-05-15 12:28:47 [INFO]: GET /api/inventory/1
+2026-05-15 12:28:47 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:28:47 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:28:47 [INFO]: GET /api/plm/materials
+2026-05-15 12:37:05 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 12:37:05 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-15 12:41:20 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:41:20 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:41:20 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:41:20 [INFO]: GET /api/inventory/1
+2026-05-15 12:41:20 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:41:20 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:41:20 [INFO]: GET /api/plm/materials
+2026-05-15 12:41:20 [INFO]: GET /api/inventory/1
+2026-05-15 12:41:20 [INFO]: GET /api/plm/materials
+2026-05-15 12:41:20 [INFO]: GET /api/plm/items/1/bom
+2026-05-15 12:41:20 [INFO]: GET /api/inventory/1/versions
+2026-05-15 12:41:29 [INFO]: POST /api/auth/login
+2026-05-15 12:41:29 [WARN]: Failed login attempt
+2026-05-15 12:42:47 [INFO]: POST /api/auth/login
+2026-05-15 12:42:47 [WARN]: Failed login attempt
+2026-05-15 12:43:54 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 12:43:54 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-15 12:44:28 [INFO]: POST /api/auth/login
+2026-05-15 12:44:28 [WARN]: Failed login attempt
+2026-05-15 12:47:22 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 12:47:22 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-15 12:47:33 [INFO]: POST /api/auth/login
+2026-05-15 12:47:33 [INFO]: Successful login
+2026-05-15 12:47:33 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:47:33 [INFO]: GET /api/dashboard/stats
+2026-05-15 12:47:33 [INFO]: GET /api/dashboard/activity
+2026-05-15 12:47:33 [INFO]: GET /api/dashboard/activity
+2026-05-15 12:47:33 [INFO]: GET /api/dashboard/stats
+2026-05-15 12:47:42 [INFO]: GET /api/plm/materials
+2026-05-15 12:47:42 [INFO]: GET /api/plm/items
+2026-05-15 12:47:42 [INFO]: GET /api/plm/materials
+2026-05-15 12:47:42 [INFO]: GET /api/plm/items
+2026-05-15 12:47:46 [INFO]: GET /api/plm/materials
+2026-05-15 12:47:46 [INFO]: GET /api/inventory/4
+2026-05-15 12:47:46 [INFO]: GET /api/plm/items/4/bom
+2026-05-15 12:47:46 [INFO]: GET /api/inventory/4/versions
+2026-05-15 12:47:47 [INFO]: GET /api/plm/materials
+2026-05-15 12:47:47 [INFO]: GET /api/inventory/4
+2026-05-15 12:47:47 [INFO]: GET /api/plm/items/4/bom
+2026-05-15 12:47:47 [INFO]: GET /api/inventory/4/versions
+2026-05-15 12:47:48 [INFO]: PATCH /api/plm/items/4
+2026-05-15 12:47:52 [INFO]: PATCH /api/plm/items/4
+2026-05-15 12:47:52 [INFO]: GET /api/inventory/4
+2026-05-15 12:47:52 [INFO]: GET /api/plm/items/4/bom
+2026-05-15 12:47:52 [INFO]: GET /api/inventory/4/versions
+2026-05-15 12:47:52 [INFO]: GET /api/plm/materials
+2026-05-15 12:48:08 [INFO]: POST /api/plm/items/4/checkout
+2026-05-15 12:48:09 [INFO]: GET /api/inventory/4
+2026-05-15 12:48:09 [INFO]: GET /api/plm/items/4/bom
+2026-05-15 12:48:09 [INFO]: GET /api/inventory/4/versions
+2026-05-15 12:48:09 [INFO]: GET /api/plm/materials
+2026-05-15 12:48:17 [INFO]: PATCH /api/plm/items/4
+2026-05-15 12:48:17 [INFO]: GET /api/inventory/4
+2026-05-15 12:48:17 [INFO]: GET /api/plm/items/4/bom
+2026-05-15 12:48:17 [INFO]: GET /api/inventory/4/versions
+2026-05-15 12:48:17 [INFO]: GET /api/plm/materials
+2026-05-15 12:48:21 [INFO]: GET /api/plm/materials
+2026-05-15 12:48:21 [INFO]: GET /api/plm/materials
+2026-05-15 12:48:21 [INFO]: GET /api/plm/items
+2026-05-15 12:48:21 [INFO]: GET /api/plm/items
+2026-05-15 12:49:21 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 12:49:21 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-15 12:49:53 [INFO]: POST /api/auth/login
+2026-05-15 12:49:53 [INFO]: Successful login
+2026-05-15 12:50:49 [INFO]: POST /api/auth/login
+2026-05-15 12:50:49 [INFO]: Successful login
+2026-05-15 12:51:16 [INFO]: POST /api/auth/login
+2026-05-15 12:51:16 [WARN]: Validation failed
+2026-05-15 12:51:16 [INFO]: GET /api/dashboard/stats
+2026-05-15 12:51:16 [INFO]: GET /api/dashboard/activity
+2026-05-15 12:51:28 [INFO]: POST /api/auth/login
+2026-05-15 12:51:28 [INFO]: Successful login
+2026-05-15 12:51:28 [INFO]: GET /api/dashboard/stats
+2026-05-15 12:51:28 [INFO]: GET /api/dashboard/activity
+2026-05-15 12:51:42 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:51:42 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:51:42 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:51:42 [INFO]: GET /api/plm/items
+2026-05-15 12:51:42 [INFO]: GET /api/plm/materials
+2026-05-15 12:51:42 [INFO]: GET /api/plm/materials
+2026-05-15 12:51:42 [INFO]: GET /api/plm/items
+2026-05-15 12:51:42 [INFO]: GET /api/plm/items
+2026-05-15 12:51:50 [INFO]: GET /api/settings
+2026-05-15 12:51:50 [INFO]: GET /api/settings
+2026-05-15 12:51:53 [INFO]: GET /api/admin/users
+2026-05-15 12:51:53 [INFO]: GET /api/admin/permissions
+2026-05-15 12:51:53 [INFO]: Retrieved all users
+2026-05-15 12:51:53 [INFO]: GET /api/admin/users
+2026-05-15 12:51:53 [INFO]: GET /api/admin/permissions
+2026-05-15 12:51:53 [INFO]: Retrieved all users
+2026-05-15 12:52:37 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 12:52:37 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-15 12:54:03 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:54:03 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:54:03 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 12:54:03 [INFO]: GET /api/settings
+2026-05-15 12:54:03 [INFO]: GET /api/settings
+2026-05-15 12:54:05 [INFO]: GET /api/admin/users
+2026-05-15 12:54:05 [INFO]: GET /api/admin/permissions
+2026-05-15 12:54:05 [INFO]: Retrieved all users
+2026-05-15 12:54:05 [INFO]: GET /api/admin/users
+2026-05-15 12:54:05 [INFO]: Retrieved all users
+2026-05-15 12:54:05 [INFO]: GET /api/admin/permissions
+2026-05-15 12:54:15 [INFO]: GET /api/plm/items
+2026-05-15 12:54:15 [INFO]: GET /api/plm/materials
+2026-05-15 12:54:15 [INFO]: GET /api/plm/items
+2026-05-15 12:54:15 [INFO]: GET /api/plm/materials
+2026-05-15 12:54:16 [INFO]: GET /api/plm/materials
+2026-05-15 12:54:16 [INFO]: GET /api/plm/materials
+2026-05-15 12:54:16 [INFO]: GET /api/inventory/4
+2026-05-15 12:54:16 [INFO]: GET /api/plm/items/4/bom
+2026-05-15 12:54:16 [INFO]: GET /api/inventory/4/versions
+2026-05-15 12:54:16 [INFO]: GET /api/plm/items/4/bom
+2026-05-15 12:54:16 [INFO]: GET /api/inventory/4/versions
+2026-05-15 12:54:16 [INFO]: GET /api/inventory/4
+2026-05-15 12:54:25 [INFO]: GET /api/settings
+2026-05-15 12:54:25 [INFO]: GET /api/settings
+2026-05-15 12:54:26 [INFO]: GET /api/admin/users
+2026-05-15 12:54:26 [INFO]: GET /api/admin/permissions
+2026-05-15 12:54:26 [INFO]: GET /api/admin/permissions
+2026-05-15 12:54:26 [INFO]: Retrieved all users
+2026-05-15 12:54:26 [INFO]: GET /api/admin/users
+2026-05-15 12:54:26 [INFO]: Retrieved all users
+2026-05-15 12:57:10 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 12:57:10 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-15 13:01:13 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 13:01:13 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs

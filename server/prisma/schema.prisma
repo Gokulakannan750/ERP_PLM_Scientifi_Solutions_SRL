@@ -1,45 +1,35 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id          Int      @id @default(autoincrement())
-  email       String   @unique
-  password    String
-  role        String   @default("SUB_ADMIN") // ADMIN or SUB_ADMIN
-  name        String?  // User's full name
-  isActive    Boolean  @default(true)
-
-  // Permission relationships
-  permissions      UserPermission[]
-  productVersions  Product[]         @relation("ProductVersions")
-  documentUploads        CompanyDocument[] @relation("DocumentUploads")
-  changeLogEntries       CompanyChangeLog[] @relation("ChangeLogEntries")
-  productDocumentUploads ProductDocument[] @relation("ProductDocumentUploads")
-  purchaseRequests         PurchaseRequest[] @relation("PurchaseRequests")
-  approvedPurchaseRequests PurchaseRequest[] @relation("ApprovedPurchaseRequests")
-  
-  // PLM Workspace
-  checkedOutItems        Product[]         @relation("CheckedOutByUser")
-  plmAuditLogs           PlmAuditLog[]     @relation("PlmAuditActor")
-
-  // Project Management relations
-  projectTeamMembers     ProjectTeamMember[]
-  tasksOwned             Task[]              @relation("TaskOwner")
-  taskComments           TaskComment[]
-  timesheetEntries       TimesheetEntry[]    @relation("TimesheetEntries")
-  projectDocumentUploads ProjectDocument[]   @relation("ProjectDocumentUploads")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                       Int                 @id @default(autoincrement())
+  email                    String              @unique
+  password                 String
+  role                     String              @default("SUB_ADMIN")
+  name                     String?
+  isActive                 Boolean             @default(true)
+  createdAt                DateTime            @default(now())
+  updatedAt                DateTime            @updatedAt
+  changeLogEntries         CompanyChangeLog[]  @relation("ChangeLogEntries")
+  documentUploads          CompanyDocument[]   @relation("DocumentUploads")
+  plmAuditLogs             PlmAuditLog[]       @relation("PlmAuditActor")
+  checkedOutItems          Product[]           @relation("CheckedOutByUser")
+  productVersions          Product[]           @relation("ProductVersions")
+  productDocumentUploads   ProductDocument[]   @relation("ProductDocumentUploads")
+  projectDocumentUploads   ProjectDocument[]   @relation("ProjectDocumentUploads")
+  projectTeamMembers       ProjectTeamMember[]
+  approvedPurchaseRequests PurchaseRequest[]   @relation("ApprovedPurchaseRequests")
+  purchaseRequests         PurchaseRequest[]   @relation("PurchaseRequests")
+  tasksOwned               Task[]              @relation("TaskOwner")
+  taskComments             TaskComment[]
+  timesheetEntries         TimesheetEntry[]    @relation("TimesheetEntries")
+  permissions              UserPermission[]
 
   @@index([email])
   @@index([role])
@@ -47,80 +37,66 @@ model User {
 }
 
 model Permission {
-  id          Int    @id @default(autoincrement())
-  name        String @unique // e.g., "MANAGE_OFFERS", "MANAGE_INVOICES"
+  id          Int              @id @default(autoincrement())
+  name        String           @unique
   description String?
-  category    String // e.g., "OFFERS", "INVOICES", "SETTINGS"
-
-  users UserPermission[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  category    String
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  users       UserPermission[]
 }
 
 model UserPermission {
-  id           Int @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   userId       Int
   permissionId Int
-
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
+  createdAt    DateTime   @default(now())
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, permissionId])
 }
 
-// Categories for Companies (e.g. Supplier, Customer)
 model ContactCategory {
-  id          Int    @id @default(autoincrement())
-  name        String @unique
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
   description String?
-
-  companies Company[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  companies   Company[]
 }
 
 model Company {
-  id      Int     @id @default(autoincrement())
-  name    String
-  website String?
-  email   String? // General Company Email
-  phone   String? // General Company Phone
-
-  // Extended fields from spec
-  taxId         String?  // Tax / VAT Registration ID
-  gstNumber     String?  // GST Number
-  vatPercentage Decimal? // VAT % auto-filled on invoices/offers
-  paymentTerms  String?  // e.g. "net30", "net60", "anticipated"
-  incoterms     String?  // e.g. "EXW", "FOB", "DAP"
-  notes         String?  // General notes about this company
-  isObsolete    Boolean  @default(false) // Soft-delete flag
-
-  categoryId Int?
-  category   ContactCategory? @relation(fields: [categoryId], references: [id])
-
-  addresses    Address[]
-  contacts     Contact[] // People
-  bankAccounts BankAccount[]
-  documents    CompanyDocument[]
-  changeLogs   CompanyChangeLog[]
-
-  // Relations to other modules
-  products                      Product[] // Suppliers
-  productsAsAlternativeSupplier Product[] @relation("AlternativeSupplier")
-  stockBatches                  StockBatch[]
-  purchaseRequests              PurchaseRequest[]
-  invoices                      Invoice[]
-  offers                        Offer[]
-  projects                      Project[]
+  id                            Int                @id @default(autoincrement())
+  name                          String
+  website                       String?
+  email                         String?
+  phone                         String?
+  taxId                         String?
+  gstNumber                     String?
+  vatPercentage                 Decimal?
+  paymentTerms                  String?
+  incoterms                     String?
+  notes                         String?
+  isObsolete                    Boolean            @default(false)
+  categoryId                    Int?
+  createdAt                     DateTime           @default(now())
+  updatedAt                     DateTime           @updatedAt
+  addresses                     Address[]
+  bankAccounts                  BankAccount[]
+  category                      ContactCategory?   @relation(fields: [categoryId], references: [id])
+  changeLogs                    CompanyChangeLog[]
+  documents                     CompanyDocument[]
+  contacts                      Contact[]
   creditNotes                   CreditNote[]
   deliveryNotes                 DeliveryNote[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  invoices                      Invoice[]
+  offers                        Offer[]
+  productsAsAlternativeSupplier Product[]          @relation("AlternativeSupplier")
+  products                      Product[]
+  projects                      Project[]
+  purchaseRequests              PurchaseRequest[]
+  stockBatches                  StockBatch[]
 
   @@index([name])
   @@index([categoryId])
@@ -129,168 +105,132 @@ model Company {
 }
 
 model Address {
-  id          Int     @id @default(autoincrement())
-  type        String? // "billing" | "shipping" | null
+  id          Int       @id @default(autoincrement())
+  type        String?
   street      String?
-  street2     String? // Second address line
-  houseNumber String? // House / building number
+  street2     String?
+  houseNumber String?
   city        String?
   state       String?
   pincode     String?
   country     String?
-
-  companyId Int
-  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-
-  contacts Contact[] // People sitting at this address
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  companyId   Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  company     Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  contacts    Contact[]
 }
 
 model Contact {
-  id         Int     @id @default(autoincrement())
-  name       String  // Full name (kept for backward compatibility)
-  firstName  String? // First name
-  surname    String? // Last name / Surname
-  email      String? // Personal Work Email
-  pecEmail   String? // PEC / Certified Email
-  phone      String? // Personal Work Phone
-  cellPhone  String? // Mobile / Cell Phone
+  id         Int      @id @default(autoincrement())
+  name       String
+  firstName  String?
+  surname    String?
+  email      String?
+  pecEmail   String?
+  phone      String?
+  cellPhone  String?
   jobTitle   String?
-  notes      String? // General notes about this contact
-  quickNotes String? // Quick contact-specific notes
-  isObsolete Boolean @default(false) // Soft-delete flag
-
-  companyId Int
-  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-
-  addressId Int?
-  address   Address? @relation(fields: [addressId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  notes      String?
+  quickNotes String?
+  isObsolete Boolean  @default(false)
+  companyId  Int
+  addressId  Int?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  address    Address? @relation(fields: [addressId], references: [id])
+  company    Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   @@index([companyId])
   @@index([isObsolete])
 }
 
 model BankAccount {
-  id        Int     @id @default(autoincrement())
-  companyId Int
-  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-
+  id            Int      @id @default(autoincrement())
+  companyId     Int
   bankName      String
   accountNumber String?
   iban          String?
   bicSwift      String?
   routingNumber String?
   bankAddress   String?
-  isDefault     Boolean @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isDefault     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   @@index([companyId])
 }
 
 model CompanyDocument {
-  id        Int     @id @default(autoincrement())
-  companyId Int
-  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-
+  id               Int      @id @default(autoincrement())
+  companyId        Int
   fileName         String
   originalFileName String
-  fileUrl          String  // Relative server path
+  fileUrl          String
   fileSize         Int?
   mimeType         String?
-  version          Int     @default(1)
-
+  version          Int      @default(1)
   uploadedByUserId Int
-  uploadedBy       User    @relation("DocumentUploads", fields: [uploadedByUserId], references: [id])
-
-  createdAt DateTime @default(now())
+  createdAt        DateTime @default(now())
+  company          Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  uploadedBy       User     @relation("DocumentUploads", fields: [uploadedByUserId], references: [id])
 
   @@index([companyId])
 }
 
 model CompanyChangeLog {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   companyId Int
-  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-
-  userId Int
-  user   User @relation("ChangeLogEntries", fields: [userId], references: [id])
-
+  userId    Int
   fieldName String
   oldValue  String?
   newValue  String?
-
   changedAt DateTime @default(now())
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  user      User     @relation("ChangeLogEntries", fields: [userId], references: [id])
 
   @@index([companyId])
   @@index([changedAt])
 }
 
 model Product {
-  id          Int     @id @default(autoincrement())
-  sku         String
-  name        String
-  description String?
-  price       Decimal
-  quantity    Int     @default(0)
-  reserved    Int     @default(0) // Stock reserved in Offers
-  minLevel    Int     @default(5)
-  maxLevel    Int     @default(100)
-
-  // Structured SKU fields (xxyyaaaaa format)
-  categoryCode    String? // 2-char category code (xx)
-  subcategoryCode String? // 2-char subcategory code (yy)
-  skuCounter      Int?    // Auto-incremented numeric counter (aaaaa)
-
-  // PLM Specific Fields
-  plmType         String?  @default("P") // P (Part), A (Assembly), C (Commercial), D (Drawing)
-  itemNumber      String?  // The 5-digit sequence (e.g., "00042")
-  revision        String?  @default("A") // A, B, C...
-  lifecycleState  String   @default("IN_WORK") // IN_WORK, UNDER_REVIEW, RELEASED, OBSOLETE
-  isLocked        Boolean  @default(false)
-  isObsolete      Boolean  @default(false)
-  
-  // CAD tool associated with this item (NONE | CREO | FREECAD)
-  cadTool         String   @default("NONE")
-
-  // Drawing specific fields
-  drawingSequence Int?     // M
-  drawingRevision String?  // N
-  
-  // Personal Workspace / Checkout
-  checkedOutByUserId Int?
-  checkedOutBy       User?    @relation("CheckedOutByUser", fields: [checkedOutByUserId], references: [id])
-  checkedOutAt       DateTime?
-  checkoutNote       String?   // Optional note left at checkout
-
-  // Relationships
-  parentId        Int?     // For Drawings to link back to Part/Assembly
-  parentItem      Product? @relation("ItemDrawings", fields: [parentId], references: [id])
-  drawings        Product[] @relation("ItemDrawings")
-  
-  bomItems        BomItem[] @relation("ParentProduct")
-  usedInBoms      BomItem[] @relation("ChildProduct")
-  auditLogs       PlmAuditLog[]
-
-  // Extended Inventory Fields
+  id                               Int               @id @default(autoincrement())
+  sku                              String
+  name                             String
+  description                      String?
+  price                            Decimal
+  quantity                         Int               @default(0)
+  reserved                         Int               @default(0)
+  minLevel                         Int               @default(5)
+  maxLevel                         Int               @default(100)
+  categoryCode                     String?
+  subcategoryCode                  String?
+  skuCounter                       Int?
+  plmType                          String?           @default("P")
+  itemNumber                       String?
+  revision                         String?           @default("A")
+  lifecycleState                   String            @default("IN_WORK")
+  isLocked                         Boolean           @default(false)
+  isObsolete                       Boolean           @default(false)
+  cadTool                          String            @default("NONE")
+  drawingSequence                  Int?
+  drawingRevision                  String?
+  checkedOutByUserId               Int?
+  checkedOutAt                     DateTime?
+  checkoutNote                     String?
+  parentId                         Int?
   brand                            String?
   itemType                         String?
   unitOfMeasure                    String?
-  currency                         String?  @default("USD")
+  currency                         String?           @default("USD")
   importDutyPercentage             Decimal?
   shippingCostPerItem              Decimal?
   alternativeSupplierId            Int?
-  alternativeSupplier              Company? @relation("AlternativeSupplier", fields: [alternativeSupplierId], references: [id])
   primarySupplierArticleNumber     String?
   alternativeSupplierArticleNumber String?
   reorderQuantity                  Int?
-  reorderTriggerThreshold          Int?     @default(5)
+  reorderTriggerThreshold          Int?              @default(5)
   leadTimeDays                     Int?
   supplierQuoteReference           String?
   hsCode                           String?
@@ -301,30 +241,30 @@ model Product {
   lastStockCheckDate               DateTime?
   barcodeQrData                    String?
   plmItemLink                      String?
-
-  supplierId Int?
-  supplier   Company? @relation(fields: [supplierId], references: [id])
-
-  // Material
-  materialId Int?
-  material   PlmMaterial? @relation(fields: [materialId], references: [id])
-
-  // Version Control Fields
-  recDate          DateTime @default(now())
-  lastRecID        Int?
-  modifiedByUserId Int
-  isLatest         Boolean  @default(true)
-  modifiedBy       User     @relation("ProductVersions", fields: [modifiedByUserId], references: [id])
-
-  movements        StockMovement[]
-  offerItems       OfferItem[]
-  invoiceItems     InvoiceItem[]
-  documents        ProductDocument[]
-  batches          StockBatch[]
-  purchaseRequests PurchaseRequest[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  supplierId                       Int?
+  materialId                       Int?
+  recDate                          DateTime          @default(now())
+  lastRecID                        Int?
+  modifiedByUserId                 Int
+  isLatest                         Boolean           @default(true)
+  createdAt                        DateTime          @default(now())
+  updatedAt                        DateTime          @updatedAt
+  usedInBoms                       BomItem[]         @relation("ChildProduct")
+  bomItems                         BomItem[]         @relation("ParentProduct")
+  invoiceItems                     InvoiceItem[]
+  offerItems                       OfferItem[]
+  auditLogs                        PlmAuditLog[]
+  alternativeSupplier              Company?          @relation("AlternativeSupplier", fields: [alternativeSupplierId], references: [id])
+  checkedOutBy                     User?             @relation("CheckedOutByUser", fields: [checkedOutByUserId], references: [id])
+  material                         PlmMaterial?      @relation(fields: [materialId], references: [id])
+  modifiedBy                       User              @relation("ProductVersions", fields: [modifiedByUserId], references: [id])
+  parentItem                       Product?          @relation("ItemDrawings", fields: [parentId], references: [id])
+  drawings                         Product[]         @relation("ItemDrawings")
+  supplier                         Company?          @relation(fields: [supplierId], references: [id])
+  documents                        ProductDocument[]
+  purchaseRequests                 PurchaseRequest[]
+  batches                          StockBatch[]
+  movements                        StockMovement[]
 
   @@index([sku])
   @@index([name])
@@ -340,40 +280,35 @@ model Product {
 }
 
 model BomItem {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   parentId  Int
   childId   Int
-  quantity  Decimal @default(1)
-  
-  parent    Product @relation("ParentProduct", fields: [parentId], references: [id], onDelete: Cascade)
-  child     Product @relation("ChildProduct", fields: [childId], references: [id], onDelete: Cascade)
-
+  quantity  Decimal  @default(1)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  child     Product  @relation("ChildProduct", fields: [childId], references: [id], onDelete: Cascade)
+  parent    Product  @relation("ParentProduct", fields: [parentId], references: [id], onDelete: Cascade)
 
   @@unique([parentId, childId])
 }
 
 model PlmCounter {
-  id          Int      @id @default(1)
-  lastNumber  Int      @default(0)
-  updatedAt   DateTime @updatedAt
+  id         Int      @id @default(1)
+  lastNumber Int      @default(0)
+  updatedAt  DateTime @updatedAt
 }
 
 model PlmAuditLog {
-  id          Int      @id @default(autoincrement())
-  productId   Int
-  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-
-  userId      Int
-  user        User     @relation("PlmAuditActor", fields: [userId], references: [id])
-
-  action      String   // CREATED, CHECKOUT, CHECKIN, UNDO_CHECKOUT, STATE_TRANSITION, REVISED, BOM_UPDATED
-  fromState   String?  // previous lifecycleState (for transitions)
-  toState     String?  // new lifecycleState (for transitions)
-  note        String?  // optional free-text note
-
-  createdAt   DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  productId Int
+  userId    Int
+  action    String
+  fromState String?
+  toState   String?
+  note      String?
+  createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User     @relation("PlmAuditActor", fields: [userId], references: [id])
 
   @@index([productId])
   @@index([userId])
@@ -381,31 +316,28 @@ model PlmAuditLog {
 }
 
 model PlmMaterial {
-  id        Int      @id @default(autoincrement())
-  name      String   // e.g. "Stainless Steel 316L"
-  colour    String?  // hex or name, e.g. "#C0C0C0" / "Silver"
-  texture   String?  // e.g. "Brushed", "Polished", "Raw"
-  density   Float?   // g/cm³
-  standard  String?  // e.g. "ASTM A276", "EN 10088"
-  isActive  Boolean  @default(true)
-
+  id        Int       @id @default(autoincrement())
+  name      String
+  colour    String?
+  texture   String?
+  density   Float?
+  standard  String?
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   products  Product[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   @@index([name])
 }
 
 model PlmTemplate {
   id          Int      @id @default(autoincrement())
-  itemType    String   // P, A, C, D
-  name        String   // Human-readable name e.g. "Standard Part Template"
-  filePath    String?  // Network path to the .prt / .asm / .drw file
-  fileExt     String?  // .prt | .asm | .drw
+  itemType    String
+  name        String
+  filePath    String?
+  fileExt     String?
   description String?
   isActive    Boolean  @default(true)
-
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -414,98 +346,72 @@ model PlmTemplate {
 }
 
 model ProductDocument {
-  id        Int     @id @default(autoincrement())
-  productId Int
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
+  id               Int      @id @default(autoincrement())
+  productId        Int
   fileName         String
   originalFileName String
-  fileUrl          String  // Relative server path
+  fileUrl          String
   fileSize         Int?
   mimeType         String?
-  version          Int     @default(1)
-  documentType     String  @default("GENERAL") // GENERAL | SIMULATION | DRAWING | CERTIFICATE | DATASHEET
-
+  version          Int      @default(1)
+  documentType     String   @default("GENERAL")
   uploadedByUserId Int
-  uploadedBy       User    @relation("ProductDocumentUploads", fields: [uploadedByUserId], references: [id])
-
-  createdAt DateTime @default(now())
+  createdAt        DateTime @default(now())
+  product          Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  uploadedBy       User     @relation("ProductDocumentUploads", fields: [uploadedByUserId], references: [id])
 
   @@index([productId])
 }
 
 model StockBatch {
-  id        Int     @id @default(autoincrement())
-  productId Int
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
+  id           Int      @id @default(autoincrement())
+  productId    Int
   batchNumber  String?
   lotNumber    String?
   serialNumber String?
-  
-  quantity     Int     @default(0) // Quantity initially received in this batch
-  currentQty   Int     @default(0) // Remaining quantity in this batch
-
+  quantity     Int      @default(0)
+  currentQty   Int      @default(0)
   supplierId   Int?
+  receivedAt   DateTime @default(now())
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   supplier     Company? @relation(fields: [supplierId], references: [id])
 
-  receivedAt   DateTime @default(now())
-  
   @@index([productId])
   @@index([batchNumber])
   @@index([serialNumber])
 }
 
 model PurchaseRequest {
-  id            Int    @id @default(autoincrement())
-  requestNumber String @unique
-
-  direction String @default("OUTBOUND") // OUTBOUND (us→supplier) | INBOUND (customer→us)
-  type      String @default("INVENTORY") // INVENTORY | SERVICE | EQUIPMENT | OTHER
-
-  // Inventory item OR free-text (for new items)
+  id                  Int                       @id @default(autoincrement())
+  requestNumber       String                    @unique
+  direction           String                    @default("OUTBOUND")
+  type                String                    @default("INVENTORY")
   productId           Int?
-  product             Product? @relation(fields: [productId], references: [id])
   freeTextDescription String?
-
-  quantity          Decimal
-  unitOfMeasure     String?  @default("units")
-  estimatedUnitPrice Decimal?
-  totalEstimatedCost Decimal?
-
-  requiredByDate DateTime?
-
-  // Project reference
-  projectId Int?
-  project   Project? @relation(fields: [projectId], references: [id])
-
-  // OUTBOUND: supplier company | INBOUND: customer company
-  companyId Int?
-  company   Company? @relation(fields: [companyId], references: [id])
-
-  priority String @default("MEDIUM") // LOW | MEDIUM | URGENT
-  status   String @default("RAISED") // RAISED | UNDER_REVIEW | APPROVED | ORDERED | RECEIVED | CANCELLED
-
-  // Ordered
+  quantity            Decimal
+  unitOfMeasure       String?                   @default("units")
+  estimatedUnitPrice  Decimal?
+  totalEstimatedCost  Decimal?
+  requiredByDate      DateTime?
+  projectId           Int?
+  companyId           Int?
+  priority            String                    @default("MEDIUM")
+  status              String                    @default("RAISED")
   purchaseOrderNumber String?
-
-  // Received
-  actualUnitPrice  Decimal?
-  actualTotalCost  Decimal?
-  receivedQuantity Decimal?
-
-  notes String?
-
-  requestedByUserId Int?
-  requestedBy       User? @relation("PurchaseRequests", fields: [requestedByUserId], references: [id])
-
-  approvedByUserId Int?
-  approvedBy       User? @relation("ApprovedPurchaseRequests", fields: [approvedByUserId], references: [id])
-
-  documents PurchaseRequestDocument[]
-
-  requestedAt DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  actualUnitPrice     Decimal?
+  actualTotalCost     Decimal?
+  receivedQuantity    Decimal?
+  notes               String?
+  requestedByUserId   Int?
+  approvedByUserId    Int?
+  requestedAt         DateTime                  @default(now())
+  updatedAt           DateTime                  @updatedAt
+  approvedBy          User?                     @relation("ApprovedPurchaseRequests", fields: [approvedByUserId], references: [id])
+  company             Company?                  @relation(fields: [companyId], references: [id])
+  product             Product?                  @relation(fields: [productId], references: [id])
+  project             Project?                  @relation(fields: [projectId], references: [id])
+  requestedBy         User?                     @relation("PurchaseRequests", fields: [requestedByUserId], references: [id])
+  documents           PurchaseRequestDocument[]
 
   @@index([status])
   @@index([direction])
@@ -518,60 +424,48 @@ model PurchaseRequest {
 model PurchaseRequestDocument {
   id                Int             @id @default(autoincrement())
   purchaseRequestId Int
+  fileName          String
+  originalFileName  String
+  fileUrl           String
+  fileSize          Int?
+  mimeType          String?
+  uploadedByUserId  Int
+  createdAt         DateTime        @default(now())
   purchaseRequest   PurchaseRequest @relation(fields: [purchaseRequestId], references: [id], onDelete: Cascade)
-
-  fileName         String
-  originalFileName String
-  fileUrl          String
-  fileSize         Int?
-  mimeType         String?
-
-  uploadedByUserId Int
-  createdAt        DateTime @default(now())
 
   @@index([purchaseRequestId])
 }
 
 model DeliveryNote {
-  id             Int    @id @default(autoincrement())
-  deliveryNumber String @unique // DN-2026-0001
-
-  companyId Int
-  company   Company @relation(fields: [companyId], references: [id])
-
-  invoiceId Int?
-  invoice   Invoice? @relation(fields: [invoiceId], references: [id])
-
-  projectId Int?
-  project   Project? @relation(fields: [projectId], references: [id])
-
-  status      String    @default("DRAFT") // DRAFT | READY | SHIPPED | DELIVERED | CANCELLED
-  deliveryDate DateTime?
-  shippedAt   DateTime?
-  deliveredAt DateTime?
-
+  id               Int                    @id @default(autoincrement())
+  deliveryNumber   String                 @unique
+  companyId        Int
+  invoiceId        Int?
+  projectId        Int?
+  status           String                 @default("DRAFT")
+  deliveryDate     DateTime?
+  shippedAt        DateTime?
+  deliveredAt      DateTime?
   customerPoNumber String?
   customerPoDate   DateTime?
-
-  carrier        String?
-  trackingNumber String?
-  incoterms      String?
-
-  packageType  String?  // WOOD_CRATE | PALLET | CARDBOARD_BOX | CUSTOM
-  packageCount Int?
-  weightKg     Decimal?
-  dimensionL   Decimal?
-  dimensionW   Decimal?
-  dimensionH   Decimal?
-
-  deliveryAddress String?
-  notes           String?
-
-  items     DeliveryNoteItem[]
-  documents DeliveryNoteDocument[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  carrier          String?
+  trackingNumber   String?
+  incoterms        String?
+  packageType      String?
+  packageCount     Int?
+  weightKg         Decimal?
+  dimensionL       Decimal?
+  dimensionW       Decimal?
+  dimensionH       Decimal?
+  deliveryAddress  String?
+  notes            String?
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+  company          Company                @relation(fields: [companyId], references: [id])
+  invoice          Invoice?               @relation(fields: [invoiceId], references: [id])
+  project          Project?               @relation(fields: [projectId], references: [id])
+  documents        DeliveryNoteDocument[]
+  items            DeliveryNoteItem[]
 
   @@index([status])
   @@index([companyId])
@@ -583,104 +477,88 @@ model DeliveryNote {
 model DeliveryNoteItem {
   id             Int          @id @default(autoincrement())
   deliveryNoteId Int
+  lineNumber     Int
+  productId      Int?
+  sku            String?
+  description    String
+  quantity       Decimal
+  unitOfMeasure  String?      @default("units")
+  createdAt      DateTime     @default(now())
   deliveryNote   DeliveryNote @relation(fields: [deliveryNoteId], references: [id], onDelete: Cascade)
-
-  lineNumber    Int
-  productId     Int?
-  sku           String?
-  description   String
-  quantity      Decimal
-  unitOfMeasure String? @default("units")
-
-  createdAt DateTime @default(now())
 
   @@index([deliveryNoteId])
 }
 
 model DeliveryNoteDocument {
-  id             Int          @id @default(autoincrement())
-  deliveryNoteId Int
-  deliveryNote   DeliveryNote @relation(fields: [deliveryNoteId], references: [id], onDelete: Cascade)
-
+  id               Int          @id @default(autoincrement())
+  deliveryNoteId   Int
   fileName         String
   originalFileName String
   fileUrl          String
   fileSize         Int?
   mimeType         String?
-  documentType     String? // PACKING_LIST | CUSTOMS | CERTIFICATE | OTHER
-
+  documentType     String?
   uploadedByUserId Int
-  createdAt        DateTime @default(now())
+  createdAt        DateTime     @default(now())
+  deliveryNote     DeliveryNote @relation(fields: [deliveryNoteId], references: [id], onDelete: Cascade)
 
   @@index([deliveryNoteId])
 }
 
 model ProductCategory {
-  id   Int    @id @default(autoincrement())
-  code String @unique // 2-char code, e.g. "EL"
-  name String
-
+  id            Int                  @id @default(autoincrement())
+  code          String               @unique
+  name          String
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
   subcategories ProductSubcategory[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model ProductSubcategory {
-  id   Int    @id @default(autoincrement())
-  code String // 2-char code, e.g. "PC"
-  name String
-
+  id         Int             @id @default(autoincrement())
+  code       String
+  name       String
   categoryId Int
+  createdAt  DateTime        @default(now())
   category   ProductCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
 
   @@unique([categoryId, code])
 }
 
 model StockMovement {
-  id       Int    @id @default(autoincrement())
-  type     String // 'IN', 'OUT', 'ADJUSTMENT'
-  quantity Int
-  reason   String?
-
+  id        Int      @id @default(autoincrement())
+  type      String
+  quantity  Int
+  reason    String?
   productId Int
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
   createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Project {
-  id            Int      @id @default(autoincrement())
-  name          String
-  description   String?
-  category      String?
-  tags          String?  // Comma separated tags
-  priorityLevel String   @default("MEDIUM") // LOW, MEDIUM, HIGH, URGENT
-  budget        Decimal?
-  status        String   @default("PLANNING") // PLANNING, ACTIVE, ON_HOLD, COMPLETED, CANCELLED
-  startDate     DateTime?
-  endDate       DateTime?
-
-  clientId Int?
-  client   Company? @relation(fields: [clientId], references: [id])
-
-  cadFilePath String?
-
-  // Visibility control — admin can restrict project to team members only
-  isPublic    Boolean @default(true)
-
-  teamMembers      ProjectTeamMember[]
-  milestones       Milestone[]
-  tasks            Task[]
-  documents        ProjectDocument[]
-  invoices         Invoice[]
-  purchaseRequests PurchaseRequest[]
+  id               Int                 @id @default(autoincrement())
+  name             String
+  description      String?
+  category         String?
+  tags             String?
+  priorityLevel    String              @default("MEDIUM")
+  budget           Decimal?
+  status           String              @default("PLANNING")
+  startDate        DateTime?
+  endDate          DateTime?
+  clientId         Int?
+  cadFilePath      String?
+  isPublic         Boolean             @default(true)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
   deliveryNotes    DeliveryNote[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  invoices         Invoice[]
+  milestones       Milestone[]
+  client           Company?            @relation(fields: [clientId], references: [id])
+  documents        ProjectDocument[]
+  teamMembers      ProjectTeamMember[]
+  purchaseRequests PurchaseRequest[]
+  tasks            Task[]
 
   @@index([status])
   @@index([clientId])
@@ -691,13 +569,11 @@ model ProjectTeamMember {
   id        Int      @id @default(autoincrement())
   projectId Int
   userId    Int
-  role      String   @default("MEMBER") // e.g. MANAGER, LEAD, MEMBER
-  
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  role      String   @default("MEMBER")
   createdAt DateTime @default(now())
-  
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([projectId, userId])
 }
 
@@ -707,45 +583,37 @@ model Milestone {
   name       String
   targetDate DateTime?
   isReached  Boolean   @default(false)
-  
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  tasks   Task[]
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  project    Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tasks      Task[]
+
   @@index([projectId])
 }
 
 model Task {
-  id             Int       @id @default(autoincrement())
-  projectId      Int
-  milestoneId    Int?
-  ownerId        Int?
-  
-  title          String
-  description    String?
-  startDate      DateTime?
-  dueDate        DateTime?
-  priority       String    @default("MEDIUM") // LOW, MEDIUM, HIGH, URGENT
-  status         String    @default("OPEN")   // OPEN, IN_PROGRESS, BLOCKED, COMPLETED
-  
-  estimatedHours Decimal?
-  actualHours    Decimal?  @default(0) // Auto-calculated from timesheets
-  
-  project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  milestone Milestone? @relation(fields: [milestoneId], references: [id], onDelete: SetNull)
-  owner     User?      @relation("TaskOwner", fields: [ownerId], references: [id], onDelete: SetNull)
-  
+  id                        Int              @id @default(autoincrement())
+  projectId                 Int
+  milestoneId               Int?
+  ownerId                   Int?
+  title                     String
+  description               String?
+  startDate                 DateTime?
+  dueDate                   DateTime?
+  priority                  String           @default("MEDIUM")
+  status                    String           @default("OPEN")
+  estimatedHours            Decimal?
+  actualHours               Decimal?         @default(0)
+  createdAt                 DateTime         @default(now())
+  updatedAt                 DateTime         @updatedAt
+  milestone                 Milestone?       @relation(fields: [milestoneId], references: [id])
+  owner                     User?            @relation("TaskOwner", fields: [ownerId], references: [id])
+  project                   Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  comments                  TaskComment[]
   dependenciesAsPredecessor TaskDependency[] @relation("PredecessorTask")
   dependenciesAsSuccessor   TaskDependency[] @relation("SuccessorTask")
-  
-  comments   TaskComment[]
-  timesheets TimesheetEntry[]
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
+  timesheets                TimesheetEntry[]
+
   @@index([projectId])
   @@index([milestoneId])
   @@index([ownerId])
@@ -753,15 +621,13 @@ model Task {
 }
 
 model TaskDependency {
-  id            Int  @id @default(autoincrement())
+  id            Int      @id @default(autoincrement())
   predecessorId Int
   successorId   Int
-  
-  predecessor Task @relation("PredecessorTask", fields: [predecessorId], references: [id], onDelete: Cascade)
-  successor   Task @relation("SuccessorTask", fields: [successorId], references: [id], onDelete: Cascade)
-  
-  createdAt DateTime @default(now())
-  
+  createdAt     DateTime @default(now())
+  predecessor   Task     @relation("PredecessorTask", fields: [predecessorId], references: [id], onDelete: Cascade)
+  successor     Task     @relation("SuccessorTask", fields: [successorId], references: [id], onDelete: Cascade)
+
   @@unique([predecessorId, successorId])
 }
 
@@ -770,93 +636,74 @@ model TaskComment {
   taskId    Int
   userId    Int
   content   String
-  
-  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
   createdAt DateTime @default(now())
-  
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@index([taskId])
   @@index([userId])
 }
 
 model TimesheetEntry {
-  id     Int      @id @default(autoincrement())
-  taskId Int
-  userId Int
-  date   DateTime
-  hours  Decimal
-  notes  String?
-  
-  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  user User @relation("TimesheetEntries", fields: [userId], references: [id], onDelete: Cascade)
-  
+  id        Int      @id @default(autoincrement())
+  taskId    Int
+  userId    Int
+  date      DateTime
+  hours     Decimal
+  notes     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user      User     @relation("TimesheetEntries", fields: [userId], references: [id], onDelete: Cascade)
+
   @@index([taskId])
   @@index([userId])
   @@index([date])
 }
 
 model ProjectDocument {
-  id        Int     @id @default(autoincrement())
-  projectId Int
-  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
+  id               Int      @id @default(autoincrement())
+  projectId        Int
   fileName         String
   originalFileName String
-  fileUrl          String  // Relative server path
+  fileUrl          String
   fileSize         Int?
   mimeType         String?
-  version          Int     @default(1)
-
+  version          Int      @default(1)
   uploadedByUserId Int
-  uploadedBy       User    @relation("ProjectDocumentUploads", fields: [uploadedByUserId], references: [id])
-
-  createdAt DateTime @default(now())
+  createdAt        DateTime @default(now())
+  project          Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  uploadedBy       User     @relation("ProjectDocumentUploads", fields: [uploadedByUserId], references: [id])
 
   @@index([projectId])
 }
 
 model Invoice {
-  id            Int    @id @default(autoincrement())
-  invoiceNumber String @unique
-
-  companyId Int
-  company   Company @relation(fields: [companyId], references: [id])
-
-  offerId Int?    @unique
-  offer   Offer?  @relation(fields: [offerId], references: [id])
-
-  items InvoiceItem[]
-
+  id              Int            @id @default(autoincrement())
+  invoiceNumber   String         @unique
+  companyId       Int
+  offerId         Int?           @unique
   totalAmount     Decimal
-  taxRate         Decimal  @default(0)
-  discountPercent Decimal? @default(0)
-  discountAmount  Decimal? @default(0)
-  status          String   @default("UNPAID") // DRAFT, UNPAID, PAID, OVERDUE, CANCELLED
-  date            DateTime @default(now())
+  taxRate         Decimal        @default(0)
+  discountPercent Decimal?       @default(0)
+  discountAmount  Decimal?       @default(0)
+  status          String         @default("UNPAID")
+  date            DateTime       @default(now())
   dueDate         DateTime?
   notes           String?
-
-  // PO reference
-  poNumber String?
-  poDate   DateTime?
-
-  // Payment recording
-  paymentMethod String?   // BANK_TRANSFER, CASH, CREDIT_CARD, OTHER
-  paymentDate   DateTime?
-
-  // Project linkage for budget tracking
-  projectId Int?
-  project   Project? @relation(fields: [projectId], references: [id])
-
-  creditNotes   CreditNote[]
-  deliveryNotes DeliveryNote[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  poNumber        String?
+  poDate          DateTime?
+  paymentMethod   String?
+  paymentDate     DateTime?
+  projectId       Int?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  creditNotes     CreditNote[]
+  deliveryNotes   DeliveryNote[]
+  company         Company        @relation(fields: [companyId], references: [id])
+  offer           Offer?         @relation(fields: [offerId], references: [id])
+  project         Project?       @relation(fields: [projectId], references: [id])
+  items           InvoiceItem[]
 
   @@index([companyId])
   @@index([status])
@@ -866,46 +713,38 @@ model Invoice {
 }
 
 model InvoiceItem {
-  id        Int     @id @default(autoincrement())
-  invoiceId Int
-  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
-
-  productId Int?
-  product   Product? @relation(fields: [productId], references: [id])
-
+  id              Int      @id @default(autoincrement())
+  invoiceId       Int
+  productId       Int?
   description     String
   quantity        Int
   unitPrice       Decimal
   discountPercent Decimal? @default(0)
   vatPercent      Decimal? @default(0)
   totalPrice      Decimal
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  invoice         Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  product         Product? @relation(fields: [productId], references: [id])
 }
 
 model Offer {
-  id          Int    @id @default(autoincrement())
-  offerNumber String @unique
-
-  companyId Int
-  company   Company @relation(fields: [companyId], references: [id])
-
-  items OfferItem[]
-
+  id              Int         @id @default(autoincrement())
+  offerNumber     String      @unique
+  companyId       Int
   totalAmount     Decimal
-  taxRate         Decimal  @default(0)
-  status          String   @default("DRAFT") // DRAFT, SENT, ACCEPTED, REJECTED, EXPIRED, CONVERTED
+  taxRate         Decimal     @default(0)
+  status          String      @default("DRAFT")
   validUntil      DateTime?
   description     String?
-  version         Int      @default(1)
+  version         Int         @default(1)
   rejectionReason String?
-  parentOfferId   Int?     // set when duplicated from another offer
-
-  invoice Invoice?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  parentOfferId   Int?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  invoice         Invoice?
+  company         Company     @relation(fields: [companyId], references: [id])
+  items           OfferItem[]
 
   @@index([companyId])
   @@index([status])
@@ -913,37 +752,34 @@ model Offer {
 }
 
 model OfferItem {
-  id      Int   @id @default(autoincrement())
-  offerId Int
-  offer   Offer @relation(fields: [offerId], references: [id], onDelete: Cascade)
-
-  productId Int?
-  product   Product? @relation(fields: [productId], references: [id])
-
+  id              Int      @id @default(autoincrement())
+  offerId         Int
+  productId       Int?
   description     String
   quantity        Int
   unitPrice       Decimal
   discountPercent Decimal? @default(0)
   totalPrice      Decimal
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  offer           Offer    @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  product         Product? @relation(fields: [productId], references: [id])
 }
 
 model CreditNote {
-  id               Int      @id @default(autoincrement())
-  creditNoteNumber String   @unique
+  id               Int              @id @default(autoincrement())
+  creditNoteNumber String           @unique
   invoiceId        Int
-  invoice          Invoice  @relation(fields: [invoiceId], references: [id])
   companyId        Int
-  company          Company  @relation(fields: [companyId], references: [id])
   reason           String?
-  status           String   @default("DRAFT") // DRAFT, ISSUED, APPLIED
-  totalAmount      Decimal  @default(0)
-  items            CreditNoteItem[]
+  status           String           @default("DRAFT")
+  totalAmount      Decimal          @default(0)
   issuedAt         DateTime?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  company          Company          @relation(fields: [companyId], references: [id])
+  invoice          Invoice          @relation(fields: [invoiceId], references: [id])
+  items            CreditNoteItem[]
 
   @@index([invoiceId])
   @@index([companyId])
@@ -953,35 +789,28 @@ model CreditNote {
 model CreditNoteItem {
   id           Int        @id @default(autoincrement())
   creditNoteId Int
-  creditNote   CreditNote @relation(fields: [creditNoteId], references: [id], onDelete: Cascade)
   description  String
   quantity     Int        @default(1)
   unitPrice    Decimal    @default(0)
   totalPrice   Decimal    @default(0)
   productId    Int?
   createdAt    DateTime   @default(now())
+  creditNote   CreditNote @relation(fields: [creditNoteId], references: [id], onDelete: Cascade)
 }
 
 model Settings {
-  id         Int    @id @default(autoincrement())
-  dateFormat String @default("DD/MM/YYYY")
-  timeFormat String @default("HH:mm")
-
-  emailTemplates String // Storing as JSON string
-  // Structure: { invoice: { subject, body }, offer: { ... }, po: { ... } }
-
-  invoiceTemplates String? // JSON string array of { id, name, content }
-  offerTemplates   String? // JSON string array of { id, name, content }
-
-  // Organization Details (From Address)
+  id                 Int      @id @default(autoincrement())
+  dateFormat         String   @default("DD/MM/YYYY")
+  timeFormat         String   @default("HH:mm")
+  emailTemplates     String
+  invoiceTemplates   String?
+  offerTemplates     String?
   companyName        String?
   companyAddress     String?
   companyPhone       String?
-  companyCountryCode String? @default("+91")
+  companyCountryCode String?  @default("+91")
   companyEmail       String?
-
-  isDefault Boolean @default(true) @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isDefault          Boolean  @unique @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
