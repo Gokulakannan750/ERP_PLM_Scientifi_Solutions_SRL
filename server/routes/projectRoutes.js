@@ -1,39 +1,40 @@
 const express = require('express');
 const router = express.Router();
 const projectController = require('../controllers/projectController');
-const { verifyToken } = require('../middleware/authMiddleware');
+const { verifyAnyPermission, verifyPermission } = require('../middleware/authMiddleware');
+const PERMISSIONS = require('../constants/permissions');
 
-// Apply authentication middleware
-router.use(verifyToken);
+const canView = verifyAnyPermission([PERMISSIONS.MANAGE_PROJECTS, PERMISSIONS.VIEW_PROJECTS]);
+const canManage = verifyPermission(PERMISSIONS.MANAGE_PROJECTS);
 
 // ─── Projects ───
-router.get('/', projectController.getProjects);
-router.post('/', projectController.createProject);
-router.get('/:id', projectController.getProjectById);
-router.put('/:id', projectController.updateProject);
-router.delete('/:id', projectController.deleteProject);
+router.get('/', canView, projectController.getProjects);
+router.post('/', canManage, projectController.createProject);
+router.get('/:id', canView, projectController.getProjectById);
+router.put('/:id', canManage, projectController.updateProject);
+router.delete('/:id', canManage, projectController.deleteProject);
 
 // ─── Team Members ───
-router.post('/:projectId/team', projectController.addTeamMember);
-router.delete('/:projectId/team/:memberId', projectController.removeTeamMember);
+router.post('/:projectId/team', canManage, projectController.addTeamMember);
+router.delete('/:projectId/team/:memberId', canManage, projectController.removeTeamMember);
 
 // ─── Milestones ───
-router.post('/:projectId/milestones', projectController.createMilestone);
-router.put('/:projectId/milestones/:id', projectController.updateMilestone);
+router.post('/:projectId/milestones', canManage, projectController.createMilestone);
+router.put('/:projectId/milestones/:id', canManage, projectController.updateMilestone);
 
 // ─── Tasks ───
-router.post('/:projectId/tasks', projectController.createTask);
-router.put('/:projectId/tasks/:id', projectController.updateTask);
+router.post('/:projectId/tasks', canManage, projectController.createTask);
+router.put('/:projectId/tasks/:id', canManage, projectController.updateTask);
 
 // ─── Task Comments ───
-router.post('/:projectId/tasks/:taskId/comments', projectController.addTaskComment);
-router.get('/:projectId/tasks/:taskId/comments', projectController.getTaskComments);
+router.post('/:projectId/tasks/:taskId/comments', canView, projectController.addTaskComment);
+router.get('/:projectId/tasks/:taskId/comments', canView, projectController.getTaskComments);
 
 // ─── Timesheets ───
-router.post('/:projectId/tasks/:taskId/timesheets', projectController.addTimesheetEntry);
-router.get('/:projectId/tasks/:taskId/timesheets', projectController.getTaskTimesheets);
+router.post('/:projectId/tasks/:taskId/timesheets', canView, projectController.addTimesheetEntry);
+router.get('/:projectId/tasks/:taskId/timesheets', canView, projectController.getTaskTimesheets);
 
 // ─── Documents ───
-router.post('/:projectId/documents', projectController.upload.single('file'), projectController.uploadDocument);
+router.post('/:projectId/documents', canManage, projectController.upload.single('file'), projectController.uploadDocument);
 
 module.exports = router;

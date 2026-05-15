@@ -46,7 +46,7 @@ export default function ProductHistoryModal({ productId, isOpen, onClose }: Prod
         setLoading(true);
         setError('');
         try {
-            const response = await fetch(`http://192.168.1.4:5000/api/inventory/${productId}/versions`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/inventory/${productId}/versions`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }

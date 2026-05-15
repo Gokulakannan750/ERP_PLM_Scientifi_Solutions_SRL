@@ -5,8 +5,12 @@ const prisma = new PrismaClient();
 
 async function main() {
     try {
-        const email = 'admin@example.com';
-        const password = 'password123';
+        const email = process.env.ADMIN_EMAIL || 'admin@example.com';
+        const password = process.env.ADMIN_PASSWORD;
+        if (!password) {
+            console.error('Error: ADMIN_PASSWORD environment variable is required');
+            process.exit(1);
+        }
 
         // Check if user exists
         const existingUser = await prisma.user.findUnique({ where: { email } });

@@ -1,28 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const inventoryController = require('../controllers/inventoryController');
-const { verifyToken } = require('../middleware/authMiddleware');
+const { verifyAnyPermission, verifyPermission } = require('../middleware/authMiddleware');
+const PERMISSIONS = require('../constants/permissions');
+
+const canView = verifyAnyPermission([PERMISSIONS.MANAGE_INVENTORY, PERMISSIONS.VIEW_INVENTORY]);
+const canManage = verifyPermission(PERMISSIONS.MANAGE_INVENTORY);
 
 // Product CRUD
-router.get('/', verifyToken, inventoryController.getProducts);
-router.get('/:id', verifyToken, inventoryController.getProduct);
-router.post('/', verifyToken, inventoryController.createProduct);
-router.put('/:id', verifyToken, inventoryController.updateProduct);
-router.delete('/:id', verifyToken, inventoryController.deleteProduct);
+router.get('/', canView, inventoryController.getProducts);
+router.get('/:id', canView, inventoryController.getProduct);
+router.post('/', canManage, inventoryController.createProduct);
+router.put('/:id', canManage, inventoryController.updateProduct);
+router.delete('/:id', canManage, inventoryController.deleteProduct);
 
 // Stock Operations
-router.post('/:id/check-in', verifyToken, inventoryController.checkInStock);
-router.post('/:id/check-out', verifyToken, inventoryController.checkOutStock);
-router.get('/:id/history', verifyToken, inventoryController.getHistory);
-router.get('/:id/versions', verifyToken, inventoryController.getProductHistory); // NEW: Version history
+router.post('/:id/check-in', canManage, inventoryController.checkInStock);
+router.post('/:id/check-out', canManage, inventoryController.checkOutStock);
+router.get('/:id/history', canView, inventoryController.getHistory);
+router.get('/:id/versions', canView, inventoryController.getProductHistory);
 
 // SKU preview (auto-generate from category+subcategory)
-router.get('/sku/preview', verifyToken, inventoryController.previewSku);
+router.get('/sku/preview', canView, inventoryController.previewSku);
 
 // Stock report — current levels, reorder items, 7-day movement summary
-router.get('/report', verifyToken, inventoryController.getStockReport);
+router.get('/report', canView, inventoryController.getStockReport);
 
 // Purchase cost analysis + TCO for a single product
-router.get('/:id/cost-analysis', verifyToken, inventoryController.getCostAnalysis);
+router.get('/:id/cost-analysis', canView, inventoryController.getCostAnalysis);
 
 module.exports = router;

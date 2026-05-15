@@ -160,7 +160,7 @@ export default function DocumentUpload({ companyId, documents, onDocumentAdded, 
                                 </div>
                                 <div className="flex items-center gap-2 flex-shrink-0">
                                     <a
-                                        href={`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:3001'}${doc.fileUrl}`}
+                                        href={`${(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api').replace('/api', '')}${doc.fileUrl}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="p-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"

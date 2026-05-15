@@ -44,7 +44,7 @@ const verifyPermission = (permissionName) => {
                 // Check if user has the specific permission
                 const userPermission = await prisma.userPermission.findFirst({
                     where: {
-                        userId: req.user.user_id,
+                        userId: req.user.userId,
                         permission: {
                             name: permissionName
                         }
@@ -83,7 +83,7 @@ const verifyAnyPermission = (permissionNames) => {
                 // Check if user has any of the specified permissions
                 const userPermission = await prisma.userPermission.findFirst({
                     where: {
-                        userId: req.user.user_id,
+                        userId: req.user.userId,
                         permission: {
                             name: { in: permissionNames }
                         }

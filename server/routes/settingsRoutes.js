@@ -8,6 +8,6 @@ const PERMISSIONS = require('../constants/permissions');
 router.use(verifyToken);
 
 router.get('/', getSettings);
-router.put('/', verifyPermission(PERMISSIONS.MANAGE_SETTINGS || 'MANAGE_SETTINGS'), updateSettings);
+router.put('/', verifyPermission(PERMISSIONS.MANAGE_SETTINGS), updateSettings);
 
 module.exports = router;

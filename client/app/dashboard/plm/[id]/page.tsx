@@ -77,7 +77,7 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
   // CSV export via anchor element
   const handleCsvExport=()=>{
     const token=typeof window!=='undefined'?localStorage.getItem('token'):null;
-    const url=`http://localhost:5000/api/plm/items/${id}/bom/export`;
+    const url=`${process.env.NEXT_PUBLIC_API_URL||'http://localhost:5000/api'}/plm/items/${id}/bom/export`;
     const a=document.createElement('a');
     a.href=url;
     a.setAttribute('download','');
@@ -477,7 +477,7 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
                         </div>
                       </div>
                       <div className="flex items-center gap-2 shrink-0">
-                        <a href={`http://localhost:5000${f.fileUrl}`} target="_blank" rel="noreferrer" className="p-1.5 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-lg transition-colors">
+                        <a href={`${(process.env.NEXT_PUBLIC_API_URL||'http://localhost:5000/api').replace('/api','')}${f.fileUrl}`} target="_blank" rel="noreferrer" className="p-1.5 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-lg transition-colors">
                           <Download className="w-4 h-4"/>
                         </a>
                         <button onClick={async()=>{if(!confirm('Delete this file?'))return;try{await api.delete(`/plm/items/${id}/files/${f.id}`);setFiles(p=>p.filter((x:any)=>x.id!==f.id));}catch(err:any){alert(err.response?.data?.error||'Delete failed');}}} className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors">

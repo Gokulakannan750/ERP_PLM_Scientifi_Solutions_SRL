@@ -3,15 +3,20 @@ const bcrypt = require('bcryptjs');
 const prisma = new PrismaClient();
 
 async function main() {
-    const hashedPassword = await bcrypt.hash('admin123', 10);
+    const password = process.env.ADMIN_PASSWORD;
+    if (!password) {
+        console.error('Error: ADMIN_PASSWORD environment variable is required');
+        process.exit(1);
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.upsert({
-        where: { email: 'admin@erp.com' },
+        where: { email: process.env.ADMIN_EMAIL || 'admin@erp.com' },
         update: {},
         create: {
-            email: 'admin@erp.com',
+            email: process.env.ADMIN_EMAIL || 'admin@erp.com',
             password: hashedPassword,
-            role: 'ADMIN' // or SUB_ADMIN if that's the enum default, but string is better
+            role: 'ADMIN',
         },
     });
 
