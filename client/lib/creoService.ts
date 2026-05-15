@@ -1,5 +1,5 @@
-// ─── CAD Service — unified interface for Creo and FreeCAD ────────────────────
-// Each PLM item carries a cadTool field ('NONE' | 'CREO' | 'FREECAD').
+// ─── CAD Service — interface for Creo ────────────────────────────────────────
+// Each PLM item carries a cadTool field ('NONE' | 'CREO').
 // Pass that value to every function here — the service routes to the right
 // adapter automatically. No env var change needed to switch tools.
 //
@@ -19,10 +19,7 @@ async function getAdapter(cadTool: string): Promise<ICreoAdapter> {
 
   let adapter: ICreoAdapter;
 
-  if (tool === 'FREECAD') {
-    const { FreecadAdapter } = await import('./adapters/freecadAdapter');
-    adapter = new FreecadAdapter();
-  } else if (tool === 'CREO') {
+  if (tool === 'CREO') {
     const creoConfig = (await import('./creoConfig')).default;
     if (creoConfig.CREO_VARIANT === 'weblink') {
       const { WeblinkAdapter } = await import('./adapters/weblinkAdapter');

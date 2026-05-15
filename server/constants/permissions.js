@@ -31,4 +31,8 @@ module.exports = {
     // Project permissions
     MANAGE_PROJECTS: 'MANAGE_PROJECTS',
     VIEW_PROJECTS: 'VIEW_PROJECTS',
+
+    // Expense permissions
+    MANAGE_EXPENSES: 'MANAGE_EXPENSES',
+    VIEW_EXPENSES: 'VIEW_EXPENSES',
 };

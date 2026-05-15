@@ -4156,3 +4156,79 @@ Unique constraint failed on the fields: (`sku`)
 2026-05-15 15:15:23 [INFO]: GET /api/plm/folders
 2026-05-15 15:15:24 [INFO]: GET /api/plm/materials
 2026-05-15 15:15:24 [INFO]: GET /api/plm/items
+2026-05-15 16:20:14 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 16:20:14 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-15 16:20:47 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 16:20:47 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 16:20:47 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 16:20:48 [INFO]: GET /api/inventory/11
+2026-05-15 16:20:48 [INFO]: GET /api/plm/items/11/bom
+2026-05-15 16:20:48 [INFO]: GET /api/inventory/11/versions
+2026-05-15 16:20:48 [INFO]: GET /api/plm/materials
+2026-05-15 16:20:48 [INFO]: GET /api/inventory/11
+2026-05-15 16:20:48 [INFO]: GET /api/inventory/11/versions
+2026-05-15 16:20:48 [INFO]: GET /api/plm/items/11/bom
+2026-05-15 16:20:48 [INFO]: GET /api/plm/materials
+2026-05-15 16:21:02 [INFO]: GET /api/inventory/11
+2026-05-15 16:21:02 [INFO]: GET /api/plm/items/11/bom
+2026-05-15 16:21:02 [INFO]: GET /api/inventory/11/versions
+2026-05-15 16:21:02 [INFO]: GET /api/plm/materials
+2026-05-15 16:22:02 [INFO]: POST /api/auth/login
+2026-05-15 16:22:02 [INFO]: Successful login
+2026-05-15 16:23:34 [INFO]: GET /api/inventory/11
+2026-05-15 16:23:34 [INFO]: GET /api/plm/items/11/bom
+2026-05-15 16:23:34 [INFO]: GET /api/inventory/11/versions
+2026-05-15 16:23:34 [INFO]: GET /api/plm/materials
+2026-05-15 16:23:40 [INFO]: GET /api/inventory/11
+2026-05-15 16:23:40 [INFO]: GET /api/plm/items/11/bom
+2026-05-15 16:23:40 [INFO]: GET /api/inventory/11/versions
+2026-05-15 16:23:40 [INFO]: GET /api/plm/materials
+2026-05-15 16:23:41 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 16:23:41 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 16:23:41 [INFO]: GET /api/admin/users/1/permissions
+2026-05-15 16:23:42 [INFO]: GET /api/inventory/11
+2026-05-15 16:23:42 [INFO]: GET /api/plm/items/11/bom
+2026-05-15 16:23:42 [INFO]: GET /api/inventory/11/versions
+2026-05-15 16:23:42 [INFO]: GET /api/plm/materials
+2026-05-15 16:23:42 [INFO]: GET /api/inventory/11
+2026-05-15 16:23:42 [INFO]: GET /api/plm/items/11/bom
+2026-05-15 16:23:42 [INFO]: GET /api/inventory/11/versions
+2026-05-15 16:23:42 [INFO]: GET /api/plm/materials
+2026-05-15 16:26:08 [INFO]: GET /api/plm/items
+2026-05-15 16:26:08 [INFO]: GET /api/plm/folders
+2026-05-15 16:26:08 [INFO]: GET /api/plm/materials
+2026-05-15 16:26:08 [INFO]: GET /api/plm/folders
+2026-05-15 16:26:08 [INFO]: GET /api/plm/items
+2026-05-15 16:26:08 [INFO]: GET /api/plm/materials
+2026-05-15 16:26:09 [INFO]: GET /api/plm/materials
+2026-05-15 16:26:09 [INFO]: GET /api/inventory/10
+2026-05-15 16:26:09 [INFO]: GET /api/plm/items/10/bom
+2026-05-15 16:26:09 [INFO]: GET /api/inventory/10/versions
+2026-05-15 16:26:09 [INFO]: GET /api/plm/materials
+2026-05-15 16:26:09 [INFO]: GET /api/plm/items/10/bom
+2026-05-15 16:26:09 [INFO]: GET /api/inventory/10
+2026-05-15 16:26:09 [INFO]: GET /api/inventory/10/versions
+2026-05-15 16:26:12 [INFO]: GET /api/plm/items
+2026-05-15 16:26:12 [INFO]: GET /api/plm/folders
+2026-05-15 16:26:12 [INFO]: GET /api/plm/materials
+2026-05-15 16:26:12 [INFO]: GET /api/plm/folders
+2026-05-15 16:26:12 [INFO]: GET /api/plm/items
+2026-05-15 16:26:12 [INFO]: GET /api/plm/materials
+2026-05-15 16:26:13 [INFO]: GET /api/inventory/11
+2026-05-15 16:26:13 [INFO]: GET /api/plm/items/11/bom
+2026-05-15 16:26:13 [INFO]: GET /api/inventory/11/versions
+2026-05-15 16:26:13 [INFO]: GET /api/plm/materials
+2026-05-15 16:26:13 [INFO]: GET /api/plm/items/11/bom
+2026-05-15 16:26:13 [INFO]: GET /api/inventory/11
+2026-05-15 16:26:13 [INFO]: GET /api/plm/materials
+2026-05-15 16:26:13 [INFO]: GET /api/inventory/11/versions
+2026-05-15 19:05:26 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 19:05:26 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-15 19:05:58 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 19:05:58 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-15 19:06:10 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 19:06:10 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-15 19:06:14 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 19:06:14 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs
+2026-05-15 19:10:58 [INFO]: Server running on http://0.0.0.0:5000
+2026-05-15 19:10:58 [INFO]: Swagger docs at http://0.0.0.0:5000/api-docs

@@ -16,7 +16,8 @@ import {
     Settings,
     LogOut,
     ShoppingCart,
-    Truck
+    Truck,
+    Wallet
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -33,6 +34,7 @@ const navigation = [
     { name: 'Credit Notes', href: '/dashboard/credit-notes', icon: FileX, permission: ['MANAGE_INVOICES', 'VIEW_INVOICES'] },
     { name: 'Requests', href: '/dashboard/purchase-requests', icon: ShoppingCart, permission: ['MANAGE_INVENTORY', 'VIEW_INVENTORY'] },
     { name: 'Deliveries', href: '/dashboard/delivery-notes', icon: Truck, permission: ['MANAGE_INVOICES', 'VIEW_INVOICES'] },
+    { name: 'Expenses', href: '/dashboard/expenses', icon: Wallet, permission: ['MANAGE_EXPENSES', 'VIEW_EXPENSES'] },
     { name: 'Settings', href: '/dashboard/settings', icon: Settings, permission: null }, // Always visible
 ];
 

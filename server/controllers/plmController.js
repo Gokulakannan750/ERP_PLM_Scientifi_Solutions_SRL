@@ -846,7 +846,7 @@ const deleteMaterial = async (req, res) => {
 // Assign a material to a PLM item (or clear it)
 // PATCH /plm/items/:id — update patchable fields (cadTool, plmItemLink, etc.)
 const PATCHABLE_FIELDS = new Set(['cadTool', 'plmItemLink', 'description', 'checkoutNote']);
-const VALID_CAD_TOOLS = new Set(['NONE', 'CREO', 'FREECAD']);
+const VALID_CAD_TOOLS = new Set(['NONE', 'CREO']);
 
 const updatePlmItem = async (req, res) => {
     try {

@@ -1,1 +1,0 @@
-# PLMWorkbench FreeCAD add-on

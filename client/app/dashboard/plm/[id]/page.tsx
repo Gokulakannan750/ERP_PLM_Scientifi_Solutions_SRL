@@ -150,7 +150,7 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
       await api.post(`/plm/items/${id}/checkin`,fd,{headers:{'Content-Type':'multipart/form-data'}});
       // Sync params to local CAD tool if connected
       if(creoAvailable&&item?.plmItemLink&&item.cadTool!=='NONE'){
-        const toolLabel=item.cadTool==='FREECAD'?'FreeCAD':'Creo';
+        const toolLabel='Creo';
         setCreoStatus(`Syncing parameters to ${toolLabel}…`);
         try{
           await creoService.syncParamsToCreo(item.plmItemLink,{
@@ -625,15 +625,14 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
             >
               <option value="NONE">None (no CAD tool)</option>
               <option value="CREO">Creo</option>
-              <option value="FREECAD">FreeCAD</option>
             </select>
             {/* Connection status badge */}
             {item.cadTool!=='NONE'&&(
               <div className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium mb-3 border ${creoAvailable?'bg-green-50 text-green-700 border-green-200 dark:bg-green-500/10 dark:text-green-300 dark:border-green-500/20':'bg-gray-50 text-gray-500 border-gray-200 dark:bg-gray-800 dark:border-gray-700'}`}>
                 <div className={`w-2 h-2 rounded-full ${creoAvailable?'bg-green-500':'bg-gray-400'}`}/>
                 {creoAvailable
-                  ? `${item.cadTool==='FREECAD'?'FreeCAD':'Creo'} server connected`
-                  : `${item.cadTool==='FREECAD'?'FreeCAD':'Creo'} not detected`}
+                  ? `${'Creo'} server connected`
+                  : `${'Creo'} not detected`}
               </div>
             )}
             {/* File Path Editor */}
@@ -669,11 +668,11 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
             {item.cadTool!=='NONE'&&(
               <div className="space-y-2">
                 <button
-                  onClick={async()=>{if(!item?.plmItemLink){alert('No file path set for this item.');return;}const label=item.cadTool==='FREECAD'?'FreeCAD':'Creo';setCreoStatus(`Opening in ${label}…`);const r=await creoService.openInCreo(item.plmItemLink,item.cadTool);setCreoStatus(r.success?`Opened in ${label} ✓`:r.error||'Failed to open');}}
+                  onClick={async()=>{if(!item?.plmItemLink){alert('No file path set for this item.');return;}const label='Creo';setCreoStatus(`Opening in ${label}…`);const r=await creoService.openInCreo(item.plmItemLink,item.cadTool);setCreoStatus(r.success?`Opened in ${label} ✓`:r.error||'Failed to open');}}
                   disabled={!creoAvailable||!item?.plmItemLink}
                   className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors border border-gray-100 dark:border-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  <ExternalLink className="w-4 h-4"/>Open in {item.cadTool==='FREECAD'?'FreeCAD':'Creo'}
+                  <ExternalLink className="w-4 h-4"/>Open in {'Creo'}
                 </button>
                 <button
                   onClick={async()=>{if(!item?.plmItemLink){alert('No file path set for this item.');return;}setCreoStatus('Exporting STEP…');const r=await creoService.exportSTEP(item.plmItemLink,item.cadTool);setCreoStatus(r.success?`STEP exported: ${r.filePath}`:r.error||'Export failed');}}
@@ -690,11 +689,11 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
                   <FileText className="w-4 h-4"/>Export Drawing (PDF)
                 </button>
                 <button
-                  onClick={async()=>{if(!item?.plmItemLink){alert('No file path set for this item.');return;}const label=item.cadTool==='FREECAD'?'FreeCAD':'Creo';setCreoStatus('Syncing params…');const r=await creoService.syncParamsToCreo(item.plmItemLink,{PART_NUMBER:item.sku,DESCRIPTION:item.name,REVISION:item.revision},item.cadTool);setCreoStatus(r.success?`Params synced to ${label} ✓`:r.error||'Sync failed');}}
+                  onClick={async()=>{if(!item?.plmItemLink){alert('No file path set for this item.');return;}const label='Creo';setCreoStatus('Syncing params…');const r=await creoService.syncParamsToCreo(item.plmItemLink,{PART_NUMBER:item.sku,DESCRIPTION:item.name,REVISION:item.revision},item.cadTool);setCreoStatus(r.success?`Params synced to ${label} ✓`:r.error||'Sync failed');}}
                   disabled={!creoAvailable||!item?.plmItemLink}
                   className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors border border-gray-100 dark:border-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  <Zap className="w-4 h-4"/>Sync Params to {item.cadTool==='FREECAD'?'FreeCAD':'Creo'}
+                  <Zap className="w-4 h-4"/>Sync Params to {'Creo'}
                 </button>
               </div>
             )}

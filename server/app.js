@@ -69,6 +69,7 @@ app.use('/api/admin',             require('./routes/adminRoutes'));
 app.use('/api/settings',          require('./routes/settingsRoutes'));
 app.use('/api/dashboard',         require('./routes/dashboardRoutes'));
 app.use('/api/product-categories',require('./routes/productCategoryRoutes'));
+app.use('/api/expenses',          require('./routes/expenseRoutes'));
 
 // Apply stricter upload rate limiter to file upload endpoints
 app.use('/api/plm/items/:id/files',       uploadLimiter);

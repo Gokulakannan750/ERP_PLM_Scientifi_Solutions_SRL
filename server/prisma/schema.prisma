@@ -30,6 +30,8 @@ model User {
   taskComments             TaskComment[]
   timesheetEntries         TimesheetEntry[]    @relation("TimesheetEntries")
   permissions              UserPermission[]
+  expensesSubmitted        Expense[]           @relation("ExpenseSubmitter")
+  expensesApproved         Expense[]           @relation("ExpenseApprover")
 
   @@index([email])
   @@index([role])
@@ -813,6 +815,35 @@ model CreditNoteItem {
   productId    Int?
   createdAt    DateTime   @default(now())
   creditNote   CreditNote @relation(fields: [creditNoteId], references: [id], onDelete: Cascade)
+}
+
+model Expense {
+  id              Int       @id @default(autoincrement())
+  expenseType     String    // PETTY_CASH | TRAVEL
+  category        String?
+  description     String
+  amount          Decimal
+  currency        String    @default("EUR")
+  date            DateTime
+  receiptFileName String?
+  receiptUrl      String?
+  status          String    @default("PENDING") // PENDING | APPROVED | REJECTED | REIMBURSED
+  destination     String?   // travel only
+  purpose         String?   // travel only
+  departureDate   DateTime? // travel only
+  returnDate      DateTime? // travel only
+  notes           String?
+  submittedById   Int
+  approvedById    Int?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  submittedBy     User      @relation("ExpenseSubmitter", fields: [submittedById], references: [id])
+  approvedBy      User?     @relation("ExpenseApprover", fields: [approvedById], references: [id])
+
+  @@index([expenseType])
+  @@index([status])
+  @@index([date])
+  @@index([submittedById])
 }
 
 model Settings {
