@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
     Plus, Search, Box, Layers, ShoppingCart, FileText,
@@ -47,6 +48,7 @@ function timeAgo(dateStr: string) {
 
 export default function PlmDashboard() {
     const { user } = useAuth();
+    const router = useRouter();
     const [items, setItems]         = useState<PlmItem[]>([]);
     const [workspace, setWorkspace] = useState<PlmItem[]>([]);
     const [loading, setLoading]     = useState(true);
@@ -384,7 +386,7 @@ export default function PlmDashboard() {
                                     const meta = TYPE_META[item.plmType] || TYPE_META['P'];
                                     const Icon = meta.Icon;
                                     return (
-                                        <tr key={item.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors group">
+                                        <tr key={item.id} onClick={() => router.push(`/dashboard/plm/${item.id}`)} className="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors group cursor-pointer">
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-3">
                                                     <div className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
