@@ -768,6 +768,39 @@ const deleteMaterial = async (req, res) => {
 };
 
 // Assign a material to a PLM item (or clear it)
+// PATCH /plm/items/:id — update patchable fields (cadTool, plmItemLink, etc.)
+const PATCHABLE_FIELDS = new Set(['cadTool', 'plmItemLink', 'description', 'checkoutNote']);
+const VALID_CAD_TOOLS = new Set(['NONE', 'CREO', 'FREECAD']);
+
+const updatePlmItem = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const item = await prisma.product.findUnique({ where: { id: parseInt(id) } });
+        if (!item) return res.status(404).json({ error: 'Item not found' });
+
+        const data = {};
+        for (const [key, value] of Object.entries(req.body)) {
+            if (!PATCHABLE_FIELDS.has(key)) continue;
+            if (key === 'cadTool' && !VALID_CAD_TOOLS.has(value)) {
+                return res.status(400).json({ error: `Invalid cadTool. Must be one of: ${[...VALID_CAD_TOOLS].join(', ')}` });
+            }
+            data[key] = value;
+        }
+
+        if (Object.keys(data).length === 0) {
+            return res.status(400).json({ error: 'No patchable fields provided' });
+        }
+
+        const updated = await prisma.product.update({
+            where: { id: parseInt(id) },
+            data,
+            include: PLM_INCLUDE,
+        });
+
+        res.json(updated);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+};
+
 const assignMaterial = async (req, res) => {
     try {
         const { id } = req.params;
@@ -795,6 +828,7 @@ module.exports = {
     upload,
     listPlmItems,
     createPlmItem,
+    updatePlmItem,
     reviseItem,
     transitionState,
     checkoutItem,

@@ -256,6 +256,9 @@ model Product {
   isLocked        Boolean  @default(false)
   isObsolete      Boolean  @default(false)
   
+  // CAD tool associated with this item (NONE | CREO | FREECAD)
+  cadTool         String   @default("NONE")
+
   // Drawing specific fields
   drawingSequence Int?     // M
   drawingRevision String?  // N

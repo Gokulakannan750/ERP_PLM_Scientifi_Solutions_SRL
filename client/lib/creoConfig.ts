@@ -1,26 +1,27 @@
 // ─── CAD Integration Configuration ───────────────────────────────────────────
-// Change CREO_ADAPTER to switch CAD back-ends without touching any other code.
+// Both Creo and FreeCAD can be active at the same time.
+// Each PLM item stores its own cadTool value (NONE | CREO | FREECAD).
+// These env vars configure the connection details for each tool.
 //
-//  'weblink'  → PFC/Web.Link (runs inside Creo's embedded browser)
-//  'jlink'    → Custom J-Link middleware (local Java REST server)
-//  'freecad'  → FreeCAD bridge server (freecad-server/app.py)
-//  'mock'     → No-op, for development / environments without a CAD install
+// .env.local example:
+//   NEXT_PUBLIC_CREO_VARIANT=jlink          # jlink | weblink
+//   NEXT_PUBLIC_JLINK_URL=http://localhost:8080/creo
+//   NEXT_PUBLIC_FREECAD_SERVER_URL=http://localhost:7474
 
-export type CreoAdapter = 'weblink' | 'jlink' | 'freecad' | 'mock';
+export type CadTool = 'NONE' | 'CREO' | 'FREECAD';
+export type CreoVariant = 'jlink' | 'weblink';
 
 const creoConfig = {
-  // ── Active adapter ─────────────────────────────────────────────────────────
-  CREO_ADAPTER: (process.env.NEXT_PUBLIC_CREO_ADAPTER as CreoAdapter) || 'mock',
+  // ── Creo: which sub-adapter to use (jlink = local Java bridge, weblink = PFC) ─
+  CREO_VARIANT: (process.env.NEXT_PUBLIC_CREO_VARIANT as CreoVariant) || 'jlink',
 
-  // ── J-Link middleware URL (used only when CREO_ADAPTER = 'jlink') ──────────
+  // ── Creo J-Link bridge URL ─────────────────────────────────────────────────
   JLINK_BASE_URL: process.env.NEXT_PUBLIC_JLINK_URL || 'http://localhost:8080/creo',
 
-  // ── FreeCAD bridge URL (used only when CREO_ADAPTER = 'freecad') ──────────
+  // ── FreeCAD bridge URL ─────────────────────────────────────────────────────
   FREECAD_SERVER_URL: process.env.NEXT_PUBLIC_FREECAD_SERVER_URL || 'http://localhost:7474',
 
-  // ── PFC library path relative to Creo installation ────────────────────────
-  // Creo ships this at: <Creo install>\Common Files\weblink\pfcweb.js
-  // Loaded automatically when running inside Creo's embedded browser.
+  // ── PFC library path (weblink only) ───────────────────────────────────────
   PFC_SCRIPT_PATH: process.env.NEXT_PUBLIC_PFC_PATH || '/pfcweb.js',
 } as const;
 

@@ -10,7 +10,7 @@ import {useAuth} from '@/contexts/AuthContext';
 import creoService from '@/lib/creoService';
 
 interface User {id:number;name:string;email:string}
-interface PlmItem {id:number;sku:string;name:string;description:string;plmType:string;lifecycleState:string;revision:string;isLocked:boolean;itemNumber:string;parentId?:number;updatedAt:string;modifiedByUserId?:number;modifiedBy?:User|null;checkedOutBy?:User|null;checkedOutAt?:string|null;checkoutNote?:string|null;materialId?:number|null;material?:{id:number;name:string}|null;plmItemLink?:string|null}
+interface PlmItem {id:number;sku:string;name:string;description:string;plmType:string;lifecycleState:string;revision:string;isLocked:boolean;itemNumber:string;parentId?:number;updatedAt:string;modifiedByUserId?:number;modifiedBy?:User|null;checkedOutBy?:User|null;checkedOutAt?:string|null;checkoutNote?:string|null;materialId?:number|null;material?:{id:number;name:string}|null;plmItemLink?:string|null;cadTool:string}
 interface BomRow {id:number;child:PlmItem;quantity:number}
 
 const STATE_STYLE:Record<string,string>={IN_WORK:'text-blue-600 bg-blue-50 border-blue-200 dark:text-blue-300 dark:bg-blue-500/10 dark:border-blue-500/20',UNDER_REVIEW:'text-amber-600 bg-amber-50 border-amber-200 dark:text-amber-300 dark:bg-amber-500/10 dark:border-amber-500/20',RELEASED:'text-green-600 bg-green-50 border-green-200 dark:text-green-300 dark:bg-green-500/10 dark:border-green-500/20',OBSOLETE:'text-gray-500 bg-gray-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700'};
@@ -55,8 +55,12 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
 
   useEffect(()=>{load();},[load]);
   useEffect(()=>{
-    creoService.isCreoAvailable().then(setCreoAvailable);
-  },[]);
+    if(item?.cadTool&&item.cadTool!=='NONE'){
+      creoService.isCreoAvailable(item.cadTool).then(setCreoAvailable);
+    } else {
+      setCreoAvailable(false);
+    }
+  },[item?.cadTool]);
   useEffect(()=>{
     if(bomEditing&&allItems.length===0){
       api.get('/plm/items').then(r=>setAllItems(r.data.items??r.data)).catch(()=>{});
@@ -98,16 +102,16 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
 
   const handleTransition=(nextState:string)=>act(async()=>{
     await api.patch(`/plm/items/${id}/state`,{nextState});
-    if (nextState === 'RELEASED' && creoAvailable && item?.plmItemLink) {
+    if (nextState === 'RELEASED' && creoAvailable && item?.plmItemLink && item.cadTool !== 'NONE') {
       setCreoStatus('Generating Auto-Export files (STEP/PDF)…');
       try {
         if (item.plmType === 'P' || item.plmType === 'A') {
-          const stepRes = await creoService.exportSTEP(item.plmItemLink);
+          const stepRes = await creoService.exportSTEP(item.plmItemLink, item.cadTool);
           if (stepRes.success && stepRes.filePath) {
             await api.post(`/plm/items/${id}/files/import`, { sourcePath: stepRes.filePath });
           }
         } else if (item.plmType === 'D') {
-          const pdfRes = await creoService.exportPDF(item.plmItemLink);
+          const pdfRes = await creoService.exportPDF(item.plmItemLink, item.cadTool);
           if (pdfRes.success && pdfRes.filePath) {
             await api.post(`/plm/items/${id}/files/import`, { sourcePath: pdfRes.filePath });
           }
@@ -123,18 +127,19 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
     // 1. Call ERP check-in API
     await api.post(`/plm/items/${id}/checkin`);
     // 2. If Creo is available and item has a file path, sync params → model
-    if(creoAvailable&&item?.plmItemLink){
-      setCreoStatus('Syncing parameters to Creo model…');
+    if(creoAvailable&&item?.plmItemLink&&item.cadTool!=='NONE'){
+      const toolLabel = item.cadTool === 'FREECAD' ? 'FreeCAD' : 'Creo';
+      setCreoStatus(`Syncing parameters to ${toolLabel} model…`);
       try{
         await creoService.syncParamsToCreo(item.plmItemLink,{
           PART_NUMBER: item.sku,
           DESCRIPTION: item.name,
           REVISION: item.revision,
           PTC_MATERIAL_NAME: item.material?.name || '',
-        });
-        setCreoStatus('Parameters synced to Creo ✓');
+        }, item.cadTool);
+        setCreoStatus(`Parameters synced to ${toolLabel} ✓`);
       }catch(e){
-        setCreoStatus('Check-in done. Creo param sync failed (Creo may not be open).');
+        setCreoStatus(`Check-in done. ${toolLabel} param sync failed.`);
       }
     }
   },'checkin');
@@ -576,44 +581,66 @@ export default function PlmItemDetail({params}:{params:Promise<{id:string}>}){
           </div>
 
           <div className="bg-white dark:bg-gray-900 rounded-xl p-5 border border-gray-100 dark:border-gray-800">
-            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Creo Actions</h4>
-            {/* Creo availability badge */}
-            <div className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium mb-3 border ${creoAvailable?'bg-green-50 text-green-700 border-green-200 dark:bg-green-500/10 dark:text-green-300 dark:border-green-500/20':'bg-gray-50 text-gray-500 border-gray-200 dark:bg-gray-800 dark:border-gray-700'}`}>
-              <div className={`w-2 h-2 rounded-full ${creoAvailable?'bg-green-500':'bg-gray-400'}`}/>
-              {creoAvailable?'Creo session detected':'No Creo session'}
-            </div>
+            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">CAD Integration</h4>
+            {/* CAD tool selector */}
+            <select
+              value={item.cadTool||'NONE'}
+              onChange={async(e)=>{
+                const cadTool=e.target.value;
+                await api.patch(`/plm/items/${id}`,{cadTool});
+                setItem(prev=>prev?{...prev,cadTool}:prev);
+                setCreoAvailable(false);
+                if(cadTool!=='NONE') creoService.isCreoAvailable(cadTool).then(setCreoAvailable);
+              }}
+              className="w-full mb-3 px-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="NONE">None (no CAD tool)</option>
+              <option value="CREO">Creo</option>
+              <option value="FREECAD">FreeCAD</option>
+            </select>
+            {/* Connection status badge */}
+            {item.cadTool!=='NONE'&&(
+              <div className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium mb-3 border ${creoAvailable?'bg-green-50 text-green-700 border-green-200 dark:bg-green-500/10 dark:text-green-300 dark:border-green-500/20':'bg-gray-50 text-gray-500 border-gray-200 dark:bg-gray-800 dark:border-gray-700'}`}>
+                <div className={`w-2 h-2 rounded-full ${creoAvailable?'bg-green-500':'bg-gray-400'}`}/>
+                {creoAvailable
+                  ? `${item.cadTool==='FREECAD'?'FreeCAD':'Creo'} server connected`
+                  : `${item.cadTool==='FREECAD'?'FreeCAD':'Creo'} not detected`}
+              </div>
+            )}
             {creoStatus&&<p className="text-xs text-blue-600 dark:text-blue-400 mb-3 px-1">{creoStatus}</p>}
-            <div className="space-y-2">
-              <button
-                onClick={async()=>{if(!item?.plmItemLink){alert('No file path set for this item.');return;}setCreoStatus('Opening in Creo…');const r=await creoService.openInCreo(item.plmItemLink);setCreoStatus(r.success?'Opened in Creo ✓':r.error||'Failed to open');}}
-                disabled={!creoAvailable||!item?.plmItemLink}
-                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors border border-gray-100 dark:border-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                <ExternalLink className="w-4 h-4"/>Open in Creo
-              </button>
-              <button
-                onClick={async()=>{if(!item?.plmItemLink){alert('No file path set for this item.');return;}setCreoStatus('Exporting STEP…');const r=await creoService.exportSTEP(item.plmItemLink);setCreoStatus(r.success?`STEP exported: ${r.filePath}`:r.error||'Export failed');}}
-                disabled={!creoAvailable||!item?.plmItemLink}
-                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors border border-gray-100 dark:border-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                <Download className="w-4 h-4"/>Export STEP
-              </button>
-              <button
-                onClick={async()=>{if(!item?.plmItemLink){alert('No file path set for this item.');return;}setCreoStatus('Exporting PDF…');const r=await creoService.exportPDF(item.plmItemLink);setCreoStatus(r.success?`PDF exported: ${r.filePath}`:r.error||'Export failed');}}
-                disabled={!creoAvailable||!item?.plmItemLink}
-                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors border border-gray-100 dark:border-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                <FileText className="w-4 h-4"/>Export Drawing (PDF)
-              </button>
-              <button
-                onClick={async()=>{if(!item?.plmItemLink){alert('No file path set for this item.');return;}setCreoStatus('Syncing params…');const r=await creoService.syncParamsToCreo(item.plmItemLink,{partNumber:item.sku,description:item.name,revision:item.revision});setCreoStatus(r.success?'Params synced to Creo ✓':r.error||'Sync failed');}}
-                disabled={!creoAvailable||!item?.plmItemLink}
-                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors border border-gray-100 dark:border-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                <Zap className="w-4 h-4"/>Sync Params to Creo
-              </button>
-            </div>
-            {!item?.plmItemLink&&<p className="text-xs text-gray-400 mt-3 italic">Set a file path (plmItemLink) on this item to enable Creo actions.</p>}
+            {item.cadTool!=='NONE'&&(
+              <div className="space-y-2">
+                <button
+                  onClick={async()=>{if(!item?.plmItemLink){alert('No file path set for this item.');return;}const label=item.cadTool==='FREECAD'?'FreeCAD':'Creo';setCreoStatus(`Opening in ${label}…`);const r=await creoService.openInCreo(item.plmItemLink,item.cadTool);setCreoStatus(r.success?`Opened in ${label} ✓`:r.error||'Failed to open');}}
+                  disabled={!creoAvailable||!item?.plmItemLink}
+                  className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors border border-gray-100 dark:border-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <ExternalLink className="w-4 h-4"/>Open in {item.cadTool==='FREECAD'?'FreeCAD':'Creo'}
+                </button>
+                <button
+                  onClick={async()=>{if(!item?.plmItemLink){alert('No file path set for this item.');return;}setCreoStatus('Exporting STEP…');const r=await creoService.exportSTEP(item.plmItemLink,item.cadTool);setCreoStatus(r.success?`STEP exported: ${r.filePath}`:r.error||'Export failed');}}
+                  disabled={!creoAvailable||!item?.plmItemLink}
+                  className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors border border-gray-100 dark:border-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <Download className="w-4 h-4"/>Export STEP
+                </button>
+                <button
+                  onClick={async()=>{if(!item?.plmItemLink){alert('No file path set for this item.');return;}setCreoStatus('Exporting PDF…');const r=await creoService.exportPDF(item.plmItemLink,item.cadTool);setCreoStatus(r.success?`PDF exported: ${r.filePath}`:r.error||'Export failed');}}
+                  disabled={!creoAvailable||!item?.plmItemLink}
+                  className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors border border-gray-100 dark:border-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <FileText className="w-4 h-4"/>Export Drawing (PDF)
+                </button>
+                <button
+                  onClick={async()=>{if(!item?.plmItemLink){alert('No file path set for this item.');return;}const label=item.cadTool==='FREECAD'?'FreeCAD':'Creo';setCreoStatus('Syncing params…');const r=await creoService.syncParamsToCreo(item.plmItemLink,{PART_NUMBER:item.sku,DESCRIPTION:item.name,REVISION:item.revision},item.cadTool);setCreoStatus(r.success?`Params synced to ${label} ✓`:r.error||'Sync failed');}}
+                  disabled={!creoAvailable||!item?.plmItemLink}
+                  className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors border border-gray-100 dark:border-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <Zap className="w-4 h-4"/>Sync Params to {item.cadTool==='FREECAD'?'FreeCAD':'Creo'}
+                </button>
+              </div>
+            )}
+            {!item?.plmItemLink&&item.cadTool!=='NONE'&&<p className="text-xs text-gray-400 mt-3 italic">Set a file path (plmItemLink) on this item to enable CAD actions.</p>}
           </div>
         </div>
       </div>

@@ -1,119 +1,104 @@
-// ─── CreoService — Unified Creo Integration Service ──────────────────────────
-// This is the ONLY file the rest of the ERP imports for Creo operations.
-// To switch adapters, change NEXT_PUBLIC_CREO_ADAPTER in .env.local — done.
+// ─── CAD Service — unified interface for Creo and FreeCAD ────────────────────
+// Each PLM item carries a cadTool field ('NONE' | 'CREO' | 'FREECAD').
+// Pass that value to every function here — the service routes to the right
+// adapter automatically. No env var change needed to switch tools.
 //
-// Usage anywhere in the app:
-//   import creoService from '@/lib/creoService';
-//   const result = await creoService.openFile(item.filePath);
+// Usage:
+//   import cadService from '@/lib/creoService';
+//   await cadService.openInCreo(item.plmItemLink, item.cadTool);
 
-import creoConfig from './creoConfig';
 import type { ICreoAdapter, CreoParams } from './creoTypes';
 
-// ── Lazy-load adapter based on config ─────────────────────────────────────────
-let _adapter: ICreoAdapter | null = null;
+// ── Per-tool adapter cache (lazy-loaded once per tool type) ───────────────────
+const _cache = new Map<string, ICreoAdapter>();
 
-async function getAdapter(): Promise<ICreoAdapter> {
-  if (_adapter) return _adapter;
+async function getAdapter(cadTool: string): Promise<ICreoAdapter> {
+  const tool = (cadTool || 'NONE').toUpperCase();
 
-  const type = creoConfig.CREO_ADAPTER;
+  if (_cache.has(tool)) return _cache.get(tool)!;
 
-  if (type === 'weblink') {
-    const { WeblinkAdapter } = await import('./adapters/weblinkAdapter');
-    _adapter = new WeblinkAdapter();
-  } else if (type === 'jlink') {
-    const { JLinkAdapter } = await import('./adapters/jlinkAdapter');
-    _adapter = new JLinkAdapter();
-  } else if (type === 'freecad') {
+  let adapter: ICreoAdapter;
+
+  if (tool === 'FREECAD') {
     const { FreecadAdapter } = await import('./adapters/freecadAdapter');
-    _adapter = new FreecadAdapter();
+    adapter = new FreecadAdapter();
+  } else if (tool === 'CREO') {
+    const creoConfig = (await import('./creoConfig')).default;
+    if (creoConfig.CREO_VARIANT === 'weblink') {
+      const { WeblinkAdapter } = await import('./adapters/weblinkAdapter');
+      adapter = new WeblinkAdapter();
+    } else {
+      const { JLinkAdapter } = await import('./adapters/jlinkAdapter');
+      adapter = new JLinkAdapter();
+    }
   } else {
     const { MockAdapter } = await import('./adapters/mockAdapter');
-    _adapter = new MockAdapter();
+    adapter = new MockAdapter();
   }
 
-  return _adapter;
+  _cache.set(tool, adapter);
+  return adapter;
 }
 
 // ── Public API ────────────────────────────────────────────────────────────────
 
-/** Returns true if the active adapter can connect to a running Creo session */
-export async function isCreoAvailable(): Promise<boolean> {
+/** Returns true if the adapter for the given cadTool can connect to a live session */
+export async function isCreoAvailable(cadTool = 'NONE'): Promise<boolean> {
   try {
-    const adapter = await getAdapter();
+    const adapter = await getAdapter(cadTool);
     return adapter.isAvailable();
   } catch {
     return false;
   }
 }
 
-/**
- * Open a CAD file in the active Creo session.
- * @param networkPath  Full network path to the .prt / .asm / .drw file
- */
-export async function openInCreo(networkPath: string) {
-  const adapter = await getAdapter();
+/** Open a CAD file in the session for the given tool */
+export async function openInCreo(networkPath: string, cadTool = 'NONE') {
+  const adapter = await getAdapter(cadTool);
   return adapter.openFile(networkPath);
 }
 
-/**
- * Export the given file to STEP format.
- * @param networkPath  Source CAD file path
- * @param outputPath   Optional output path (defaults to same dir, .stp extension)
- */
-export async function exportSTEP(networkPath: string, outputPath?: string) {
-  const adapter = await getAdapter();
+/** Export to STEP using the adapter for the given tool */
+export async function exportSTEP(networkPath: string, cadTool = 'NONE', outputPath?: string) {
+  const adapter = await getAdapter(cadTool);
   return adapter.exportSTEP(networkPath, outputPath);
 }
 
-/**
- * Export the given file to PDF (via associated drawing).
- * @param networkPath  Source CAD file path
- * @param outputPath   Optional output path (defaults to same dir, .pdf extension)
- */
-export async function exportPDF(networkPath: string, outputPath?: string) {
-  const adapter = await getAdapter();
+/** Export to PDF using the adapter for the given tool */
+export async function exportPDF(networkPath: string, cadTool = 'NONE', outputPath?: string) {
+  const adapter = await getAdapter(cadTool);
   return adapter.exportPDF(networkPath, outputPath);
 }
 
-/**
- * Write ERP parameters (PART_NUMBER, DESCRIPTION, REVISION) into the model.
- * Called automatically on Check-In to sync ERP data → CAD file.
- * @param networkPath  Path to the CAD file
- * @param params       Parameters to write
- */
-export async function syncParamsToCreo(networkPath: string, params: CreoParams) {
-  const adapter = await getAdapter();
+/** Write ERP parameters into the CAD file */
+export async function syncParamsToCreo(networkPath: string, params: CreoParams, cadTool = 'NONE') {
+  const adapter = await getAdapter(cadTool);
   return adapter.setParameters(networkPath, params);
 }
 
-/**
- * Read all model parameters from a Creo file.
- * Called on Check-In to sync CAD params → ERP database.
- * @param networkPath  Path to the CAD file
- */
-export async function readParamsFromCreo(networkPath: string) {
-  const adapter = await getAdapter();
+/** Read all parameters from the CAD file */
+export async function readParamsFromCreo(networkPath: string, cadTool = 'NONE') {
+  const adapter = await getAdapter(cadTool);
   return adapter.getParameters(networkPath);
 }
 
-// ── Convenience: full Check-In sync (params + unlock) ─────────────────────────
-/**
- * Perform the full Check-In Creo workflow:
- *  1. Write ERP params to model (PART_NUMBER, DESCRIPTION, REVISION)
- *  2. Return params read back from the model for DB update
- */
+/** Full check-in sync: write params + read back */
 export async function performCheckinSync(
   networkPath: string,
-  params: CreoParams
-): Promise<{ paramWriteResult: Awaited<ReturnType<typeof syncParamsToCreo>>; modelParams: Record<string, string> }> {
+  params: CreoParams,
+  cadTool = 'NONE',
+): Promise<{
+  paramWriteResult: Awaited<ReturnType<typeof syncParamsToCreo>>;
+  modelParams: Record<string, string>;
+}> {
   const [paramWriteResult, modelParams] = await Promise.all([
-    syncParamsToCreo(networkPath, params),
-    readParamsFromCreo(networkPath),
+    syncParamsToCreo(networkPath, params, cadTool),
+    readParamsFromCreo(networkPath, cadTool),
   ]);
   return { paramWriteResult, modelParams };
 }
 
-const creoService = {
+const cadService = {
   isCreoAvailable,
   openInCreo,
   exportSTEP,
@@ -123,4 +108,4 @@ const creoService = {
   performCheckinSync,
 };
 
-export default creoService;
+export default cadService;

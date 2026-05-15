@@ -10,6 +10,7 @@ router.use(verifyToken);
 router.get('/items',               plmController.listPlmItems);
 router.post('/items',              plmController.createPlmItem);
 router.post('/items/:id/revise',   plmController.reviseItem);
+router.patch('/items/:id',         plmController.updatePlmItem);
 router.patch('/items/:id/state',   plmController.transitionState);
 
 // ─── Personal Workspace ───────────────────────────────────────────────────────
